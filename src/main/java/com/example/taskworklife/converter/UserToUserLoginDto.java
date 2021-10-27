@@ -18,6 +18,7 @@ public class UserToUserLoginDto  implements Converter<User, UserLoginResponseDto
     @Override
     public UserLoginResponseDto convert(User source) {
         UserLoginResponseDto userLoginDto = new UserLoginResponseDto();
+
         userLoginDto.setNaam(source.getNaam());
         userLoginDto.setAchternaam(source.getAchternaam());
         userLoginDto.setEmail(source.getEmail());

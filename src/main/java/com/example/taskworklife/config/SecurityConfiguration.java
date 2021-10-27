@@ -43,12 +43,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
         http.authorizeRequests().antMatchers("/user/login", "/user/register", "/user/image/**").permitAll()
                 .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .and().authorizeRequests().antMatchers("/kamer/all").hasAnyAuthority("kamer:read")
-                .and().authorizeRequests().antMatchers("/user/all").hasAnyAuthority("userAdmin:read").anyRequest().authenticated().and().httpBasic();
+                .and().authorizeRequests().antMatchers("/user/all").hasAnyAuthority("userAdmin:read")
+                .and().authorizeRequests().antMatchers("/kamer/new").hasAnyAuthority("kamerAdmin:write").
+                anyRequest().authenticated().and().httpBasic();
 
 
         http.cors().disable();

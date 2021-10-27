@@ -22,6 +22,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     private Long id;
 
     @NotNull(message = "{reservering.constraints.username.NotNull.message}")

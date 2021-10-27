@@ -29,25 +29,34 @@ public class ExceptionHandlingUser  implements ErrorController {
     }
 
     @ExceptionHandler(TermsNotAcceptedException.class)
-    public ResponseEntity<HttpResponse> TermsNotAcceptedException(TermsNotAcceptedException exception) {
+    public ResponseEntity<HttpResponse> termsNotAcceptedException(TermsNotAcceptedException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(EmailNotFoundException.class)
-    public ResponseEntity<HttpResponse> EmailNotFoundException(EmailNotFoundException exception) {
+    public ResponseEntity<HttpResponse> emailNotFoundException(EmailNotFoundException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(NaamNotExistException.class)
-    public ResponseEntity<HttpResponse> NaamNotExistException(NaamNotExistException exception) {
+    public ResponseEntity<HttpResponse> naamNotExistException(NaamNotExistException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(AchterNaamNotExistException.class)
-    public ResponseEntity<HttpResponse> AchterNaamNotExistException(AchterNaamNotExistException exception) {
+    public ResponseEntity<HttpResponse> achterNaamNotExistException(AchterNaamNotExistException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler(NaamTeKleinException.class)
+    public ResponseEntity<HttpResponse> naamTeKleinException(NaamTeKleinException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(EmailNotValidException.class)
+    public ResponseEntity<HttpResponse> emailNotValidException(EmailNotValidException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
 
     private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message) {
         return new ResponseEntity<>(new HttpResponse(httpStatus.value(), httpStatus,

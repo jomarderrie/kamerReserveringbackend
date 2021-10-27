@@ -53,8 +53,8 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         Kamer kamer2 = new Kamer();
         kamer2.setNaam("kamer2");
-        kamer.setStartTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(7,0) ));
-        kamer.setSluitTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(17,0) ));
+        kamer2.setStartTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(7,0) ));
+        kamer2.setSluitTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(17,0) ));
 
         kamers.add(kamer2);
         kamers.add(kamer);
