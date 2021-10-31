@@ -55,9 +55,20 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         kamer2.setNaam("kamer2");
         kamer2.setStartTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(7,0) ));
         kamer2.setSluitTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(17,0) ));
+        //kamer 1 reservering
+        List<Reservering> reserveringListKamer2 = new ArrayList<>();
+
+        Reservering reservering2Kamer1 = new Reservering();
+        reservering2Kamer1.setStartTijdReservering(LocalDateTime.of(LocalDate.now(), LocalTime.of(8,0) ));
+        reservering2Kamer1.setEindTijdReservering(LocalDateTime.of(LocalDate.now(), LocalTime.of(9,0) ));
+
+        reserveringListKamer2.add(reservering2Kamer1);
+        kamer2.setReserveringList(reserveringListKamer2);
 
         kamers.add(kamer2);
         kamers.add(kamer);
+
+
         return kamers;
     }
 
