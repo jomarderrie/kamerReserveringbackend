@@ -1,6 +1,7 @@
 package com.example.taskworklife.models.user;
 
 import com.example.taskworklife.dto.user.UniqueEmail;
+import com.example.taskworklife.models.Reservering;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -10,7 +11,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -46,4 +49,6 @@ public class User implements Serializable {
     private boolean isActive;
     private boolean isNotLocked;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Reservering> reserveringArrayList = new ArrayList<>();
 }

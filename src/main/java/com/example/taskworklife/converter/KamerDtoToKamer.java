@@ -24,13 +24,13 @@ public class KamerDtoToKamer implements Converter<KamerDto, Kamer> {
             throw new KamerNaamNotFoundException("Geen kamer naam");
         }
         kamer.setNaam(source.getNaam());
-        if (!source.getStartTijd().isBefore(source.getSluitTijd())) {
+        if (!source.getStart().isBefore(source.getSluit())) {
             throw new EindTijdIsBeforeStartTijd("De eindtijd is before start tijd");
         }
 
 
-        kamer.setSluitTijd(source.getSluitTijd());
-        kamer.setStartTijd(source.getStartTijd());
+        kamer.setSluitTijd(source.getSluit());
+        kamer.setStartTijd(source.getStart());
         return kamer;
     }
 }

@@ -16,8 +16,8 @@ import java.util.Date;
 public class KamerDto {
     private String naam;
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime sluitTijd;
+    private LocalDateTime sluit;
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime startTijd;
+    private LocalDateTime start;
 
 }

@@ -1,6 +1,7 @@
 package com.example.taskworklife.service.kamer;
 
 import com.example.taskworklife.converter.KamerDtoToKamer;
+import com.example.taskworklife.converter.KamerToKamerDto;
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.exception.kamer.KamerAlreadyExist;
 import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
@@ -25,17 +26,24 @@ import java.util.List;
 public class KamerServiceImpl implements KamerService {
     private final KamerRepo kamerRepo;
     KamerDtoToKamer kamerDtoToKamer;
+    KamerToKamerDto kamerToKamerDto;
+
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer) {
+    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto) {
         this.kamerRepo = kamerRepo;
         this.kamerDtoToKamer = kamerDtoToKamer;
+        this.kamerToKamerDto = kamerToKamerDto;
     }
+
 
     @Override
     public List<Kamer> getKamers() {
         List<Kamer> kamerList = new ArrayList<>();
+        for (Kamer kamer : kamerRepo.findAll()) {
+            
+        }
         kamerRepo.findAll().iterator().forEachRemaining(kamerList::add);
         return kamerList;
     }

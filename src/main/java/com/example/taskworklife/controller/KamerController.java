@@ -42,7 +42,7 @@ public class KamerController extends ExceptionHandlingKamer {
         return new ResponseEntity<>(kamerService.getKamerByNaam(kamerNaam), HttpStatus.OK);
     }
     @PostMapping("/new")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhosFt:3000")
     public void maakNieuweKamerAan(@RequestBody KamerDto kamerDto) throws KamerAlreadyExist, KamerNotFoundException {
         kamerService.maakNieuweKamerAan(kamerDto);
     }

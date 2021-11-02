@@ -1,5 +1,7 @@
 package com.example.taskworklife.models;
 
+import com.example.taskworklife.models.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,11 +17,10 @@ import java.time.LocalDateTime;
 public class Reservering {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
-    private LocalDateTime startTijdReservering;
-    private LocalDateTime eindTijdReservering;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
-
-
-}
+ }
