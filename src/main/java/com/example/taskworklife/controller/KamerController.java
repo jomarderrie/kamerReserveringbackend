@@ -33,7 +33,7 @@ public class KamerController extends ExceptionHandlingKamer {
 
     @GetMapping("/all")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<Kamer>> getKamers(){
+    public ResponseEntity<List<Kamer>> getKamers() {
         return new ResponseEntity<>(kamerService.getKamers(), HttpStatus.OK);
     }
 
@@ -42,6 +42,7 @@ public class KamerController extends ExceptionHandlingKamer {
     public ResponseEntity<Kamer> getKamerMetNaam(@PathVariable String kamerNaam) throws KamerNotFoundException {
         return new ResponseEntity<>(kamerService.getKamerByNaam(kamerNaam), HttpStatus.OK);
     }
+
     @PostMapping("/new")
     @CrossOrigin(origins = "http://localhost:3000")
     public void maakNieuweKamerAan(@RequestBody KamerDto kamerDto) throws KamerAlreadyExist, KamerNotFoundException {
@@ -50,7 +51,7 @@ public class KamerController extends ExceptionHandlingKamer {
 
     @PutMapping("/edit/{vorigeNaam}")
     @CrossOrigin(origins = "http://localhost:3000")
-    public void editKamer(@RequestBody KamerDto kamerDto, @PathVariable("vorigeNaam") String vorigeNaam ) throws KamerAlreadyExist, KamerNotFoundException, KamerNaamNotFoundException {
+    public void editKamer(@RequestBody KamerDto kamerDto, @PathVariable("vorigeNaam") String vorigeNaam) throws KamerAlreadyExist, KamerNotFoundException, KamerNaamNotFoundException {
         kamerService.editKamer(kamerDto, vorigeNaam);
     }
 
@@ -63,7 +64,7 @@ public class KamerController extends ExceptionHandlingKamer {
     @PostMapping("/{naam}/reserveer")
     @CrossOrigin(origins = "http://localhost:3000")
     public void reserveerKamer(@PathVariable("naam") String kamerNaam, @Valid @RequestBody ReservatieDto reservatieDto) throws KamerReserveringBestaat, EindTijdIsBeforeStartTijd, KamerNaamIsLeegException, KamerNaamNotFoundException, KamerNotFoundException {
-    kamerService.reserveerKamer(kamerNaam, reservatieDto);
+        kamerService.reserveerKamer(kamerNaam, reservatieDto);
 
     }
 
@@ -75,7 +76,7 @@ public class KamerController extends ExceptionHandlingKamer {
 
 
     @GetMapping("/hello")
-    public String hello(){
+    public String hello() {
         return "hello!";
     }
 }
