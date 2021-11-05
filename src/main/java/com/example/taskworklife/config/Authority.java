@@ -1,4 +1,4 @@
-package com.example.taskworklife.bootstrap;
+package com.example.taskworklife.config;
 
 public class Authority {
     public static final String[] USER_AUTHORITIES = { "user:read", "kamer:read" };

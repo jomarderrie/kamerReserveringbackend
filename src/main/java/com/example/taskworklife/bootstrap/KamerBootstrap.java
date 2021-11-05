@@ -8,6 +8,7 @@ import com.example.taskworklife.repo.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Component
 @Slf4j
+@Profile({"test", "dev", "default"})
 public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final KamerRepo kamerRepo;
     @Autowired

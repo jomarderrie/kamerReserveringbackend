@@ -1,6 +1,6 @@
 package com.example.taskworklife.enumeration;
 
-import static com.example.taskworklife.bootstrap.Authority.*;
+import static com.example.taskworklife.config.Authority.*;
 
 public enum Role {
 

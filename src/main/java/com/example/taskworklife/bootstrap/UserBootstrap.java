@@ -6,6 +6,7 @@ import com.example.taskworklife.repo.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ApplicationContextEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.PriorityOrdered;
@@ -25,6 +26,7 @@ import static com.example.taskworklife.enumeration.Role.ROLE_USER;
 
 @Component
 @Slf4j
+@Profile({"test", "dev", "default"})
 public class UserBootstrap implements ApplicationListener<ContextRefreshedEvent>,PriorityOrdered {
     private final UserRepo userRepo;
     private BCryptPasswordEncoder passwordEncoder;
