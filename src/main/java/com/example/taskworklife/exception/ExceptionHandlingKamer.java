@@ -1,8 +1,6 @@
 package com.example.taskworklife.exception;
 
-import com.example.taskworklife.exception.kamer.KamerAlreadyExist;
-import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
-import com.example.taskworklife.exception.kamer.KamerNotFoundException;
+import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.TermsNotAcceptedException;
 import com.example.taskworklife.models.HttpResponse;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -33,6 +31,20 @@ public class ExceptionHandlingKamer implements ErrorController {
 
     @ExceptionHandler(KamerNaamNotFoundException.class)
     public ResponseEntity<HttpResponse> kamerNaamNotFoundException(KamerNaamNotFoundException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(KamerNaamIsLeegException.class)
+    public ResponseEntity<HttpResponse> kamerNaamIsLeegException(KamerNaamIsLeegException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(KamerReserveringBestaat.class)
+    public ResponseEntity<HttpResponse> kamerReserveringBestaat(KamerReserveringBestaat exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+    @ExceptionHandler(KamerReservatieMinimaalEenUur.class)
+    public ResponseEntity<HttpResponse> kamerReservatieMinimaalEenUur(KamerReservatieMinimaalEenUur exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 

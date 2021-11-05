@@ -1,11 +1,10 @@
 package com.example.taskworklife.controller;
 
 import com.example.taskworklife.dto.kamer.KamerDto;
+import com.example.taskworklife.dto.user.ReservatieDto;
 import com.example.taskworklife.exception.ExceptionHandlingKamer;
 import com.example.taskworklife.exception.ExceptionHandlingUser;
-import com.example.taskworklife.exception.kamer.KamerAlreadyExist;
-import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
-import com.example.taskworklife.exception.kamer.KamerNotFoundException;
+import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.service.kamer.KamerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -42,7 +43,7 @@ public class KamerController extends ExceptionHandlingKamer {
         return new ResponseEntity<>(kamerService.getKamerByNaam(kamerNaam), HttpStatus.OK);
     }
     @PostMapping("/new")
-    @CrossOrigin(origins = "http://localhosFt:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     public void maakNieuweKamerAan(@RequestBody KamerDto kamerDto) throws KamerAlreadyExist, KamerNotFoundException {
         kamerService.maakNieuweKamerAan(kamerDto);
     }
@@ -57,6 +58,13 @@ public class KamerController extends ExceptionHandlingKamer {
     @CrossOrigin(origins = "http://localhost:3000")
     public void deleteKamer(@PathVariable("naam") String naam) throws KamerNotFoundException {
         kamerService.deleteKamerByNaam(naam);
+    }
+
+    @PostMapping("/{naam}/reserveer")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void reserveerKamer(@PathVariable("naam") String kamerNaam, @Valid @RequestBody ReservatieDto reservatieDto) throws KamerReserveringBestaat, EindTijdIsBeforeStartTijd, KamerNaamIsLeegException, KamerNaamNotFoundException, KamerNotFoundException {
+    kamerService.reserveerKamer(kamerNaam, reservatieDto);
+
     }
 
 

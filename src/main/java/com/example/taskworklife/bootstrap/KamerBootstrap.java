@@ -33,8 +33,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         Kamer kamer = new Kamer();
         //kamer 1
         kamer.setNaam("Kamer1");
-        kamer.setStartTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(7,0) ));
-        kamer.setSluitTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(17,0) ));
+
 
         //kamer 1 reservering
         List<Reservering> reserveringListKamer1 = new ArrayList<>();
@@ -53,8 +52,8 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         Kamer kamer2 = new Kamer();
         kamer2.setNaam("kamer2");
-        kamer2.setStartTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(7,0) ));
-        kamer2.setSluitTijd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(17,0) ));
+        kamer2.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7,0) ));
+        kamer2.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17,0) ));
         //kamer 1 reservering
         List<Reservering> reserveringListKamer2 = new ArrayList<>();
 
@@ -65,14 +64,19 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 //        reservering2Kamer1.setUser(userByEmail);
 
         Reservering reservering2Kamer2 = new Reservering();
-        reservering2Kamer2.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(9,0) ));
-        reservering2Kamer2.setEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(13,0) ));
+        reservering2Kamer2.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(7,0) ));
+        reservering2Kamer2.setEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(8,0) ));
+
+        Reservering reservering2Kamer3 = new Reservering();
+        reservering2Kamer3.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(16,0) ));
+        reservering2Kamer3.setEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17,0) ));
 
 //        reservering2Kamer2.setUser(userByEmail);
 
 
         reserveringListKamer2.add(reservering2Kamer1);
         reserveringListKamer2.add(reservering2Kamer2);
+        reserveringListKamer2.add(reservering2Kamer3);
         kamer2.setReserveringList(reserveringListKamer2);
 
         kamers.add(kamer2);

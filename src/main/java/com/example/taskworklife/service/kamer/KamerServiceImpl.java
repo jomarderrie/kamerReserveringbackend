@@ -2,11 +2,12 @@ package com.example.taskworklife.service.kamer;
 
 import com.example.taskworklife.converter.KamerDtoToKamer;
 import com.example.taskworklife.converter.KamerToKamerDto;
+import com.example.taskworklife.converter.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
-import com.example.taskworklife.exception.kamer.KamerAlreadyExist;
-import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
-import com.example.taskworklife.exception.kamer.KamerNotFoundException;
+import com.example.taskworklife.dto.user.ReservatieDto;
+import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.models.Kamer;
+import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.repo.KamerRepo;
 import com.example.taskworklife.service.kamer.KamerService;
 
@@ -27,16 +28,17 @@ public class KamerServiceImpl implements KamerService {
     private final KamerRepo kamerRepo;
     KamerDtoToKamer kamerDtoToKamer;
     KamerToKamerDto kamerToKamerDto;
+    ReserveringDtoToReservering reserveringDtoToReservering;
 
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto) {
+    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto, ReserveringDtoToReservering reserveringDtoToReservering) {
         this.kamerRepo = kamerRepo;
         this.kamerDtoToKamer = kamerDtoToKamer;
         this.kamerToKamerDto = kamerToKamerDto;
+        this.reserveringDtoToReservering = reserveringDtoToReservering;
     }
-
 
     @Override
     public List<Kamer> getKamers() {
@@ -94,5 +96,27 @@ public class KamerServiceImpl implements KamerService {
         Kamer kamerByNaam = getKamerByNaam(naam);
         LOGGER.info("Kamer verwijderd met naam " + naam);
         kamerRepo.delete(kamerByNaam);
+    }
+
+    @Override
+    public void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerNotFoundException, EindTijdIsBeforeStartTijd, KamerReserveringBestaat {
+        //check of kamer bestaat
+        Kamer kamerByNaam = getKamerByNaam(kamerNaam);
+        //check of het niet een lege string is of null
+        if (!StringUtils.isNotBlank(kamerNaam)){
+            throw new KamerNaamIsLeegException("Kamer naam is leeg");
+        }
+        //check voor overlap de reserveringlijst van de kamer.
+        List<Reservering> reserveringList = kamerByNaam.getReserveringList();
+        for (Reservering reservering : reserveringList) {
+            if(reservatieDto.getStartTijd().isBefore(reservering.getEnd()) && reservatieDto.getEindTijd().isAfter(reservering.getStart()) ){
+                throw new KamerReserveringBestaat("De reservering bestaat al op dit tijdstip");
+            }
+        }
+        Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
+        reserveringList.add(convertedReservatie);
+        kamerByNaam.setReserveringList(reserveringList);
+        LOGGER.info("reservatie toegevoegd aan kamer met naam: " + kamerNaam);
+        kamerRepo.save(kamerByNaam);
     }
 }
