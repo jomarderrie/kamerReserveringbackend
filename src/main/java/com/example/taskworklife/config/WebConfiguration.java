@@ -24,12 +24,14 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
     }
 
+
     @Bean
     CommandLineRunner createUploadFolder() {
         return (args) -> {
             createNonExistingFolder(appConfiguration.getUploadPath());
             createNonExistingFolder(appConfiguration.getFullProfileImagesPath());
             createNonExistingFolder(appConfiguration.getKamerFolder());
+            createNonExistingFolder(appConfiguration.getAttachmentFolder());
         };
     }
 

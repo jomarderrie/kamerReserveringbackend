@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@ConfigurationProperties("reservering")
+@ConfigurationProperties(prefix = "reservering")
 @Data
 public class ReserveringConfiguration {
     String uploadPath;
@@ -21,6 +21,7 @@ public class ReserveringConfiguration {
     String profileImagesFolder = "profile";
 
     String kamerFolder = "kamer";
+    String attachmentFolder = "attachment";
 
     public String getFullProfileImagesPath() {
         return this.uploadPath + "/" + this.profileImagesFolder;
@@ -28,5 +29,9 @@ public class ReserveringConfiguration {
 
     public String getKamerFolder() {
         return this.uploadPath + "/" + this.kamerFolder;
+    }
+
+    public String getAttachmentFolder() {
+        return this.uploadPath + "/" + this.attachmentFolder;
     }
 }

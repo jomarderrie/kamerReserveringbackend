@@ -14,7 +14,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
-public class ExceptionHandlingKamer implements ErrorController {
+public class ExceptionHandlingKamer extends CreateResponse implements ErrorController {
     @RequestMapping("/error")
     public ResponseEntity<HttpResponse> notFound404() {
         return createHttpResponse(NOT_FOUND, "There is no mapping for this URL");
@@ -52,8 +52,5 @@ public class ExceptionHandlingKamer implements ErrorController {
 
 
 
-    private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message) {
-        return new ResponseEntity<>(new HttpResponse(httpStatus.value(), httpStatus,
-                httpStatus.getReasonPhrase().toUpperCase(), message), httpStatus);
-    }
+
 }

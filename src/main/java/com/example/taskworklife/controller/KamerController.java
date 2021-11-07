@@ -5,6 +5,7 @@ import com.example.taskworklife.dto.user.ReservatieDto;
 import com.example.taskworklife.exception.ExceptionHandlingKamer;
 import com.example.taskworklife.exception.ExceptionHandlingUser;
 import com.example.taskworklife.exception.kamer.*;
+import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.service.kamer.KamerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,14 @@ public class KamerController extends ExceptionHandlingKamer {
 
     private final KamerService kamerService;
 
+    FileService fileService;
+
     @Autowired
-    public KamerController(KamerService kamerService) {
+    public KamerController(KamerService kamerService, FileService fileService) {
         this.kamerService = kamerService;
+        this.fileService = fileService;
     }
+
 
 
     @GetMapping("/all")

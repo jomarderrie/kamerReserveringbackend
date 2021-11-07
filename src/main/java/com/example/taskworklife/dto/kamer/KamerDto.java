@@ -20,4 +20,7 @@ public class KamerDto {
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime start;
 
+    @Image
+    private String image;
+
 }

@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
-public class ExceptionHandlingUser  implements ErrorController {
+public class ExceptionHandlingUser extends CreateResponse  implements ErrorController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @ExceptionHandler(EmailExistException.class)
@@ -58,10 +58,7 @@ public class ExceptionHandlingUser  implements ErrorController {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
-    private ResponseEntity<HttpResponse> createHttpResponse(HttpStatus httpStatus, String message) {
-        return new ResponseEntity<>(new HttpResponse(httpStatus.value(), httpStatus,
-                httpStatus.getReasonPhrase().toUpperCase(), message), httpStatus);
-    }
+
 
 
 }
