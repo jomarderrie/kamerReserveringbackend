@@ -6,6 +6,7 @@ import com.example.taskworklife.converter.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.user.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
+import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.repo.KamerRepo;
@@ -30,22 +31,21 @@ public class KamerServiceImpl implements KamerService {
     KamerToKamerDto kamerToKamerDto;
     ReserveringDtoToReservering reserveringDtoToReservering;
 
+    FileService fileService;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto, ReserveringDtoToReservering reserveringDtoToReservering) {
+    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto, ReserveringDtoToReservering reserveringDtoToReservering, FileService fileService) {
         this.kamerRepo = kamerRepo;
         this.kamerDtoToKamer = kamerDtoToKamer;
         this.kamerToKamerDto = kamerToKamerDto;
         this.reserveringDtoToReservering = reserveringDtoToReservering;
+        this.fileService = fileService;
     }
 
-    @Override
+//    @Override
     public List<Kamer> getKamers() {
         List<Kamer> kamerList = new ArrayList<>();
-        for (Kamer kamer : kamerRepo.findAll()) {
-            
-        }
         kamerRepo.findAll().iterator().forEachRemaining(kamerList::add);
         return kamerList;
     }

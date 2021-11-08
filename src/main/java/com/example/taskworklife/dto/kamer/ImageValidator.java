@@ -31,6 +31,5 @@ public class ImageValidator implements ConstraintValidator<Image, String> {
         }else{
             throw new ImageException("Image is niet juist");
         }
-        return false;
     }
 }

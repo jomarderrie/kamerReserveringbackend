@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,8 +51,9 @@ public class KamerController extends ExceptionHandlingKamer {
 
     @PostMapping("/new")
     @CrossOrigin(origins = "http://localhost:3000")
-    public void maakNieuweKamerAan(@RequestBody KamerDto kamerDto) throws KamerAlreadyExist, KamerNotFoundException {
+    public void maakNieuweKamerAan(@RequestBody KamerDto kamerDto) throws KamerAlreadyExist, KamerNotFoundException, IOException {
         kamerService.maakNieuweKamerAan(kamerDto);
+
     }
 
     @PutMapping("/edit/{vorigeNaam}")

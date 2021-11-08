@@ -1,5 +1,6 @@
 package com.example.taskworklife.dto.kamer;
 
+import com.example.taskworklife.models.Kamer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,6 @@ public class KamerDto {
 
     @Image
     private String image;
+
 
 }

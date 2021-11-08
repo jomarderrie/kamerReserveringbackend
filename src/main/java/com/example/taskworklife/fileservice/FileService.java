@@ -22,8 +22,11 @@ public class FileService  {
         this.appConfiguration = reserveringConfiguration;
     }
 
-    public String saveProfileImage(String base64Image, String type) throws IOException {
+    public String saveImage(String base64Image, String type) throws IOException {
         String imageName = getRandomName();
+        if(base64Image==null){
+            return "";
+        }
         byte[] decodedBytes = Base64.getDecoder().decode(base64Image);
         File target;
         switch (type){
@@ -35,12 +38,15 @@ public class FileService  {
                 break;
             case "attachment":
                 target = new File(appConfiguration.getAttachmentFolder()+"/"+ imageName);
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
-
         FileUtils.writeByteArrayToFile(target, decodedBytes);
         return imageName;
+    }
+    public String detectType(byte[] fileArr) {
+        return tika.detect(fileArr);
     }
 
 
