@@ -29,6 +29,7 @@ public class Kamer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Reservering> reserveringList = new ArrayList<>();
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    private FileAttachment attachment;
 
 }

@@ -6,6 +6,7 @@ import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.user.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.models.Kamer;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface KamerService {
     void editKamer(KamerDto kamerDto, String vorigNaam) throws KamerNotFoundException, KamerAlreadyExist, KamerNaamNotFoundException;
     void deleteKamerByNaam(String naam) throws KamerNotFoundException;
     void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerNotFoundException, EindTijdIsBeforeStartTijd, KamerReserveringBestaat;
+
+    void saveKamerImage(String naam, MultipartFile[] files);
 }

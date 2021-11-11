@@ -22,7 +22,7 @@ public class FileService  {
         this.appConfiguration = reserveringConfiguration;
     }
 
-    public String saveImage(String base64Image, String type) throws IOException {
+    public String saveImage(String base64Image, String type, String naam) throws IOException {
         String imageName = getRandomName();
         if(base64Image==null){
             return "";
@@ -31,10 +31,10 @@ public class FileService  {
         File target;
         switch (type){
             case "profile":
-                target = new File(appConfiguration.getFullProfileImagesPath() + "/" + imageName);
+                target = new File(appConfiguration.getFullProfileImagesPath() + "/" + naam+ "/"+ imageName);
                 break;
             case "kamer":
-                target = new File(appConfiguration.getKamerFolder() + "/" + imageName);
+                target = new File(appConfiguration  .getProfileImagesFolder() + "/" + naam+ "/"+ imageName);
                 break;
             case "attachment":
                 target = new File(appConfiguration.getAttachmentFolder()+"/"+ imageName);

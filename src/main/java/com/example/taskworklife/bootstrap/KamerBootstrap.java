@@ -1,10 +1,10 @@
 package com.example.taskworklife.bootstrap;
 
+import com.example.taskworklife.models.FileAttachment;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
-import com.example.taskworklife.models.user.User;
+import com.example.taskworklife.repo.FileAttachmentRepo;
 import com.example.taskworklife.repo.KamerRepo;
-import com.example.taskworklife.repo.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -25,9 +26,12 @@ import java.util.List;
 @Profile({"test", "dev", "default"})
 public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final KamerRepo kamerRepo;
+    private final FileAttachmentRepo fileAttachmentRepo;
+
     @Autowired
-    public KamerBootstrap(KamerRepo kamerRepo) {
+    public KamerBootstrap(KamerRepo kamerRepo, FileAttachmentRepo fileAttachmentRepo) {
         this.kamerRepo = kamerRepo;
+        this.fileAttachmentRepo = fileAttachmentRepo;
     }
 
     private List<Kamer> getKamers(){
@@ -35,8 +39,6 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         Kamer kamer = new Kamer();
         //kamer 1
         kamer.setNaam("Kamer1");
-
-
         //kamer 1 reservering
         List<Reservering> reserveringListKamer1 = new ArrayList<>();
         Reservering reservering1Kamer1 = new Reservering();
@@ -47,7 +49,8 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         reservering1Kamer2.setStart(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(8,0) ));
         reservering1Kamer2.setEnd(LocalDateTime.of(LocalDate.of(2021, Month.OCTOBER, 20), LocalTime.of(9,0) ));
 
-
+        kamer.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0) ));
+        kamer.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(20,0) ));
         reserveringListKamer1.add(reservering1Kamer1);
         reserveringListKamer1.add(reservering1Kamer2);
         kamer.setReserveringList(reserveringListKamer1);
@@ -81,6 +84,19 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         reserveringListKamer2.add(reservering2Kamer3);
         kamer2.setReserveringList(reserveringListKamer2);
 
+
+        FileAttachment fileAttachment = new FileAttachment();
+
+        fileAttachment.setName("Monkey_chathead.png");
+
+        fileAttachment.setFileType("image/png");
+
+        fileAttachment.setDate(new Date());
+
+        fileAttachment.setKamer(kamer2);
+
+
+        kamer2.setAttachment(fileAttachment);
         kamers.add(kamer2);
         kamers.add(kamer);
 

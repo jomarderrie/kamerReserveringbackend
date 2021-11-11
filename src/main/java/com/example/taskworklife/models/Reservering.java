@@ -23,4 +23,5 @@ public class Reservering {
     private LocalDateTime start;
     private LocalDateTime end;
 
+
  }

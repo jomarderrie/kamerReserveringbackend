@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -53,8 +54,14 @@ public class KamerController extends ExceptionHandlingKamer {
     @CrossOrigin(origins = "http://localhost:3000")
     public void maakNieuweKamerAan(@RequestBody KamerDto kamerDto) throws KamerAlreadyExist, KamerNotFoundException, IOException {
         kamerService.maakNieuweKamerAan(kamerDto);
-
     }
+
+    @PostMapping("/{naam}/image")
+    public void handelKamerImagePost(@PathVariable String naam,@RequestParam("files") MultipartFile[] files){
+        kamerService.saveKamerImage(naam, files);
+    }
+
+
 
     @PutMapping("/edit/{vorigeNaam}")
     @CrossOrigin(origins = "http://localhost:3000")
