@@ -22,5 +22,4 @@ public class FileAttachment {
 
     private String fileType;
 
-    private Kamer kamer;
 }

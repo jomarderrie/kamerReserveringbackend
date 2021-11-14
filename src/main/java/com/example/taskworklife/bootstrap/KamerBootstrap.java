@@ -93,7 +93,6 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         fileAttachment.setDate(new Date());
 
-        fileAttachment.setKamer(kamer2);
 
 
         kamer2.setAttachment(fileAttachment);

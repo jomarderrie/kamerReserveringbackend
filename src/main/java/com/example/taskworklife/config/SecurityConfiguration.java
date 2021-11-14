@@ -44,15 +44,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/user/login", "/user/register", "/user/image/**").permitAll()
-                .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .and().authorizeRequests().antMatchers("/kamer/all").hasAnyAuthority("kamer:read")
                 .and().authorizeRequests().antMatchers("/user/all").hasAnyAuthority("userAdmin:read")
                 .and().authorizeRequests().antMatchers("/kamer/new").hasAnyAuthority("kamerAdmin:write").
+                and().authorizeRequests().antMatchers(HttpMethod.GET, "/images/**").hasAnyAuthority("images:read").
                 anyRequest().authenticated().and().httpBasic();
 
 
-        http.cors().disable();
-        http.csrf().disable();
+//        http.cors().disable();
+//        http.csrf().disable();
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

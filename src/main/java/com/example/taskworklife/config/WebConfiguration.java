@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,12 +20,19 @@ public class WebConfiguration implements WebMvcConfigurer {
     ReserveringConfiguration appConfiguration;
 
     @Override
+
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:" + appConfiguration.getUploadPath() + "/")
                 .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
     }
 
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/images/**").allowedOrigins("http://localhost:3000").allowedMethods("*");
+
+        registry.addMapping("/images/kamer/ok/**").allowedOrigins("http://localhost:3000").allowedMethods("*");
+    }
 
     @Bean
     CommandLineRunner createUploadFolder() {
