@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.tomcat.jni.Local;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -20,9 +21,4 @@ public class KamerDto {
     private LocalDateTime sluit;
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime start;
-
-    @Image
-    private String image;
-
-
 }

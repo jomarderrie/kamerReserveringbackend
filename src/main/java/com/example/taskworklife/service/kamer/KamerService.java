@@ -18,5 +18,4 @@ public interface KamerService {
     void deleteKamerByNaam(String naam) throws KamerNotFoundException;
     void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerNotFoundException, EindTijdIsBeforeStartTijd, KamerReserveringBestaat;
 
-    void saveKamerImage(String naam, MultipartFile[] files);
 }

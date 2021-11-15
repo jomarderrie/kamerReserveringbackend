@@ -39,22 +39,22 @@ public class KamerServiceImpl implements KamerService {
     KamerDtoToKamer kamerDtoToKamer;
     KamerToKamerDto kamerToKamerDto;
     ReserveringDtoToReservering reserveringDtoToReservering;
-    Tika tika;
-    ReserveringConfiguration reserveringConfiguration;
+
+
     FileAttachmentRepo fileAttachmentRepository;
     FileService fileService;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto, ReserveringDtoToReservering reserveringDtoToReservering, FileService fileService, ReserveringConfiguration reserveringConfiguration, FileAttachmentRepo fileAttachmentRepository) {
+    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto, ReserveringDtoToReservering reserveringDtoToReservering, FileService fileService, FileAttachmentRepo fileAttachmentRepository) {
         this.kamerRepo = kamerRepo;
         this.kamerDtoToKamer = kamerDtoToKamer;
         this.kamerToKamerDto = kamerToKamerDto;
         this.reserveringDtoToReservering = reserveringDtoToReservering;
         this.fileService = fileService;
-        this.reserveringConfiguration = reserveringConfiguration;
+
         this.fileAttachmentRepository = fileAttachmentRepository;
-        tika = new Tika();
+
     }
 
     //    @Override
@@ -134,23 +134,5 @@ public class KamerServiceImpl implements KamerService {
         kamerRepo.save(kamerByNaam);
     }
 
-    @Override
-    public void saveKamerImage(String naam, MultipartFile[] files) {
-        FileAttachment fileAttachment = new FileAttachment();
-        fileAttachment.setDate(new Date());
-//        tika.detect()
-//        fileAttachment.setName();
-        try {
-            byte[] fileAsByte = files[0].getBytes();
-            File target = new File
-                    (reserveringConfiguration.getKamerFolder() + "/"+ naam + "/"+ files[0].getOriginalFilename());
-            FileUtils.writeByteArrayToFile(target, fileAsByte);
-            System.out.println(tika.detect(fileAsByte));
-            fileAttachment.setFileType(tika.detect(fileAsByte));
-            fileAttachment.setName(files[0].getOriginalFilename());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-      fileAttachmentRepository.save(fileAttachment);
-    }
+
 }

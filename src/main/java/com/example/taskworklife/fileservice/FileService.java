@@ -49,6 +49,14 @@ public class FileService  {
         return tika.detect(fileArr);
     }
 
+    public boolean detectIfImage(String type){
+
+        return false;
+//        switch (type){
+//
+//        }
+    }
+
 
 
 

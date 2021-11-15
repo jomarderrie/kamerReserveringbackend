@@ -28,12 +28,12 @@ public class KamerController extends ExceptionHandlingKamer {
 
     private final KamerService kamerService;
 
-    FileService fileService;
+
 
     @Autowired
-    public KamerController(KamerService kamerService, FileService fileService) {
+    public KamerController(KamerService kamerService) {
         this.kamerService = kamerService;
-        this.fileService = fileService;
+
     }
 
 
@@ -56,10 +56,7 @@ public class KamerController extends ExceptionHandlingKamer {
         kamerService.maakNieuweKamerAan(kamerDto);
     }
 
-    @PostMapping("/{naam}/image")
-    public void handelKamerImagePost(@PathVariable String naam,@RequestParam("files") MultipartFile[] files){
-        kamerService.saveKamerImage(naam, files);
-    }
+
 
 
 
