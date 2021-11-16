@@ -1,6 +1,7 @@
 package com.example.taskworklife.service.file;
 
 import com.example.taskworklife.config.ReserveringConfiguration;
+import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
 import com.example.taskworklife.exception.kamer.KamerNotFoundException;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.FileAttachment;
@@ -39,7 +40,7 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     @Override
-    public void saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException {
+    public void saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException {
         //check if files are not null
         if (files != null) {
             //check if length is not 0
@@ -48,24 +49,30 @@ public class ImagesServiceImpl implements ImagesService {
                 if (StringUtils.isNotBlank(kamerNaam)) {
                     //check if naam exits in db
                     Kamer kamerByNaam = kamerService.getKamerByNaam(kamerNaam);
-                    Date date = new Date();
+                    Date date;
+                    // detect if image
+                    for (MultipartFile file : files) {
+                        if(!fileService.detectIfImage(file.getContentType())){
+                        throw new ImageTypeNotAllowedException("Image type is niet toegestaan alleen png, jpg, jpeg");
+                        }
+                    }
 
                     for (MultipartFile file : files) {
+                        date = new Date();
                         FileAttachment fileAttachment = new FileAttachment();
                         fileAttachment.setDate(date);
-                        try{
+                        try {
                             byte[] fileAsByte = file.getBytes();
 //                            File target = new File
 //                    (reserveringConfiguration.getKamerFolder() + "/"+ naam + "/"+ files[0].getOriginalFilename());
-                            File target= new File(reserveringConfiguration.getKamerFolder()+"/" + kamerNaam+ "/"+file.getOriginalFilename());
+                            File target = new File(reserveringConfiguration.getKamerFolder() + "/" + kamerNaam + "/" + file.getOriginalFilename());
                             FileUtils.writeByteArrayToFile(target, fileAsByte);
-                            fileService.detectIfImage(file.getContentType());
 
                             fileAttachment.setFileType(file.getContentType());
                             fileAttachment.setName(file.getOriginalFilename());
                             LOGGER.info("Saved image with name " + file.getOriginalFilename() + " for room " + kamerNaam);
                             fileAttachmentRepository.save(fileAttachment);
-                        }catch(IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }

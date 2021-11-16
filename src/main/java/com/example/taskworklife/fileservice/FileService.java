@@ -50,11 +50,18 @@ public class FileService  {
     }
 
     public boolean detectIfImage(String type){
-
-        return false;
-//        switch (type){
-//
-//        }
+        switch (type){
+            case "image/jpeg":
+                return true;
+            case "image/png":
+                return  true;
+            case "image/jfif":
+                return true;
+            case "image/jpg":
+                return true;
+            default:
+                return false;
+        }
     }
 
 

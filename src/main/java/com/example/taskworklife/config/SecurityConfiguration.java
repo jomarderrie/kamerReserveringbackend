@@ -45,19 +45,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/user/login", "/user/register", "/user/image/**").permitAll()
                 .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-                //kamer
-                .and().authorizeRequests().antMatchers("/kamer/all", "/kamer/{kamerNaam:[A-Za-z0-9-]+}").hasAnyAuthority("kamer:read")
+                .and().authorizeRequests().antMatchers("/kamer/all").hasAnyAuthority("kamer:read")
                 .and()
-                .authorizeRequests().antMatchers("/kamer/{kamerNaam:[A-Za-z0-9-]+}/reserveer").hasAnyAuthority("kamerUser:write").and()
-                .authorizeRequests().antMatchers("/kamer/new").hasAnyAuthority("kameradmin:write").
-                and()
-                .authorizeRequests().antMatchers("/kamer/delete/{naam:[A-Za-z0-9-]+}").hasAnyAuthority("kamer:delete").
-                and().authorizeRequests().antMatchers(HttpMethod.GET, "/images/kamer/**").hasAnyAuthority("images:read").
-                and().authorizeRequests().antMatchers("/images/kamer").hasAnyAuthority("kamer").
+
+                .authorizeRequests().antMatchers("/user/all").hasAnyAuthority("userAdmin:read")
+                .and().authorizeRequests().antMatchers("/kamer/new").hasAnyAuthority("kamerAdmin:write").
+                and().authorizeRequests().antMatchers(HttpMethod.GET, "/images/**").hasAnyAuthority("images:read").
                 anyRequest().authenticated().and().httpBasic();
 
 
+        http.cors().and().csrf().disable();
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

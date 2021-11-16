@@ -1,13 +1,17 @@
 package com.example.taskworklife.controller;
 
+import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
 import com.example.taskworklife.exception.kamer.KamerNotFoundException;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.service.file.ImagesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
+import java.util.Arrays;
+
+@Controller
 @RequestMapping(path = "/images")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ImagesController {
@@ -18,9 +22,20 @@ public class ImagesController {
         this.imagesService = imagesService;
     }
 
-    @PostMapping("/kamer/{naam}/upload/images")
+    @PostMapping(value = "/kamer/{naam}/upload/images", consumes = {"multipart/mixed","multipart/form-data"})
     @CrossOrigin(origins = "http://localhost:3000")
-    public void handelKamerImagePost(@PathVariable String naam,@RequestParam("files") MultipartFile[] files) throws KamerNotFoundException {
-        imagesService.saveKamerImage(naam, files);
+    public void handelKamerImagePost(@RequestPart("files") MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException {
+        System.out.println(Arrays.toString(files));
+//        imagesService.saveKamerImage(naam, FormData);
     }
+
+    @PostMapping(value = "/kamer/{naam}/upload/image", consumes = {"multipart/mixed","multipart/form-data"})
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void handelKamerImagePost(@RequestParam("file") MultipartFile file) throws KamerNotFoundException, ImageTypeNotAllowedException {
+        System.out.println(file);
+//        imagesService.saveKamerImage(naam, FormData);
+    }
+
+
+
 }

@@ -33,7 +33,6 @@ public class KamerController extends ExceptionHandlingKamer {
     @Autowired
     public KamerController(KamerService kamerService) {
         this.kamerService = kamerService;
-
     }
 
 
