@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests().antMatchers("/user/all").hasAnyAuthority("userAdmin:read")
-                .and().authorizeRequests().antMatchers("/kamer/new").hasAnyAuthority("kamerAdmin:write").
+                .and().authorizeRequests().antMatchers("/kamer/new").hasAnyAuthority("kameradmin:write").
                 and().authorizeRequests().antMatchers(HttpMethod.GET, "/images/**").hasAnyAuthority("images:read").
                 anyRequest().authenticated().and().httpBasic();
 

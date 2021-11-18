@@ -2,6 +2,7 @@ package com.example.taskworklife.exception;
 
 import com.example.taskworklife.exception.global.ImageException;
 import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
+import com.example.taskworklife.exception.images.ImagesExceededLimit;
 import com.example.taskworklife.exception.user.EmailExistException;
 import com.example.taskworklife.models.HttpResponse;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler extends CreateResponse {
 
     @ExceptionHandler(ImageTypeNotAllowedException.class)
     public ResponseEntity<HttpResponse> imageTypeNotAllowedException(ImageException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(ImagesExceededLimit.class)
+    public ResponseEntity<HttpResponse> ImagesExceededLimit(ImageException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 

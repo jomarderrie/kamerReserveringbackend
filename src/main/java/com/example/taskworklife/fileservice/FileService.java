@@ -55,8 +55,6 @@ public class FileService  {
                 return true;
             case "image/png":
                 return  true;
-            case "image/jfif":
-                return true;
             case "image/jpg":
                 return true;
             default:

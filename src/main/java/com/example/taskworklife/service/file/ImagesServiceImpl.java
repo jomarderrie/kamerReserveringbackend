@@ -2,6 +2,7 @@ package com.example.taskworklife.service.file;
 
 import com.example.taskworklife.config.ReserveringConfiguration;
 import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
+import com.example.taskworklife.exception.images.ImagesExceededLimit;
 import com.example.taskworklife.exception.kamer.KamerNotFoundException;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.FileAttachment;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -40,19 +42,22 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     @Override
-    public void saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException {
+    public void saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit {
         //check if files are not null
         if (files != null) {
             //check if length is not 0
             if (files.length != 0) {
                 //check if naam is not empty
                 if (StringUtils.isNotBlank(kamerNaam)) {
+                    if(files.length>8){
+                        throw new ImagesExceededLimit("Niet meer dan 8 images");
+                    }
                     //check if naam exits in db
                     Kamer kamerByNaam = kamerService.getKamerByNaam(kamerNaam);
                     Date date;
                     // detect if image
                     for (MultipartFile file : files) {
-                        if(!fileService.detectIfImage(file.getContentType())){
+                        if(!fileService.detectIfImage(Objects.requireNonNull(file.getContentType()))){
                         throw new ImageTypeNotAllowedException("Image type is niet toegestaan alleen png, jpg, jpeg");
                         }
                     }
