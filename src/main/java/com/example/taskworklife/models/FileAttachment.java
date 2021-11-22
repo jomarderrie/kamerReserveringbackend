@@ -1,5 +1,6 @@
 package com.example.taskworklife.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -21,5 +22,9 @@ public class FileAttachment {
     private String name;
 
     private String fileType;
+
+    @ManyToOne
+    @JsonBackReference
+    private Kamer kamer;
 
 }

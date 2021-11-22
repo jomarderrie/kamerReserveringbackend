@@ -1,6 +1,7 @@
 package com.example.taskworklife.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,7 +30,13 @@ public class Kamer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Reservering> reserveringList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="kamer")
+    @JsonManagedReference
     private List<FileAttachment> attachments = new ArrayList<>();
 
+    public Kamer addFileAttachment(FileAttachment fileAttachment){
+        fileAttachment.setKamer(this);
+        this.attachments.add(fileAttachment);
+        return this;
+    }
 }

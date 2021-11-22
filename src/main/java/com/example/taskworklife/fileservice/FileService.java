@@ -18,6 +18,8 @@ public class FileService  {
 
     Tika tika;
 
+
+
     public FileService(ReserveringConfiguration reserveringConfiguration) {
         this.appConfiguration = reserveringConfiguration;
     }

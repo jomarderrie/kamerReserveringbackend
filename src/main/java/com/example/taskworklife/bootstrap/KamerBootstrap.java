@@ -84,7 +84,6 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         reserveringListKamer2.add(reservering2Kamer3);
         kamer2.setReserveringList(reserveringListKamer2);
 
-        ArrayList<FileAttachment> fileAttachments = new ArrayList<>();
 
         FileAttachment fileAttachment = new FileAttachment();
 
@@ -94,8 +93,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         fileAttachment.setDate(new Date());
 
-        fileAttachments.add(fileAttachment);
-        kamer2.setAttachments(fileAttachments);
+        kamer2.addFileAttachment(fileAttachment);
         kamers.add(kamer2);
         kamers.add(kamer);
 
