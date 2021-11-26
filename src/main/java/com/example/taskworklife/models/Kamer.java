@@ -2,6 +2,8 @@ package com.example.taskworklife.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
 
 @Entity
 @Getter
@@ -28,7 +32,8 @@ public class Kamer {
     private LocalDateTime startTijd;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Reservering> reserveringList = new ArrayList<>();
+    @JsonManagedReference
+    private List<Reservering> reservering = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="kamer")
     @JsonManagedReference

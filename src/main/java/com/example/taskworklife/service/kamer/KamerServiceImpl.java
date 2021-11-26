@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,8 +62,23 @@ public class KamerServiceImpl implements KamerService {
     public List<Kamer> getKamers() {
         List<Kamer> kamerList = new ArrayList<>();
         kamerRepo.findAll().iterator().forEachRemaining(kamerList::add);
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        kamerRepo.findAll().iterator().forEachRemaining((kamer) ->{
+//            kamer.getId().iterator().forEachRemaining((reservering) ->{
+//
+//            });
+//        });
+//        Kamer kamer =new Kamer();
+
         return kamerList;
     }
+
+
+    public List<Reservering> getAllKamerReservationsOnCertainDay(String naam, Date date){
+        List<Kamer> byNaamDisAndAnd = kamerRepo.findByNaamDisAndAnd();
+        return new ArrayList<Reservering>();
+    }
+
 
     @Override
     public Kamer getKamerByNaam(String naam) throws KamerNotFoundException {
@@ -121,7 +137,7 @@ public class KamerServiceImpl implements KamerService {
             throw new KamerNaamIsLeegException("Kamer naam is leeg");
         }
         //check voor overlap de reserveringlijst van de kamer.
-        List<Reservering> reserveringList = kamerByNaam.getReserveringList();
+        List<Reservering> reserveringList = kamerByNaam.getReservering();
         for (Reservering reservering : reserveringList) {
             if (reservatieDto.getStartTijd().isBefore(reservering.getEnd()) && reservatieDto.getEindTijd().isAfter(reservering.getStart())) {
                 throw new KamerReserveringBestaat("De reservering bestaat al op dit tijdstip");
@@ -129,7 +145,7 @@ public class KamerServiceImpl implements KamerService {
         }
         Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
         reserveringList.add(convertedReservatie);
-        kamerByNaam.setReserveringList(reserveringList);
+        kamerByNaam.setReservering(reserveringList);
         LOGGER.info("reservatie toegevoegd aan kamer met naam: " + kamerNaam);
         kamerRepo.save(kamerByNaam);
     }

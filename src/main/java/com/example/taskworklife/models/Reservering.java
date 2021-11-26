@@ -2,6 +2,7 @@ package com.example.taskworklife.models;
 
 import com.example.taskworklife.models.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Setter
+
 public class Reservering {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +24,8 @@ public class Reservering {
 
     private LocalDateTime start;
     private LocalDateTime end;
-
+    @JsonManagedReference
+    @ManyToOne
+    private Kamer kamer;
 
  }

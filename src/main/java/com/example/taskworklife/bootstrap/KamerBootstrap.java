@@ -51,9 +51,11 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         kamer.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0) ));
         kamer.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(20,0) ));
+        reservering1Kamer1.setKamer(kamer);
+        reservering1Kamer2.setKamer(kamer);
         reserveringListKamer1.add(reservering1Kamer1);
         reserveringListKamer1.add(reservering1Kamer2);
-        kamer.setReserveringList(reserveringListKamer1);
+        kamer.setReservering(reserveringListKamer1);
 
         Kamer kamer2 = new Kamer();
         kamer2.setNaam("kamer2");
@@ -79,10 +81,15 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 //        reservering2Kamer2.setUser(userByEmail);
 
 
+
+        reservering2Kamer1.setKamer(kamer2);
+        reservering2Kamer2.setKamer(kamer2);
+        reservering2Kamer3.setKamer(kamer2);
         reserveringListKamer2.add(reservering2Kamer1);
         reserveringListKamer2.add(reservering2Kamer2);
         reserveringListKamer2.add(reservering2Kamer3);
-        kamer2.setReserveringList(reserveringListKamer2);
+
+        kamer2.setReservering(reserveringListKamer2);
 
 
         FileAttachment fileAttachment = new FileAttachment();

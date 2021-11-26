@@ -57,6 +57,13 @@ public class KamerController extends ExceptionHandlingKamer {
 
 
 
+    @GetMapping("/{kamerNaam}/reserveringen/{datum}")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void getAllKamerByNaamAndGetAllReserverationsOnCertainDay(){
+    kamerService.
+    }
+
+
 
 
     @PutMapping("/edit/{vorigeNaam}")
