@@ -2,6 +2,7 @@ package com.example.taskworklife.repo;
 
 
 import com.example.taskworklife.models.Kamer;
+import com.example.taskworklife.models.pojo.ReservationPojo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface KamerRepo extends JpaRepository<Kamer, Long> {
@@ -18,7 +20,7 @@ public interface KamerRepo extends JpaRepository<Kamer, Long> {
 //        @Query(value="from Kamer t INNER JOIN Reservering ON Kamer.id = Reservering.kamer.id where :dateToFilter BETWEEN cast(Reservering.start as Date)as start AND cast(Reservering.END as Date)")
 //        Kamer findByNaamAndGetAllReserveringenOnSpeicifedDay(@Param("dateToFilter") String dateToFilter);
 
-        @Query(value = "select b.id,b.naam as kamer ,p.id, p.end , p.start FROM Kamer b, Reservering p WHERE (b.id = p.kamer.id) AND ('2021-11-26' between cast(p.start as date)  AND cast(p.end as date) )")
-        List<Kamer> findByNaamDisAndAnd();
+        @Query(value = "SELECT p.end as end , p.start as start FROM Kamer b,Reservering p WHERE (b.id = p.kamer.id) AND (b.naam = :naam AND(:date between cast(p.start as date)   AND cast(p.end as date)) )")
+        Optional<List<Object>> findByNaamAndGetAllReserveringenOnSpeicifedDay(@Param("date") Date date, @Param("naam") String naam);
 
 }

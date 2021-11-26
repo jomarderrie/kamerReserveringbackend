@@ -28,9 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -53,9 +53,7 @@ public class KamerServiceImpl implements KamerService {
         this.kamerToKamerDto = kamerToKamerDto;
         this.reserveringDtoToReservering = reserveringDtoToReservering;
         this.fileService = fileService;
-
         this.fileAttachmentRepository = fileAttachmentRepository;
-
     }
 
     //    @Override
@@ -74,9 +72,13 @@ public class KamerServiceImpl implements KamerService {
     }
 
 
-    public List<Reservering> getAllKamerReservationsOnCertainDay(String naam, Date date){
-        List<Kamer> byNaamDisAndAnd = kamerRepo.findByNaamDisAndAnd();
-        return new ArrayList<Reservering>();
+    public List<Object> getAllKamerReservationsOnCertainDay(String naam, Date date) {
+        var getAllReserveringenOnSpeicifedDay = kamerRepo.findByNaamAndGetAllReserveringenOnSpeicifedDay(date,naam);
+        if (getAllReserveringenOnSpeicifedDay.isEmpty()) {
+            return new ArrayList<Object>();
+        } else {
+            return getAllReserveringenOnSpeicifedDay.get();
+        }
     }
 
 

@@ -8,7 +8,7 @@ import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public interface KamerService {
@@ -24,5 +24,5 @@ public interface KamerService {
 
     void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerNotFoundException, EindTijdIsBeforeStartTijd, KamerReserveringBestaat;
 
-    List<Reservering> getAllKamerReservationsOnCertainDay(String naam, Date date);
+    List<Object> getAllKamerReservationsOnCertainDay(String naam, Date date);
 }

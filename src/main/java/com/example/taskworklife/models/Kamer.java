@@ -31,8 +31,8 @@ public class Kamer {
     private LocalDateTime sluitTijd;
     private LocalDateTime startTijd;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL )
+    @JsonIgnore
     private List<Reservering> reservering = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="kamer")

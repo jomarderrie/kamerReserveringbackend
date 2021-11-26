@@ -3,9 +3,7 @@ package com.example.taskworklife.controller;
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.user.ReservatieDto;
 import com.example.taskworklife.exception.ExceptionHandlingKamer;
-import com.example.taskworklife.exception.ExceptionHandlingUser;
 import com.example.taskworklife.exception.kamer.*;
-import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.service.kamer.KamerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -29,12 +26,10 @@ public class KamerController extends ExceptionHandlingKamer {
     private final KamerService kamerService;
 
 
-
     @Autowired
     public KamerController(KamerService kamerService) {
         this.kamerService = kamerService;
     }
-
 
 
     @GetMapping("/all")
@@ -56,14 +51,11 @@ public class KamerController extends ExceptionHandlingKamer {
     }
 
 
-
     @GetMapping("/{kamerNaam}/reserveringen/{datum}")
     @CrossOrigin(origins = "http://localhost:3000")
-    public void getAllKamerByNaamAndGetAllReserverationsOnCertainDay(){
-    kamerService.
+    public ResponseEntity<List<Object>> getAllKamerByNaamAndGetAllReserverationsOnCertainDay(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") Date datum) {
+        return new ResponseEntity<List<Object>>(kamerService.getAllKamerReservationsOnCertainDay(kamerNaam, datum), HttpStatus.OK);
     }
-
-
 
 
     @PutMapping("/edit/{vorigeNaam}")
