@@ -27,5 +27,8 @@ public class Reservering {
     @JsonManagedReference
     @ManyToOne
     private Kamer kamer;
+    @JsonManagedReference
+    @ManyToOne
+    private User user;
 
  }

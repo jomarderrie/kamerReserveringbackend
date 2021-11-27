@@ -4,6 +4,7 @@ import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
 import com.example.taskworklife.exception.images.ImagesExceededLimit;
 import com.example.taskworklife.exception.images.ImagesNotFoundException;
 import com.example.taskworklife.exception.kamer.KamerNaamIsLeegException;
+import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
 import com.example.taskworklife.exception.kamer.KamerNotFoundException;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.service.file.ImagesService;
@@ -30,7 +31,7 @@ public class ImagesController {
 
     @PostMapping(value = "/kamer/{naam}/upload/images", consumes = {"multipart/mixed", "multipart/form-data"})
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Boolean> handelKamerImagePost(@RequestPart("files") MultipartFile[] files, @PathVariable String naam) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException {
+    public ResponseEntity<Boolean> handelKamerImagePost(@RequestPart("files") MultipartFile[] files, @PathVariable String naam) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException, KamerNaamNotFoundException {
 //        System.out.println(files);
         return new ResponseEntity<Boolean>(imagesService.saveKamerImage(naam, files),HttpStatus.OK);
     }

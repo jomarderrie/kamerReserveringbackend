@@ -5,6 +5,7 @@ import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
 import com.example.taskworklife.exception.images.ImagesExceededLimit;
 import com.example.taskworklife.exception.images.ImagesNotFoundException;
 import com.example.taskworklife.exception.kamer.KamerNaamIsLeegException;
+import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
 import com.example.taskworklife.exception.kamer.KamerNotFoundException;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.FileAttachment;
@@ -79,7 +80,7 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     @Override
-    public boolean saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException {
+    public boolean saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException, KamerNaamNotFoundException {
         //check if files are not null
         if (files != null) {
             //check if length is not 0

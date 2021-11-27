@@ -7,14 +7,17 @@ import com.example.taskworklife.converter.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.user.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
+import com.example.taskworklife.exception.user.EmailNotFoundException;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.FileAttachment;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
+import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.repo.FileAttachmentRepo;
 import com.example.taskworklife.repo.KamerRepo;
 
 
+import com.example.taskworklife.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,20 +43,21 @@ public class KamerServiceImpl implements KamerService {
     KamerDtoToKamer kamerDtoToKamer;
     KamerToKamerDto kamerToKamerDto;
     ReserveringDtoToReservering reserveringDtoToReservering;
-
+    UserService userService;
 
     FileAttachmentRepo fileAttachmentRepository;
     FileService fileService;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto, ReserveringDtoToReservering reserveringDtoToReservering, FileService fileService, FileAttachmentRepo fileAttachmentRepository) {
+    public KamerServiceImpl(KamerRepo kamerRepo, KamerDtoToKamer kamerDtoToKamer, KamerToKamerDto kamerToKamerDto, ReserveringDtoToReservering reserveringDtoToReservering, FileService fileService, FileAttachmentRepo fileAttachmentRepository, UserService userService) {
         this.kamerRepo = kamerRepo;
         this.kamerDtoToKamer = kamerDtoToKamer;
         this.kamerToKamerDto = kamerToKamerDto;
         this.reserveringDtoToReservering = reserveringDtoToReservering;
         this.fileService = fileService;
         this.fileAttachmentRepository = fileAttachmentRepository;
+        this.userService = userService;
     }
 
     //    @Override
@@ -72,8 +76,9 @@ public class KamerServiceImpl implements KamerService {
     }
 
 
-    public List<Object> getAllKamerReservationsOnCertainDay(String naam, Date date) {
-        var getAllReserveringenOnSpeicifedDay = kamerRepo.findByNaamAndGetAllReserveringenOnSpeicifedDay(date,naam);
+    public List<Object> getAllKamerReservationsOnCertainDay(String naam, Date date) throws KamerNotFoundException, KamerNaamNotFoundException {
+        getKamerByNaam(naam);
+        var getAllReserveringenOnSpeicifedDay = kamerRepo.findByNaamAndGetAllReserveringenOnSpeicifedDay(date, naam);
         if (getAllReserveringenOnSpeicifedDay.isEmpty()) {
             return new ArrayList<Object>();
         } else {
@@ -83,7 +88,10 @@ public class KamerServiceImpl implements KamerService {
 
 
     @Override
-    public Kamer getKamerByNaam(String naam) throws KamerNotFoundException {
+    public Kamer getKamerByNaam(String naam) throws KamerNotFoundException, KamerNaamNotFoundException {
+        if (!StringUtils.isNotBlank(naam) || naam.equalsIgnoreCase("undefined")) {
+            throw new KamerNaamNotFoundException("Naam is leeg");
+        }
         Kamer kamerByNaam = kamerRepo.findByNaam(naam);
         if (kamerByNaam == null) {
             throw new KamerNotFoundException("Kamer niet gevonden");
@@ -92,7 +100,10 @@ public class KamerServiceImpl implements KamerService {
     }
 
     @Override
-    public void maakNieuweKamerAan(KamerDto kamerDto) throws KamerAlreadyExist {
+    public void maakNieuweKamerAan(KamerDto kamerDto) throws KamerAlreadyExist, KamerNaamNotFoundException {
+        if (!StringUtils.isNotBlank(kamerDto.getNaam())) {
+            throw new KamerNaamNotFoundException("Naam niet gevonden");
+        }
         Kamer kamerByNaam = kamerRepo.findByNaam(kamerDto.getNaam());
         if (kamerByNaam == null) {
             Kamer kamer = kamerDtoToKamer.convert(kamerDto);
@@ -124,30 +135,33 @@ public class KamerServiceImpl implements KamerService {
     }
 
     @Override
-    public void deleteKamerByNaam(String naam) throws KamerNotFoundException {
+    public void deleteKamerByNaam(String naam) throws KamerNotFoundException, KamerNaamNotFoundException {
         Kamer kamerByNaam = getKamerByNaam(naam);
         LOGGER.info("Kamer verwijderd met naam " + naam);
         kamerRepo.delete(kamerByNaam);
     }
 
     @Override
-    public void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerNotFoundException, EindTijdIsBeforeStartTijd, KamerReserveringBestaat {
+    public void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto, String email) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerNotFoundException, EindTijdIsBeforeStartTijd, KamerReserveringBestaat, EmailNotFoundException {
         //check of kamer bestaat
+        User user = userService.findUserByEmail(email);
         Kamer kamerByNaam = getKamerByNaam(kamerNaam);
         //check of het niet een lege string is of null
         if (!StringUtils.isNotBlank(kamerNaam)) {
             throw new KamerNaamIsLeegException("Kamer naam is leeg");
         }
         //check voor overlap de reserveringlijst van de kamer.
-        List<Reservering> reserveringList = kamerByNaam.getReservering();
-        for (Reservering reservering : reserveringList) {
+        for (Reservering reservering : kamerByNaam.getReservering()) {
             if (reservatieDto.getStartTijd().isBefore(reservering.getEnd()) && reservatieDto.getEindTijd().isAfter(reservering.getStart())) {
                 throw new KamerReserveringBestaat("De reservering bestaat al op dit tijdstip");
             }
         }
         Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
-        reserveringList.add(convertedReservatie);
-        kamerByNaam.setReservering(reserveringList);
+        if (convertedReservatie != null) {
+            convertedReservatie.setUser(user);
+            kamerByNaam.addReservering(convertedReservatie);
+        }
+//        kamerByNaam.setReservering(reserveringList);
         LOGGER.info("reservatie toegevoegd aan kamer met naam: " + kamerNaam);
         kamerRepo.save(kamerByNaam);
     }

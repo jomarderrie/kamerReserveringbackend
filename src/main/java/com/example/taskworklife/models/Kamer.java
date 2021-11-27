@@ -31,17 +31,23 @@ public class Kamer {
     private LocalDateTime sluitTijd;
     private LocalDateTime startTijd;
 
-    @OneToMany(cascade = CascadeType.ALL )
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Reservering> reservering = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="kamer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kamer")
     @JsonManagedReference
     private List<FileAttachment> attachments = new ArrayList<>();
 
-    public Kamer addFileAttachment(FileAttachment fileAttachment){
+    public Kamer addFileAttachment(FileAttachment fileAttachment) {
         fileAttachment.setKamer(this);
         this.attachments.add(fileAttachment);
+        return this;
+    }
+
+    public Kamer addReservering(Reservering reservering) {
+        reservering.setKamer(this);
+        this.reservering.add(reservering);
         return this;
     }
 }

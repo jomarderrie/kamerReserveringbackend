@@ -2,6 +2,7 @@ package com.example.taskworklife.models.user;
 
 import com.example.taskworklife.dto.user.UniqueEmail;
 import com.example.taskworklife.models.Reservering;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -50,5 +51,12 @@ public class User implements Serializable {
     private boolean isNotLocked;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Reservering> reserveringArrayList = new ArrayList<>();
+
+    public User addReservering(Reservering reservering){
+        reservering.setUser(this);
+        this.reserveringArrayList.add(reservering);
+        return this;
+    }
 }
