@@ -35,6 +35,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -151,16 +152,17 @@ public class KamerServiceImpl implements KamerService {
             throw new KamerNaamIsLeegException("Kamer naam is leeg");
         }
         //check voor overlap de reserveringlijst van de kamer.
-        for (Reservering reservering : kamerByNaam.getReservering()) {
-            if (reservatieDto.getStartTijd().isBefore(reservering.getEnd()) && reservatieDto.getEindTijd().isAfter(reservering.getStart())) {
-                throw new KamerReserveringBestaat("De reservering bestaat al op dit tijdstip");
+        Optional<List<Object>> byNaamAndGetAllReserveringenOnSpecifiedTimeInterval = kamerRepo.findByNaamAndGetAllReserveringenOnSpecifiedTimeInterval(kamerNaam, reservatieDto.getStartTijd(), reservatieDto.getEindTijd());
+        if (byNaamAndGetAllReserveringenOnSpecifiedTimeInterval.get().size()==0){
+            Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
+            if (convertedReservatie != null) {
+                convertedReservatie.setUser(user);
+                kamerByNaam.addReservering(convertedReservatie);
             }
+        }else{
+            throw new KamerReserveringBestaat("Kamer reservering bestaat al voor interval " + reservatieDto.getStartTijd() + " " + reservatieDto.getEindTijd());
         }
-        Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
-        if (convertedReservatie != null) {
-            convertedReservatie.setUser(user);
-            kamerByNaam.addReservering(convertedReservatie);
-        }
+
 //        kamerByNaam.setReservering(reserveringList);
         LOGGER.info("reservatie toegevoegd aan kamer met naam: " + kamerNaam);
         kamerRepo.save(kamerByNaam);
