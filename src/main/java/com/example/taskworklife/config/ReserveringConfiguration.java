@@ -23,7 +23,7 @@ public class ReserveringConfiguration {
     String kamerFolder = "kamer";
     String attachmentFolder = "attachment";
 
-    public String getFullProfileImagesPath() {
+    public String getProfileImagesPath() {
         return this.uploadPath + "/" + this.profileImagesFolder;
     }
 

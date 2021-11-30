@@ -33,7 +33,7 @@ public class FileService  {
         File target;
         switch (type){
             case "profile":
-                target = new File(appConfiguration.getFullProfileImagesPath() + "/" + naam+ "/"+ imageName);
+                target = new File(appConfiguration.getProfileImagesPath() + "/" + naam+ "/"+ imageName);
                 break;
             case "kamer":
                 target = new File(appConfiguration  .getProfileImagesFolder() + "/" + naam+ "/"+ imageName);

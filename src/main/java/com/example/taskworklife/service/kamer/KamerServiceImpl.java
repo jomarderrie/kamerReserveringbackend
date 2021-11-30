@@ -1,6 +1,5 @@
 package com.example.taskworklife.service.kamer;
 
-import com.example.taskworklife.config.ReserveringConfiguration;
 import com.example.taskworklife.converter.KamerDtoToKamer;
 import com.example.taskworklife.converter.KamerToKamerDto;
 import com.example.taskworklife.converter.ReserveringDtoToReservering;
@@ -9,7 +8,6 @@ import com.example.taskworklife.dto.user.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.EmailNotFoundException;
 import com.example.taskworklife.fileservice.FileService;
-import com.example.taskworklife.models.FileAttachment;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.models.user.User;
@@ -19,20 +17,13 @@ import com.example.taskworklife.repo.KamerRepo;
 
 import com.example.taskworklife.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tika.Tika;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

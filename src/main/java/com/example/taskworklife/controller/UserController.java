@@ -67,6 +67,10 @@ public class UserController extends ExceptionHandlingUser {
         return new ResponseEntity<>(users, OK);
     }
 
+//    @GetMapping("/{naam}{achterNaam}")
+//    public ResponseEntity<User> getUserByNaamAchterNaam(Principal principal){
+//        return ResponseEntity(new User(), OK);
+//    }
 
 
 

@@ -38,7 +38,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     CommandLineRunner createUploadFolder() {
         return (args) -> {
             createNonExistingFolder(appConfiguration.getUploadPath());
-            createNonExistingFolder(appConfiguration.getFullProfileImagesPath());
+            createNonExistingFolder(appConfiguration.getProfileImagesPath());
             createNonExistingFolder(appConfiguration.getKamerFolder());
             createNonExistingFolder(appConfiguration.getAttachmentFolder());
         };

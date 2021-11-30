@@ -2,9 +2,11 @@ package com.example.taskworklife.models.user;
 
 import com.example.taskworklife.dto.user.UniqueEmail;
 import com.example.taskworklife.models.Reservering;
+import com.example.taskworklife.models.attachment.ProfileFileAttachment;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.context.annotation.Profile;
 
 
 import javax.persistence.*;
@@ -41,7 +43,10 @@ public class User implements Serializable {
     @NotNull
     @Pattern(regexp = "\\w+@\\w+\\.\\w+(,\\s*\\w+@\\w+\\.\\w+)*", message = "not valid email")
     private String email;
-    private String profileImageUrl;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private ProfileFileAttachment profileFileAttachment;
+
     private Date laatstIngelodgeDatum;
     private Date laatstIngelodgeDatumDisplay;
     private Date joinDate;
@@ -49,6 +54,7 @@ public class User implements Serializable {
     private String[] authorities;
     private boolean isActive;
     private boolean isNotLocked;
+
 
     @OneToMany(cascade = CascadeType.ALL)
     @JsonManagedReference

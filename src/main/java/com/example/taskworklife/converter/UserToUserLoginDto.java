@@ -22,7 +22,8 @@ public class UserToUserLoginDto  implements Converter<User, UserLoginResponseDto
         userLoginDto.setNaam(source.getNaam());
         userLoginDto.setAchternaam(source.getAchternaam());
         userLoginDto.setEmail(source.getEmail());
-        userLoginDto.setProfileImageUrl(source.getProfileImageUrl());
+
+        userLoginDto.setProfileFileAttachment(source.getProfileFileAttachment());
         userLoginDto.setLaatstIngelodgeDatumDisplay(source.getLaatstIngelodgeDatumDisplay());
         userLoginDto.setRole(source.getRole());
         return userLoginDto;

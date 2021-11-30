@@ -1,8 +1,9 @@
 package com.example.taskworklife.bootstrap;
 
-import com.example.taskworklife.models.FileAttachment;
+import com.example.taskworklife.models.attachment.FileAttachment;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
+import com.example.taskworklife.models.attachment.KamerFileAttachment;
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.repo.FileAttachmentRepo;
 import com.example.taskworklife.repo.KamerRepo;
@@ -100,7 +101,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         kamer2.setReservering(reserveringListKamer2);
 
 
-        FileAttachment fileAttachment = new FileAttachment();
+        KamerFileAttachment fileAttachment = new KamerFileAttachment();
 
         fileAttachment.setName("Monkey_chathead.png");
 

@@ -1,4 +1,4 @@
-package com.example.taskworklife.models;
+package com.example.taskworklife.models.attachment;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,9 +22,5 @@ public class FileAttachment {
     private String name;
 
     private String fileType;
-
-    @ManyToOne
-    @JsonBackReference
-    private Kamer kamer;
 
 }
