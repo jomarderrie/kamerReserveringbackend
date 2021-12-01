@@ -57,7 +57,10 @@ public class ExceptionHandlingUser extends CreateResponse  implements ErrorContr
     public ResponseEntity<HttpResponse> emailNotValidException(EmailNotValidException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
-
+    @ExceptionHandler(RegisterErrorException.class)
+    public ResponseEntity<HttpResponse> registerErrorException(RegisterErrorException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
 
 
 

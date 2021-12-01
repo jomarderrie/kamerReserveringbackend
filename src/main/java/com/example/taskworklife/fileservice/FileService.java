@@ -65,6 +65,11 @@ public class FileService  {
     }
 
 
+    public void maakDirectory(File fileNaamVanDirectory) {
+        if (!fileNaamVanDirectory.exists()) {
+            fileNaamVanDirectory.mkdir();
+        }
+    }
 
 
 

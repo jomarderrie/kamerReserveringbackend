@@ -1,9 +1,13 @@
 package com.example.taskworklife.service.user;
 
 import com.example.taskworklife.converter.UserRegisterDtoToUser;
+import com.example.taskworklife.converter.UserToUserLoginDto;
+import com.example.taskworklife.dto.user.UserLoginDto;
+import com.example.taskworklife.dto.user.UserLoginResponseDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
 import com.example.taskworklife.exception.user.EmailExistException;
 import com.example.taskworklife.exception.user.EmailNotFoundException;
+import com.example.taskworklife.exception.user.RegisterErrorException;
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.models.user.UserPrincipal;
 import com.example.taskworklife.repo.UserRepo;
@@ -34,13 +38,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
     private UserRepo userRepository;
     private final UserRegisterDtoToUser userRegisterDtoToUserConverter;
+    private UserToUserLoginDto userLoginResponseDtoConverter;
 
-
-    @Autowired
-    public UserServiceImpl(UserRepo userRepository, UserRegisterDtoToUser userRegisterDtoToUserConverter) {
+    public UserServiceImpl(UserRepo userRepository, UserRegisterDtoToUser userRegisterDtoToUserConverter, UserToUserLoginDto userLoginResponseDtoConverter) {
         this.userRepository = userRepository;
         this.userRegisterDtoToUserConverter = userRegisterDtoToUserConverter;
-
+        this.userLoginResponseDtoConverter = userLoginResponseDtoConverter;
     }
 
     @Override
@@ -59,8 +62,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+
     @Override
-    public User register(UserRegisterDto userRegisterDto) throws EmailExistException {
+    public UserLoginResponseDto register(UserRegisterDto userRegisterDto) throws EmailExistException, RegisterErrorException {
         User userByEmail = null;
         userByEmail = userRepository.findUserByEmail(userRegisterDto.getEmail());
         if (userByEmail != null) {
@@ -71,17 +75,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             LOGGER.info("Nieuwe gebruiker met email: " + userRegisterDto.getEmail());
             assert userByEmail != null;
             userRepository.save(userByEmail);
-            return userByEmail;
+            UserLoginResponseDto convertedRegisterdUser = userLoginResponseDtoConverter.convert(userByEmail);
+
+            if (convertedRegisterdUser != null) {
+                return convertedRegisterdUser;
+            }else{
+                throw new RegisterErrorException("Er is een error met het registeren");
+            }
         }
     }
 
-
     @Override
-    public List<User> getUsers() {
-        List<User> usersList = new ArrayList<>();
-        userRepository.findAll().iterator().forEachRemaining(usersList::add);
+    public List<UserLoginResponseDto> getUsers() {
+        List<UserLoginResponseDto> usersList = new ArrayList<>();
+
+        userRepository.findAll().iterator().forEachRemaining(p -> {
+                usersList.add(userLoginResponseDtoConverter.convert(p));
+        });
         return usersList;
     }
+
+    @Override
+    public UserLoginResponseDto loginUser(User user) {
+        return userLoginResponseDtoConverter.convert(user);
+    }
+
+
+
 
     @Override
     public User findUserByEmail(String email) throws EmailNotFoundException {
@@ -91,6 +111,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new EmailNotFoundException("Email not found");
         }
         return userByEmail;
+    }
+
+    @Override
+    public UserLoginResponseDto getSingleUser(String voorNaam, String achterNaam) {
+        User userByAchternaamAndAndNaam = userRepository.findUserByAchternaamAndAndNaam(achterNaam, voorNaam);
+
+        System.out.println(userByAchternaamAndAndNaam);
+        return null;
     }
 
 
