@@ -1,5 +1,7 @@
 package com.example.taskworklife.controller;
 
+import com.example.taskworklife.exception.GlobalExceptionHandler;
+import com.example.taskworklife.exception.global.ChangeOnlyOwnUserException;
 import com.example.taskworklife.exception.global.IoException;
 import com.example.taskworklife.exception.images.ImageNotFoundException;
 import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
@@ -27,7 +29,7 @@ import java.util.Arrays;
 @Controller
 @RequestMapping(path = "/images")
 @CrossOrigin(origins = "http://localhost:3000")
-public class ImagesController {
+public class ImagesController extends GlobalExceptionHandler {
     ImagesService imagesService;
 
     @Autowired
@@ -37,16 +39,21 @@ public class ImagesController {
 
     @PostMapping(value = "/kamer/{naam}/upload/images", consumes = {"multipart/mixed", "multipart/form-data"})
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Boolean> handelKamerImage(@RequestPart("files") MultipartFile[] files, @PathVariable String naam) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException, KamerNaamNotFoundException {
-//        System.out.println(files);
+    public ResponseEntity<Boolean> handelKamerImage(@RequestPart("files") MultipartFile[] files, @PathVariable String naam) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException, KamerNaamNotFoundException, IoException {
         return new ResponseEntity<Boolean>(imagesService.saveKamerImage(naam, files),HttpStatus.OK);
     }
 
-    @PostMapping(value = "/user/upload", consumes = {"multipart/mixed", "multipart/form-data"})
+    @PostMapping(value = "/user/{email}/upload", consumes = {"multipart/mixed", "multipart/form-data"})
     @CrossOrigin(origins = "http://localhost:3000")
-    public  ResponseEntity<Boolean> handleProfileImage(@RequestPart("file") MultipartFile file, Principal principal) throws EmailNotFoundException, ImageTypeNotAllowedException, IoException, IOException, ImageNotFoundException {
-        return new  ResponseEntity<Boolean>(imagesService.saveProfileImageUser(((UserPrincipal) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser().getEmail(), file), HttpStatus.OK);
+    public  ResponseEntity<Boolean> handleProfileImage(@RequestPart("file") MultipartFile file, Principal principal, @PathVariable("email") String email) throws EmailNotFoundException, ImageTypeNotAllowedException, IoException, IOException, ImageNotFoundException, ChangeOnlyOwnUserException {
+
+        return new  ResponseEntity<Boolean>(imagesService.saveProfileImageUser(((UserPrincipal) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser().getEmail(), email,file), HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/user/{email}/image/delete")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void deleteProfileImage(@PathVariable("email") String email, Principal principal) throws EmailNotFoundException, ChangeOnlyOwnUserException, ImageNotFoundException {
+        imagesService.deleteProfileImageUser(((UserPrincipal) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser().getEmail(), email);
+    }
 
 }

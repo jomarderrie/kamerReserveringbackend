@@ -1,5 +1,6 @@
 package com.example.taskworklife.exception;
 
+import com.example.taskworklife.exception.global.ChangeOnlyOwnUserException;
 import com.example.taskworklife.exception.global.ImageException;
 import com.example.taskworklife.exception.global.IoException;
 import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
@@ -27,12 +28,12 @@ public class GlobalExceptionHandler extends CreateResponse {
     }
 
     @ExceptionHandler(ImageTypeNotAllowedException.class)
-    public ResponseEntity<HttpResponse> imageTypeNotAllowedException(ImageException exception) {
+    public ResponseEntity<HttpResponse> imageTypeNotAllowedException(ImageTypeNotAllowedException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(ImagesExceededLimit.class)
-    public ResponseEntity<HttpResponse> ImagesExceededLimit(ImageException exception) {
+    public ResponseEntity<HttpResponse> ImagesExceededLimit(ImagesExceededLimit exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
     @ExceptionHandler(ImagesNotFoundException.class)
@@ -41,7 +42,11 @@ public class GlobalExceptionHandler extends CreateResponse {
     }
 
     @ExceptionHandler(IoException.class)
-    public ResponseEntity<HttpResponse> ioException(ImagesNotFoundException exception) {
+    public ResponseEntity<HttpResponse> ioException(IoException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+    @ExceptionHandler(ChangeOnlyOwnUserException.class)
+    public ResponseEntity<HttpResponse> changeOnlyOwnUserException(ChangeOnlyOwnUserException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 

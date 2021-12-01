@@ -1,6 +1,7 @@
 package com.example.taskworklife.service.file;
 
 import com.example.taskworklife.config.ReserveringConfiguration;
+import com.example.taskworklife.exception.global.ChangeOnlyOwnUserException;
 import com.example.taskworklife.exception.global.IoException;
 import com.example.taskworklife.exception.images.ImageNotFoundException;
 import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
@@ -51,14 +52,14 @@ public class ImagesServiceImpl implements ImagesService {
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 
-    public ImagesServiceImpl(FileService fileService, KamerService kamerService, ReserveringConfiguration reserveringConfiguration, KamerRepo kamerRepo, FileAttachmentRepo fileAttachmentRepository, UserService userService, UserRepo userRepo) {
-        this.fileAttachmentRepository = fileAttachmentRepository;
+    public ImagesServiceImpl(FileService fileService, KamerService kamerService, ReserveringConfiguration reserveringConfiguration, FileAttachmentRepo fileAttachmentRepository, KamerRepo kamerRepo, UserRepo userRepo, UserService userService) {
         this.fileService = fileService;
-        this.kamerRepo = kamerRepo;
-        this.userService = userService;
         this.kamerService = kamerService;
-        this.userRepo = userRepo;
         this.reserveringConfiguration = reserveringConfiguration;
+        this.fileAttachmentRepository = fileAttachmentRepository;
+        this.kamerRepo = kamerRepo;
+        this.userRepo = userRepo;
+        this.userService = userService;
     }
 
     public Kamer deleteAllKamerImages(Kamer kamer) throws IOException {
@@ -80,14 +81,9 @@ public class ImagesServiceImpl implements ImagesService {
         }
     }
 
-    public void maakDirectory(File fileNaamVanDirectory) {
-        if (!fileNaamVanDirectory.exists()) {
-            fileNaamVanDirectory.mkdir();
-        }
-    }
 
     @Override
-    public boolean saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException, KamerNaamNotFoundException {
+    public boolean saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException, KamerNaamNotFoundException, IoException {
         //check if files are not null
         if (files != null) {
             //check if length is not 0
@@ -109,7 +105,8 @@ public class ImagesServiceImpl implements ImagesService {
                     //delete all kamerimages
                     File kamerDirectory = new File(reserveringConfiguration.getKamerFolder() + "/" + kamerByNaam);
                     FileUtils.deleteQuietly(kamerDirectory);
-                    maakDirectory(kamerDirectory);
+                    fileAttachmentRepository.deleteAll(kamerByNaam.getAttachments());
+                    fileService.maakDirectory(kamerDirectory);
                     for (MultipartFile file : files) {
                         date = new Date();
                         KamerFileAttachment fileAttachment = new KamerFileAttachment();
@@ -130,10 +127,8 @@ public class ImagesServiceImpl implements ImagesService {
                             kamerByNaam.addFileAttachment(fileAttachment);
                             LOGGER.info("Saved image with name " + file.getOriginalFilename() + " for room " + kamerNaam);
                         } catch (Exception e) {
-                            LOGGER.error(e.getMessage());
-                            LOGGER.error("io exception in image");
-                            LOGGER.info("io exception in image");
                             e.printStackTrace();
+                            throw new IoException(e.getMessage());
                         }
                     }
 //                    kamerByNaam.setAttachments(fileAttachments);
@@ -151,44 +146,92 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     @Override
-    public boolean saveProfileImageUser(String email, MultipartFile profileImage) throws ImageNotFoundException, EmailNotFoundException, ImageTypeNotAllowedException, IoException {
+    public boolean saveProfileImageUser(String principalEmail, String emailPath, MultipartFile profileImage) throws ImageNotFoundException, EmailNotFoundException, ImageTypeNotAllowedException, IoException, ChangeOnlyOwnUserException {
         if (profileImage != null) {
             if (!profileImage.isEmpty()) {
-                if (StringUtils.isNotBlank(email)) {
-                    if (!fileService.detectIfImage(Objects.requireNonNull(profileImage.getContentType()))) {
-                        throw new ImageTypeNotAllowedException("Image type is niet toegestaan alleen png, jpg, jpeg");
-                    }
-                    Date date = new Date();
+                if (StringUtils.isNotBlank(principalEmail) || StringUtils.isNotBlank(emailPath)) {
+                    if (emailPath.equals(principalEmail)) {
 
-                    User userByEmail = userService.findUserByEmail(email);
+                        if (!fileService.detectIfImage(Objects.requireNonNull(profileImage.getContentType()))) {
+                            throw new ImageTypeNotAllowedException("Image type is niet toegestaan alleen png, jpg, jpeg");
+                        }
+                        Date date = new Date();
 
-                    File profileDirectory = new File(reserveringConfiguration.getProfileImagesPath() + "/" + email);
-                    FileUtils.deleteQuietly(profileDirectory);
-                    maakDirectory(profileDirectory);
-                    ProfileFileAttachment fileAttachment = new ProfileFileAttachment();
-                    fileAttachment.setDate(date);
+                        User userByEmail = userService.findUserByEmail(principalEmail);
+                        if (userByEmail != null) {
+                            if (userByEmail.getProfileFileAttachment() != null) {
+                                Long attachmentId = userByEmail.getProfileFileAttachment().getId();
+                                if (attachmentId != null) {
+                                    fileAttachmentRepository.deleteById(attachmentId);
+                                }
+                            }
+                        }
 
-                    try {
-                        byte[] fileAsByte = profileImage.getBytes();
-                        File target = new File(reserveringConfiguration.getProfileImagesPath() + "/" + email + "/" + profileImage.getOriginalFilename());
-                        FileUtils.writeByteArrayToFile(target, fileAsByte);
-                        fileAttachment.setName(profileImage.getOriginalFilename());
-                        fileAttachment.setFileType(profileImage.getContentType());
-                        userByEmail.setProfileFileAttachment(fileAttachment);
-                        userRepo.save(userByEmail);
-                        LOGGER.info("Profile image saved for email " + email);
-                        return true;
-                    } catch (IOException e) {
-                        throw new IoException(e.getMessage());
+
+                        File profileDirectory = new File(reserveringConfiguration.getProfileImagesPath() + "/" + principalEmail);
+                        FileUtils.deleteQuietly(profileDirectory);
+                        fileService.maakDirectory(profileDirectory);
+                        ProfileFileAttachment fileAttachment = new ProfileFileAttachment();
+                        fileAttachment.setDate(date);
+
+                        try {
+                            byte[] fileAsByte = profileImage.getBytes();
+                            File target = new File(reserveringConfiguration.getProfileImagesPath() + "/" + principalEmail + "/" + profileImage.getOriginalFilename());
+                            FileUtils.writeByteArrayToFile(target, fileAsByte);
+                            fileAttachment.setName(profileImage.getOriginalFilename());
+                            fileAttachment.setFileType(profileImage.getContentType());
+                            fileAttachment.setUser(userByEmail);
+                            if (userByEmail != null) {
+                                userByEmail.setProfileFileAttachment(fileAttachment);
+                                userRepo.save(userByEmail);
+                            }
+                            LOGGER.info("Profile image saved for principalEmail " + principalEmail);
+                            return true;
+                        } catch (IOException e) {
+                            throw new IoException(e.getMessage());
+                        }
+                    } else {
+                        throw new ChangeOnlyOwnUserException("Kan alleen je eigen account veranderen");
                     }
                 } else {
-                    throw new ImageNotFoundException("geen foto gevonden");
+                    throw new EmailNotFoundException("geen foto gevonden");
                 }
             } else {
-                throw new EmailNotFoundException("Email niet gevonden");
+                throw new ImageNotFoundException("Email niet gevonden");
             }
         } else {
             throw new ImageNotFoundException("geen profiel image gevonden");
+        }
+    }
+
+    @Override
+    public boolean deleteProfileImageUser(String principalEmail, String emailPath) throws ChangeOnlyOwnUserException, EmailNotFoundException, ImageNotFoundException {
+        if (StringUtils.isNotBlank(principalEmail) || StringUtils.isNotBlank(emailPath)) {
+            if (emailPath.equals(principalEmail)) {
+                User userByEmail = userService.findUserByEmail(principalEmail);
+                if (userByEmail.getProfileFileAttachment() != null) {
+                    Long attachmentId = userByEmail.getProfileFileAttachment().getId();
+                    if (attachmentId != null) {
+
+                        userByEmail.setProfileFileAttachment(null);
+                        userRepo.save(userByEmail);
+                        File profileDirectory = new File(reserveringConfiguration.getProfileImagesPath() + "/" + principalEmail);
+                        FileUtils.deleteQuietly(profileDirectory);
+
+                        fileAttachmentRepository.deleteById(attachmentId);
+                        LOGGER.info("Profile image verwijderd " + principalEmail);
+                        return true;
+                    } else {
+                        throw new ImageNotFoundException("geen profiel image gevonden");
+                    }
+                } else {
+                    throw new ImageNotFoundException("geen profiel image gevonden");
+                }
+            } else {
+                throw new ChangeOnlyOwnUserException("Kan alleen je eigen account veranderen");
+            }
+        } else {
+            throw new EmailNotFoundException("Email niet gevonden");
         }
     }
 
