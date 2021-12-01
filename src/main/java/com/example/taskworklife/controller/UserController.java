@@ -6,6 +6,7 @@ import com.example.taskworklife.dto.user.UserRegisterDto;
 import com.example.taskworklife.exception.ExceptionHandlingUser;
 import com.example.taskworklife.exception.user.EmailExistException;
 import com.example.taskworklife.exception.user.EmailNotFoundException;
+import com.example.taskworklife.exception.user.GebruikerNietGevondenExcepion;
 import com.example.taskworklife.exception.user.RegisterErrorException;
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.service.user.UserService;
@@ -42,7 +43,7 @@ public class UserController extends ExceptionHandlingUser {
         User loginUser = userService.findUserByEmail(userLoginDto.getEmail());
 
 
-        return new ResponseEntity<>(   userService.loginUser(loginUser), OK);
+        return new ResponseEntity<>(userService.loginUser(loginUser), OK);
     }
 
     @PostMapping("/register")
@@ -60,18 +61,16 @@ public class UserController extends ExceptionHandlingUser {
     }
 
     @GetMapping("/{voornaam}/{achterNaam}")
-     @CrossOrigin(origins = "http::/localhost:3000")
-    public void getSingleUser(@PathVariable String voornaam, @PathVariable String achterNaam){
-        UserLoginResponseDto singleUser = userService.getSingleUser(voornaam, achterNaam);
-        System.out.println(singleUser);
+    @CrossOrigin(origins = "http://localhost:3000")
+    public UserLoginResponseDto getSingleUser(@PathVariable String voornaam, @PathVariable String achterNaam) throws GebruikerNietGevondenExcepion {
+        return userService.getSingleUser(voornaam, achterNaam);
     }
-//    @GetMapping("/{naam}{achterNaam}")
-//    public ResponseEntity<User> getUserByNaamAchterNaam(Principal principal){
-//        return ResponseEntity(new User(), OK);
-//    }
 
-
-
+    @DeleteMapping("/{voornaam}/{achterNaam}/delete")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void deleteSingleUser(@PathVariable String voornaam, @PathVariable String achterNaam) throws GebruikerNietGevondenExcepion {
+         userService.deleteSingleUser(voornaam, achterNaam);
+    }
 
     private void authenticate(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

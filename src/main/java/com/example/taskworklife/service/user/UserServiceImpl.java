@@ -7,6 +7,7 @@ import com.example.taskworklife.dto.user.UserLoginResponseDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
 import com.example.taskworklife.exception.user.EmailExistException;
 import com.example.taskworklife.exception.user.EmailNotFoundException;
+import com.example.taskworklife.exception.user.GebruikerNietGevondenExcepion;
 import com.example.taskworklife.exception.user.RegisterErrorException;
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.models.user.UserPrincipal;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -79,7 +81,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
             if (convertedRegisterdUser != null) {
                 return convertedRegisterdUser;
-            }else{
+            } else {
                 throw new RegisterErrorException("Er is een error met het registeren");
             }
         }
@@ -88,9 +90,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<UserLoginResponseDto> getUsers() {
         List<UserLoginResponseDto> usersList = new ArrayList<>();
-
         userRepository.findAll().iterator().forEachRemaining(p -> {
-                usersList.add(userLoginResponseDtoConverter.convert(p));
+            usersList.add(userLoginResponseDtoConverter.convert(p));
         });
         return usersList;
     }
@@ -99,8 +100,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserLoginResponseDto loginUser(User user) {
         return userLoginResponseDtoConverter.convert(user);
     }
-
-
 
 
     @Override
@@ -114,11 +113,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserLoginResponseDto getSingleUser(String voorNaam, String achterNaam) {
+    public UserLoginResponseDto getSingleUser(String voorNaam, String achterNaam) throws GebruikerNietGevondenExcepion {
         User userByAchternaamAndAndNaam = userRepository.findUserByAchternaamAndAndNaam(achterNaam, voorNaam);
+        if (userByAchternaamAndAndNaam != null) {
+            return userLoginResponseDtoConverter.convert(userByAchternaamAndAndNaam);
+        } else {
+            throw new GebruikerNietGevondenExcepion("Gebruiker is niet gevonden");
+        }
+    }
 
-        System.out.println(userByAchternaamAndAndNaam);
-        return null;
+    @Override
+    public void deleteSingleUser(String voorNaam, String achterNaam) throws GebruikerNietGevondenExcepion {
+        User userByAchternaamAndAndNaam = userRepository.findUserByAchternaamAndAndNaam(achterNaam, voorNaam);
+        if (userByAchternaamAndAndNaam != null) {
+            if (userByAchternaamAndAndNaam.getId() != null) {
+                LOGGER.info("deleted gebruiker met voor en achter naam " + voorNaam + " " + achterNaam);
+                userRepository.deleteById(userByAchternaamAndAndNaam.getId());
+            }
+        } else {
+            throw new GebruikerNietGevondenExcepion("Gebruiker is niet gevonden");
+        }
     }
 
 

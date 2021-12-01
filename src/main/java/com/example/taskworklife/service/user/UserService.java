@@ -5,6 +5,7 @@ import com.example.taskworklife.dto.user.UserLoginResponseDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
 import com.example.taskworklife.exception.user.EmailExistException;
 import com.example.taskworklife.exception.user.EmailNotFoundException;
+import com.example.taskworklife.exception.user.GebruikerNietGevondenExcepion;
 import com.example.taskworklife.exception.user.RegisterErrorException;
 import com.example.taskworklife.models.user.User;
 
@@ -18,5 +19,7 @@ public interface UserService {
     UserLoginResponseDto loginUser(User User);
     User findUserByEmail(String email) throws EmailNotFoundException;
 
-    UserLoginResponseDto getSingleUser(String voorNaam, String achterNaam);
+    UserLoginResponseDto getSingleUser(String voorNaam, String achterNaam) throws GebruikerNietGevondenExcepion;
+
+    void deleteSingleUser(String voorNaam, String achterNaam) throws GebruikerNietGevondenExcepion;
 }
