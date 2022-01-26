@@ -100,6 +100,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         kamer2.setReservering(reserveringListKamer2);
 
+        //kamer 2 file attachement
 
         KamerFileAttachment fileAttachment = new KamerFileAttachment();
 
@@ -110,6 +111,55 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         fileAttachment.setDate(new Date());
 
         kamer2.addFileAttachment(fileAttachment);
+
+        // kamer 1 file attachment
+        KamerFileAttachment fileAttachment1Room1 = new KamerFileAttachment();
+
+        fileAttachment1Room1.setName("1medium.jpeg");
+
+        fileAttachment1Room1.setFileType("image/jpeg");
+
+        fileAttachment1Room1.setDate(new Date());
+
+        kamer.addFileAttachment(fileAttachment1Room1);
+
+        // kamer 2 file attachment
+
+        KamerFileAttachment fileAttachment2Room2 = new KamerFileAttachment();
+
+        fileAttachment2Room2.setName("coachkamer.jpeg");
+
+        fileAttachment2Room2.setFileType("image/jpeg");
+
+        fileAttachment2Room2.setDate(new Date());
+
+        kamer2.addFileAttachment(fileAttachment2Room2);
+
+
+        KamerFileAttachment fileAttachment3Room2 = new KamerFileAttachment();
+
+        fileAttachment3Room2.setName("kameroman.jpeg");
+
+        fileAttachment3Room2.setFileType("image/jpeg");
+
+        fileAttachment3Room2.setDate(new Date());
+
+        kamer2.addFileAttachment(fileAttachment3Room2);
+
+
+
+        KamerFileAttachment fileAttachment4Room2 = new KamerFileAttachment();
+
+        fileAttachment4Room2.setName("download.jpeg");
+
+        fileAttachment4Room2.setFileType("image/jpeg");
+
+        fileAttachment4Room2.setDate(new Date());
+
+        kamer2.addFileAttachment(fileAttachment4Room2);
+
+
+
         kamers.add(kamer2);
         kamers.add(kamer);
 
