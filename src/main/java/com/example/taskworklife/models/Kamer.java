@@ -51,4 +51,9 @@ public class Kamer {
         this.reservering.add(reservering);
         return this;
     }
+
+    public Kamer deleteAllFileAttachments(){
+            this.reservering = new ArrayList<>();
+            return this;
+    }
 }

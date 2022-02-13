@@ -133,7 +133,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         fileAttachment2Room2.setDate(new Date());
 
-        kamer2.addFileAttachment(fileAttachment2Room2);
+        kamer.addFileAttachment(fileAttachment2Room2);
 
 
         KamerFileAttachment fileAttachment3Room2 = new KamerFileAttachment();
@@ -144,7 +144,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         fileAttachment3Room2.setDate(new Date());
 
-        kamer2.addFileAttachment(fileAttachment3Room2);
+        kamer.addFileAttachment(fileAttachment3Room2);
 
 
 
@@ -156,7 +156,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         fileAttachment4Room2.setDate(new Date());
 
-        kamer2.addFileAttachment(fileAttachment4Room2);
+        kamer.addFileAttachment(fileAttachment4Room2);
 
 
 

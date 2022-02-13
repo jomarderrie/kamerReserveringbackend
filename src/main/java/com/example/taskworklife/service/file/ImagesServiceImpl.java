@@ -79,6 +79,7 @@ public class ImagesServiceImpl implements ImagesService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        saveKamerImage()
     }
 
 
@@ -90,8 +91,8 @@ public class ImagesServiceImpl implements ImagesService {
             if (files.length != 0) {
                 //check if naam is not empty
                 if (StringUtils.isNotBlank(kamerNaam)) {
-                    if (files.length > 8) {
-                        throw new ImagesExceededLimit("Niet meer dan 8 images");
+                    if (files.length > 6) {
+                        throw new ImagesExceededLimit("Niet meer dan 6 images");
                     }
                     //check if naam exits in db
                     Kamer kamerByNaam = kamerService.getKamerByNaam(kamerNaam);
@@ -101,11 +102,20 @@ public class ImagesServiceImpl implements ImagesService {
                             throw new ImageTypeNotAllowedException("Image type is niet toegestaan alleen png, jpg, jpeg");
                         }
                     }
+
                     Date date;
                     //delete all kamerimages
-                    File kamerDirectory = new File(reserveringConfiguration.getKamerFolder() + "/" + kamerByNaam);
-                    FileUtils.deleteQuietly(kamerDirectory);
-                    fileAttachmentRepository.deleteAll(kamerByNaam.getAttachments());
+                    File kamerDirectory = new File(reserveringConfiguration.getKamerFolder() + "/" + kamerByNaam.getNaam());
+
+
+                    FileUtils.deleteDirectory(kamerDirectory);
+                    List<KamerFileAttachment> attachments = kamerByNaam.getAttachments();
+                    kamerByNaam.setAttachments(new ArrayList<>());
+                    attachments.forEach(p ->{
+                        p.setKamer(null);
+                        fileAttachmentRepository.deleteById(p.getId());
+                    });
+                    System.out.println(kamerByNaam);
                     fileService.maakDirectory(kamerDirectory);
                     for (MultipartFile file : files) {
                         date = new Date();
@@ -115,8 +125,8 @@ public class ImagesServiceImpl implements ImagesService {
                         try {
                             byte[] fileAsByte = file.getBytes();
                             try {
-
-                                File target = new File(reserveringConfiguration.getKamerFolder() + "/" + kamerNaam + "/" + file.getOriginalFilename());
+                                File target = new File(reserveringConfiguration.getKamerFolder() + "/" +
+                                        kamerByNaam.getNaam() + "/" + file.getOriginalFilename());
                                 FileUtils.writeByteArrayToFile(target, fileAsByte);
                             } catch (Exception e) {
                                 System.out.println(e.getMessage());
@@ -131,7 +141,7 @@ public class ImagesServiceImpl implements ImagesService {
                             throw new IoException(e.getMessage());
                         }
                     }
-//                    kamerByNaam.setAttachments(fileAttachments);
+
                     kamerRepo.save(kamerByNaam);
                     return true;
                 } else {
