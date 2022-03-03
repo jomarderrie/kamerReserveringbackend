@@ -8,7 +8,7 @@ public class TermsTrueValidator implements ConstraintValidator<TermsTrue, Boolea
 
     @Override
     public boolean isValid(Boolean value, ConstraintValidatorContext context) {
-        if (!value) {
+        if (Boolean.FALSE.equals(value)) {
             return false;
         }else{
             return true;

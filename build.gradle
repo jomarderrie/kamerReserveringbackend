@@ -38,6 +38,20 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 // https://mvnrepository.com/artifact/org.apache.tika/tika-core
     implementation group: 'org.apache.tika', name: 'tika-core', version: '2.1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation("org.assertj:assertj-core:3.11.1")
+    // https://mvnrepository.com/artifact/org.testcontainers/junit-jupiter
+    testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.15.1'
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.6.1'
+
+// https://mvnrepository.com/artifact/org.testcontainers/mysql
+    testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.15.1'
+// https://mvnrepository.com/artifact/org.testcontainers/testcontainers
+    testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.15.1'
+// https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path
+    implementation 'com.jayway.jsonpath:json-path:2.4.0'
 
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor
     implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.5.5'

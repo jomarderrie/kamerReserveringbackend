@@ -45,7 +45,7 @@ public class UserBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
     private List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        User normalUser = new User();
+        User normaleGebruiker = new User();
         List<Reservering> reserveringListKamer2 = new ArrayList<>();
 
 //        Reservering reservering2Kamer1 = new Reservering();
@@ -59,19 +59,19 @@ public class UserBootstrap implements ApplicationListener<ContextRefreshedEvent>
 //        reserveringListKamer2.add(reservering2Kamer1);
 //        reserveringListKamer2.add(reservering2Kamer2);
 
-        normalUser.setReserveringArrayList(reserveringListKamer2);
-        normalUser.setWachtwoord(passwordEncoder.encode("Pokemon!23"));
-        normalUser.setNaam("jan");
-        normalUser.setAchternaam("peter");
-        normalUser.setEmail("pokemon@gmail.com");
-        normalUser.setJoinDate(new Date());
-        normalUser.setActive(true);
-        normalUser.setNotLocked(true);
-        normalUser.setRole(ROLE_USER.name());
-        normalUser.setAuthorities(ROLE_USER.getAuthorities());
-        normalUser.setLaatstIngelodgeDatum(new Date());
+        normaleGebruiker.setReserveringArrayList(reserveringListKamer2);
+        normaleGebruiker.setWachtwoord(passwordEncoder.encode("Pokemon!23"));
+        normaleGebruiker.setNaam("jan");
+        normaleGebruiker.setAchternaam("peter");
+        normaleGebruiker.setEmail("pokemon@gmail.com");
+        normaleGebruiker.setJoinDate(new Date());
+        normaleGebruiker.setActive(true);
+        normaleGebruiker.setNotLocked(true);
+        normaleGebruiker.setRole(ROLE_USER.name());
+        normaleGebruiker.setAuthorities(ROLE_USER.getAuthorities());
+        normaleGebruiker.setLaatstIngelodgeDatum(new Date());
 
-        users.add(normalUser);
+        users.add(normaleGebruiker);
 
         User adminUser = new User();
         adminUser.setNaam("admin");

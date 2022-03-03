@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @ConfigurationProperties(prefix = "reservering")
 @Data
+
 public class ReserveringConfiguration {
     String uploadPath;
 

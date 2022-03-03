@@ -3,19 +3,13 @@ package com.example.taskworklife.exception;
 import com.example.taskworklife.exception.global.ChangeOnlyOwnUserException;
 import com.example.taskworklife.exception.global.ImageException;
 import com.example.taskworklife.exception.global.IoException;
-import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
+import com.example.taskworklife.exception.images.FotoTypeIsNietToegestaan;
 import com.example.taskworklife.exception.images.ImagesExceededLimit;
 import com.example.taskworklife.exception.images.ImagesNotFoundException;
-import com.example.taskworklife.exception.user.EmailExistException;
 import com.example.taskworklife.models.HttpResponse;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -27,8 +21,8 @@ public class GlobalExceptionHandler extends CreateResponse {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(ImageTypeNotAllowedException.class)
-    public ResponseEntity<HttpResponse> imageTypeNotAllowedException(ImageTypeNotAllowedException exception) {
+    @ExceptionHandler(FotoTypeIsNietToegestaan.class)
+    public ResponseEntity<HttpResponse> imageTypeNotAllowedException(FotoTypeIsNietToegestaan exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 

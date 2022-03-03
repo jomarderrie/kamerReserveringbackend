@@ -1,10 +1,8 @@
 package com.example.taskworklife.exception;
 
 import com.example.taskworklife.exception.kamer.*;
-import com.example.taskworklife.exception.user.TermsNotAcceptedException;
 import com.example.taskworklife.models.HttpResponse;
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +19,13 @@ public class ExceptionHandlingKamer extends CreateResponse implements ErrorContr
     }
 
 
-    @ExceptionHandler(KamerNotFoundException.class)
-    public ResponseEntity<HttpResponse> kamerNotFoundException(KamerNotFoundException exception) {
+    @ExceptionHandler(KamerIsNietGevonden.class)
+    public ResponseEntity<HttpResponse> kamerNotFoundException(KamerIsNietGevonden exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(KamerAlreadyExist.class)
-    public ResponseEntity<HttpResponse> kamerAlreadyExist(KamerAlreadyExist exception) {
+    @ExceptionHandler(KamerBestaatAl.class)
+    public ResponseEntity<HttpResponse> kamerAlreadyExist(KamerBestaatAl exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
@@ -51,6 +49,15 @@ public class ExceptionHandlingKamer extends CreateResponse implements ErrorContr
     }
 
 
+    @ExceptionHandler(KamerNaamLengteIsTeKlein.class)
+    public ResponseEntity<HttpResponse> kamerNaamLengteIsTeKlein(KamerNaamLengteIsTeKlein exception){
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+
+    @ExceptionHandler(AanmakenVanKamerGingFout.class)
+    public ResponseEntity<HttpResponse> aanmakenVanDeKamerGingFout(AanmakenVanKamerGingFout aanmakenVanKamerGingFout){
+        return createHttpResponse(BAD_REQUEST, aanmakenVanKamerGingFout.getMessage());
+    }
 
 
 }

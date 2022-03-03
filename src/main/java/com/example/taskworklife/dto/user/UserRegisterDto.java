@@ -16,7 +16,7 @@ public class UserRegisterDto {
     private String achterNaam;
 
     @NotNull
-    @UniqueEmail
+    @UniekeMail
     @Pattern(regexp = "\\w+@\\w+\\.\\w+(,\\s*\\w+@\\w+\\.\\w+)*", message = "not valid email")
     private String email;
 

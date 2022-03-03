@@ -1,8 +1,7 @@
 package com.example.taskworklife.exception;
 
-import com.example.taskworklife.exception.kamer.KamerNotFoundException;
+import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
 import com.example.taskworklife.models.HttpResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +14,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
     HttpResponse baseResponse;
 
-    @ExceptionHandler({javax.validation.ConstraintViolationException.class, KamerNotFoundException.class})
+    @ExceptionHandler({javax.validation.ConstraintViolationException.class, KamerIsNietGevonden.class})
     public ResponseEntity<HttpResponse> inputValidationException(Exception e) {
         baseResponse.setMessage("Invalid Input : " + e.getMessage());
         return new ResponseEntity<HttpResponse>(baseResponse, HttpStatus.BAD_REQUEST);

@@ -1,12 +1,10 @@
 package com.example.taskworklife.models.user;
 
-import com.example.taskworklife.dto.user.UniqueEmail;
 import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.models.attachment.ProfileFileAttachment;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.springframework.context.annotation.Profile;
 
 
 import javax.persistence.*;

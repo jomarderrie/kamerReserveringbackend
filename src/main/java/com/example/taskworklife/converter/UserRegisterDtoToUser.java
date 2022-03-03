@@ -1,22 +1,18 @@
 package com.example.taskworklife.converter;
 
-import com.example.taskworklife.config.SecurityConfiguration;
 import com.example.taskworklife.dto.user.UserRegisterDto;
-import com.example.taskworklife.exception.user.EmailNotValidException;
-import com.example.taskworklife.exception.user.NaamNotExistException;
+import com.example.taskworklife.exception.user.EmailIsNietJuist;
+import com.example.taskworklife.exception.user.NaamBestaatNiet;
 import com.example.taskworklife.exception.user.NaamTeKleinException;
-import com.example.taskworklife.exception.user.TermsNotAcceptedException;
+import com.example.taskworklife.exception.user.TermenNietGeaccepteerd;
 import com.example.taskworklife.models.user.User;
-import com.example.taskworklife.repo.UserRepo;
 import lombok.SneakyThrows;
 import lombok.Synchronized;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -44,14 +40,14 @@ public class UserRegisterDtoToUser implements Converter<UserRegisterDto, User> {
         final User user = new User();
         //check terms
         if (!source.isTerms()){
-            throw new TermsNotAcceptedException("Terms arent accepted");
+            throw new TermenNietGeaccepteerd("Terms arent accepted");
         }
         //check wachtwoord with regex
         user.setWachtwoord(passwordEncoder.encode(source.getWachtwoord()));
 
         //check of naam niet leeg is of kleiner dan 3 in size is
         if (StringUtils.isNotBlank(source.getNaam())){
-            throw new NaamNotExistException("Naam bestaat niet");
+            throw new NaamBestaatNiet("Naam bestaat niet");
         }
         if(source.getNaam().length()<3){
             throw new NaamTeKleinException("Naam is te klein");
@@ -59,7 +55,7 @@ public class UserRegisterDtoToUser implements Converter<UserRegisterDto, User> {
         user.setNaam(source.getNaam());
         //check of achternaam niet leeg is of kleiner dan 3 in size is
         if (!StringUtils.isNotBlank(source.getAchterNaam())){
-            throw new NaamNotExistException("Achternaam bestaat niet");
+            throw new NaamBestaatNiet("Achternaam bestaat niet");
         }
         if(source.getAchterNaam().length()<3){
             throw new NaamTeKleinException("Achternaam is te klein");
@@ -67,7 +63,7 @@ public class UserRegisterDtoToUser implements Converter<UserRegisterDto, User> {
         user.setAchternaam(source.getAchterNaam());
 
         if (!isValid(source.getEmail())) {
-            throw new EmailNotValidException("Email is niet juist");
+            throw new EmailIsNietJuist("Email is niet juist");
         }
 
         user.setEmail(source.getEmail());

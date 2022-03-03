@@ -1,7 +1,0 @@
-package com.example.taskworklife.exception.images;
-
-public class ImageTypeNotAllowedException extends Exception {
-    public ImageTypeNotAllowedException(String message) {
-        super(message);
-    }
-}

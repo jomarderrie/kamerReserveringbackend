@@ -2,11 +2,10 @@ package com.example.taskworklife.service.user;
 
 import com.example.taskworklife.converter.UserRegisterDtoToUser;
 import com.example.taskworklife.converter.UserToUserLoginDto;
-import com.example.taskworklife.dto.user.UserLoginDto;
 import com.example.taskworklife.dto.user.UserLoginResponseDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
-import com.example.taskworklife.exception.user.EmailExistException;
-import com.example.taskworklife.exception.user.EmailNotFoundException;
+import com.example.taskworklife.exception.user.EmailBestaatAl;
+import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.exception.user.GebruikerNietGevondenExcepion;
 import com.example.taskworklife.exception.user.RegisterErrorException;
 import com.example.taskworklife.models.user.User;
@@ -14,18 +13,10 @@ import com.example.taskworklife.models.user.UserPrincipal;
 import com.example.taskworklife.repo.UserRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -66,12 +57,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public UserLoginResponseDto register(UserRegisterDto userRegisterDto) throws EmailExistException, RegisterErrorException {
+    public UserLoginResponseDto register(UserRegisterDto userRegisterDto) throws EmailBestaatAl, RegisterErrorException {
         User userByEmail = null;
         userByEmail = userRepository.findUserByEmail(userRegisterDto.getEmail());
         if (userByEmail != null) {
             LOGGER.error("User already found with email: " + userRegisterDto.getEmail());
-            throw new EmailExistException("User already found with email: " + userRegisterDto.getEmail());
+            throw new EmailBestaatAl("User already found with email: " + userRegisterDto.getEmail());
         } else {
             userByEmail = userRegisterDtoToUserConverter.convert(userRegisterDto);
             LOGGER.info("Nieuwe gebruiker met email: " + userRegisterDto.getEmail());
@@ -103,11 +94,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public User findUserByEmail(String email) throws EmailNotFoundException {
+    public User findUserByEmail(String email) throws EmailIsNietGevonden {
         User userByEmail = userRepository.findUserByEmail(email);
         if (userByEmail == null) {
             LOGGER.error("User not found with email: " + email);
-            throw new EmailNotFoundException("Email not found");
+            throw new EmailIsNietGevonden("Email not found");
         }
         return userByEmail;
     }

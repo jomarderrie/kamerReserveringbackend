@@ -5,7 +5,6 @@ import com.example.taskworklife.models.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +17,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class ExceptionHandlingUser extends CreateResponse  implements ErrorController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    @ExceptionHandler(EmailExistException.class)
-    public ResponseEntity<HttpResponse> emailExistException(EmailExistException exception) {
+    @ExceptionHandler(EmailBestaatAl.class)
+    public ResponseEntity<HttpResponse> emailExistException(EmailBestaatAl exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
@@ -28,18 +27,18 @@ public class ExceptionHandlingUser extends CreateResponse  implements ErrorContr
         return createHttpResponse(NOT_FOUND, "There is no mapping for this URL");
     }
 
-    @ExceptionHandler(TermsNotAcceptedException.class)
-    public ResponseEntity<HttpResponse> termsNotAcceptedException(TermsNotAcceptedException exception) {
+    @ExceptionHandler(TermenNietGeaccepteerd.class)
+    public ResponseEntity<HttpResponse> termsNotAcceptedException(TermenNietGeaccepteerd exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(EmailNotFoundException.class)
-    public ResponseEntity<HttpResponse> emailNotFoundException(EmailNotFoundException exception) {
+    @ExceptionHandler(EmailIsNietGevonden.class)
+    public ResponseEntity<HttpResponse> emailNotFoundException(EmailIsNietGevonden exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(NaamNotExistException.class)
-    public ResponseEntity<HttpResponse> naamNotExistException(NaamNotExistException exception) {
+    @ExceptionHandler(NaamBestaatNiet.class)
+    public ResponseEntity<HttpResponse> naamNotExistException(NaamBestaatNiet exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
@@ -53,8 +52,8 @@ public class ExceptionHandlingUser extends CreateResponse  implements ErrorContr
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(EmailNotValidException.class)
-    public ResponseEntity<HttpResponse> emailNotValidException(EmailNotValidException exception) {
+    @ExceptionHandler(EmailIsNietJuist.class)
+    public ResponseEntity<HttpResponse> emailNotValidException(EmailIsNietJuist exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
     @ExceptionHandler(RegisterErrorException.class)

@@ -1,6 +1,5 @@
 package com.example.taskworklife.exception.kamer;
 
-import com.example.taskworklife.exception.user.EmailNotFoundException;
 import com.example.taskworklife.models.HttpResponse;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -17,17 +16,17 @@ public class KamerExceptionHandling implements ErrorController {
         return createHttpResponse(NOT_FOUND, "There is no mapping for this URL");
     }
 
-    @ExceptionHandler(KamerNotFoundException.class)
-    public ResponseEntity<HttpResponse> KamerNotFoundException(KamerNotFoundException exception) {
+    @ExceptionHandler(KamerIsNietGevonden.class)
+    public ResponseEntity<HttpResponse> KamerNotFoundException(KamerIsNietGevonden exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
-    @ExceptionHandler(KamerNotFoundException.class)
-    public ResponseEntity<HttpResponse> kamerNotFoundException(KamerNotFoundException exception) {
+    @ExceptionHandler(KamerIsNietGevonden.class)
+    public ResponseEntity<HttpResponse> kamerNotFoundException(KamerIsNietGevonden exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(KamerAlreadyExist.class)
-    public ResponseEntity<HttpResponse> kamerAlreadyExist(KamerAlreadyExist exception) {
+    @ExceptionHandler(KamerBestaatAl.class)
+    public ResponseEntity<HttpResponse> kamerAlreadyExist(KamerBestaatAl exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
@@ -35,6 +34,7 @@ public class KamerExceptionHandling implements ErrorController {
     public ResponseEntity<HttpResponse> kamerNaamNotFoundException(KamerNaamNotFoundException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
+
 
 
 

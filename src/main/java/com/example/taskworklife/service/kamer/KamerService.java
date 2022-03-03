@@ -4,26 +4,26 @@ package com.example.taskworklife.service.kamer;
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.user.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
-import com.example.taskworklife.exception.user.EmailNotFoundException;
+import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.models.Kamer;
-import com.example.taskworklife.models.Reservering;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface KamerService {
-    List<Kamer> getKamers();
+    Page<Kamer> getKamers(int paginaNummer, int paginaGroote, String sortBy);
 
-    Kamer getKamerByNaam(String naam) throws KamerNotFoundException, KamerNaamNotFoundException;
+    Kamer getKamerByNaam(String naam) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 
-    void maakNieuweKamerAan(KamerDto kamerDto) throws KamerNotFoundException, KamerAlreadyExist, KamerNaamNotFoundException;
+    void maakNieuweKamerAan(KamerDto kamerDto) throws KamerIsNietGevonden, KamerBestaatAl, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein, AanmakenVanKamerGingFout;
 
-    void editKamer(KamerDto kamerDto, String vorigNaam) throws KamerNotFoundException, KamerAlreadyExist, KamerNaamNotFoundException;
+    void editKamer(KamerDto kamerDto, String vorigNaam) throws KamerIsNietGevonden, KamerBestaatAl, KamerNaamNotFoundException;
 
-    void deleteKamerByNaam(String naam) throws KamerNotFoundException, KamerNaamNotFoundException;
+    void deleteKamerByNaam(String naam) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 
-    void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto, String email) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerNotFoundException, EindTijdIsBeforeStartTijd, KamerReserveringBestaat, EmailNotFoundException;
+    void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto, String email) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerIsNietGevonden, EindTijdIsBeforeStartTijd, KamerReserveringBestaat, EmailIsNietGevonden, KamerNaamLengteIsTeKlein;
 
-    List<Object> getAllKamerReservationsOnCertainDay(String naam, Date date) throws KamerNotFoundException, KamerNaamNotFoundException;
+    List<Object> getAllKamerReservationsOnCertainDay(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 }

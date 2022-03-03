@@ -4,8 +4,8 @@ import com.example.taskworklife.dto.user.UserLoginDto;
 import com.example.taskworklife.dto.user.UserLoginResponseDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
 import com.example.taskworklife.exception.ExceptionHandlingUser;
-import com.example.taskworklife.exception.user.EmailExistException;
-import com.example.taskworklife.exception.user.EmailNotFoundException;
+import com.example.taskworklife.exception.user.EmailBestaatAl;
+import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.exception.user.GebruikerNietGevondenExcepion;
 import com.example.taskworklife.exception.user.RegisterErrorException;
 import com.example.taskworklife.models.user.User;
@@ -13,13 +13,10 @@ import com.example.taskworklife.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.security.Principal;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -38,7 +35,7 @@ public class UserController extends ExceptionHandlingUser {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseDto> login(@Valid @RequestBody UserLoginDto userLoginDto) throws EmailNotFoundException {
+    public ResponseEntity<UserLoginResponseDto> login(@Valid @RequestBody UserLoginDto userLoginDto) throws EmailIsNietGevonden {
         authenticate(userLoginDto.getEmail(), userLoginDto.getWachtwoord());
         User loginUser = userService.findUserByEmail(userLoginDto.getEmail());
 
@@ -48,7 +45,7 @@ public class UserController extends ExceptionHandlingUser {
 
     @PostMapping("/register")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<UserLoginResponseDto> register(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailExistException, RegisterErrorException {
+    public ResponseEntity<UserLoginResponseDto> register(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailBestaatAl, RegisterErrorException {
 
         return new ResponseEntity<>(userService.register(userRegisterDto), OK);
     }

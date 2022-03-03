@@ -4,13 +4,14 @@ import com.example.taskworklife.config.ReserveringConfiguration;
 import com.example.taskworklife.exception.global.ChangeOnlyOwnUserException;
 import com.example.taskworklife.exception.global.IoException;
 import com.example.taskworklife.exception.images.ImageNotFoundException;
-import com.example.taskworklife.exception.images.ImageTypeNotAllowedException;
+import com.example.taskworklife.exception.images.FotoTypeIsNietToegestaan;
 import com.example.taskworklife.exception.images.ImagesExceededLimit;
 import com.example.taskworklife.exception.images.ImagesNotFoundException;
 import com.example.taskworklife.exception.kamer.KamerNaamIsLeegException;
+import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
 import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
-import com.example.taskworklife.exception.kamer.KamerNotFoundException;
-import com.example.taskworklife.exception.user.EmailNotFoundException;
+import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
+import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.attachment.KamerFileAttachment;
@@ -84,7 +85,7 @@ public class ImagesServiceImpl implements ImagesService {
 
 
     @Override
-    public boolean saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerNotFoundException, ImageTypeNotAllowedException, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException, KamerNaamNotFoundException, IoException {
+    public boolean saveKamerImage(String kamerNaam, MultipartFile[] files) throws KamerIsNietGevonden, FotoTypeIsNietToegestaan, ImagesExceededLimit, ImagesNotFoundException, IOException, KamerNaamIsLeegException, KamerNaamNotFoundException, IoException, KamerNaamLengteIsTeKlein {
         //check if files are not null
         if (files != null) {
             //check if length is not 0
@@ -99,7 +100,7 @@ public class ImagesServiceImpl implements ImagesService {
                     // detect if image
                     for (MultipartFile file : files) {
                         if (!fileService.detectIfImage(Objects.requireNonNull(file.getContentType()))) {
-                            throw new ImageTypeNotAllowedException("Image type is niet toegestaan alleen png, jpg, jpeg");
+                            throw new FotoTypeIsNietToegestaan("Image type is niet toegestaan alleen png, jpg, jpeg");
                         }
                     }
 
@@ -156,14 +157,14 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     @Override
-    public boolean saveProfileImageUser(String principalEmail, String emailPath, MultipartFile profileImage) throws ImageNotFoundException, EmailNotFoundException, ImageTypeNotAllowedException, IoException, ChangeOnlyOwnUserException {
+    public boolean saveProfileImageUser(String principalEmail, String emailPath, MultipartFile profileImage) throws ImageNotFoundException, EmailIsNietGevonden, FotoTypeIsNietToegestaan, IoException, ChangeOnlyOwnUserException {
         if (profileImage != null) {
             if (!profileImage.isEmpty()) {
                 if (StringUtils.isNotBlank(principalEmail) || StringUtils.isNotBlank(emailPath)) {
                     if (emailPath.equals(principalEmail)) {
 
                         if (!fileService.detectIfImage(Objects.requireNonNull(profileImage.getContentType()))) {
-                            throw new ImageTypeNotAllowedException("Image type is niet toegestaan alleen png, jpg, jpeg");
+                            throw new FotoTypeIsNietToegestaan("Image type is niet toegestaan alleen png, jpg, jpeg");
                         }
                         Date date = new Date();
 
@@ -204,7 +205,7 @@ public class ImagesServiceImpl implements ImagesService {
                         throw new ChangeOnlyOwnUserException("Kan alleen je eigen account veranderen");
                     }
                 } else {
-                    throw new EmailNotFoundException("geen foto gevonden");
+                    throw new EmailIsNietGevonden("geen foto gevonden");
                 }
             } else {
                 throw new ImageNotFoundException("Email niet gevonden");
@@ -215,7 +216,7 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     @Override
-    public boolean deleteProfileImageUser(String principalEmail, String emailPath) throws ChangeOnlyOwnUserException, EmailNotFoundException, ImageNotFoundException {
+    public boolean deleteProfileImageUser(String principalEmail, String emailPath) throws ChangeOnlyOwnUserException, EmailIsNietGevonden, ImageNotFoundException {
         if (StringUtils.isNotBlank(principalEmail) || StringUtils.isNotBlank(emailPath)) {
             if (emailPath.equals(principalEmail)) {
                 User userByEmail = userService.findUserByEmail(principalEmail);
@@ -241,7 +242,7 @@ public class ImagesServiceImpl implements ImagesService {
                 throw new ChangeOnlyOwnUserException("Kan alleen je eigen account veranderen");
             }
         } else {
-            throw new EmailNotFoundException("Email niet gevonden");
+            throw new EmailIsNietGevonden("Email niet gevonden");
         }
     }
 
