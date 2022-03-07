@@ -109,8 +109,6 @@ public class KamerServiceImpl implements KamerService {
 
     @Override
     public void maakNieuweKamerAan(KamerDto kamerDto) throws KamerBestaatAl, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein, AanmakenVanKamerGingFout {
-
-
         Kamer kamerByNaam = kamerRepo.findByNaam(kamerDto.getNaam());
         if (kamerByNaam == null) {
             Kamer kamer = kamerDtoToKamer.convert(kamerDto);
