@@ -34,4 +34,7 @@ public class KamerTestHelper {
         kamers.add(kamer2);
         return kamers;
     }
+
+
+
 }

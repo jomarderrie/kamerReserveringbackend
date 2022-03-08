@@ -9,6 +9,7 @@ import com.example.taskworklife.service.kamer.KamerService;
 import com.example.taskworklife.service.kamer.KamerServiceImpl;
 import com.example.taskworklife.service.user.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,12 +19,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = KamerController.class)
 @ActiveProfiles("test")
@@ -59,11 +63,17 @@ class KamerControllerTest {
     String postMaakNieuweKamerAanUrl = beginKamerEndPoint+"/new";
     String getAllKamersMetEenBepaaldeNaamOpEenBepaaldeDatumUrl = beginKamerEndPoint+"/{kamerNaam}/reserveringen/{datum}";
 
+    @BeforeEach
+    @WithMockUser()
+    void setUp(){
+
+        kamerController = new KamerController(kamerService);
+    }
 
     @Test
     void getKamers() throws Exception {
         // begin staat
-        mockMvc.perform(MockMvcRequestBuilders.get("/kamer/all").param("pageNo", kamerTestHelper.standaardPaginaNummer).param("pageSize", kamerTestHelper.standaardPaginaSize).param("sort",kamerTestHelper.standaardSort)).andExpect(MockMvcResultMatchers.status().is(200)).andExpect(jsonPath("$").doesNotExist());
+        mockMvc.perform(MockMvcRequestBuilders.get("/kamer/all").param("pageNo", kamerTestHelper.standaardPaginaNummer).param("pageSize", kamerTestHelper.standaardPaginaSize).param("sort",kamerTestHelper.standaardSort)).andExpect(status().is(200)).andExpect(jsonPath("$").doesNotExist());
 
         when(kamerService.getKamers(0,10,"kamer")).thenReturn(new PageImpl<Kamer>(kamerTestHelper.krijgKamers()));
 
@@ -81,8 +91,12 @@ class KamerControllerTest {
 
     @Test
     void getKamerMetNaam() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/kamer/{kamerNaam}", "kamerNaam")).andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof KamerIsNietGevonden));
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/kamer/{kamerNaam}", "")).andExpect(status().isNotFound());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/kamer/{kamerNaam}", (Object) null)).andExpect(status().isNotFound());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/kamer/{kamerNaam}", "test")).andExpect(status().isOk());
 
     }
 

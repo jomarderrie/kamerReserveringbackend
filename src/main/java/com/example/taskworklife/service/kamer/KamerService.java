@@ -9,7 +9,6 @@ import com.example.taskworklife.models.Kamer;
 import org.springframework.data.domain.Page;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface KamerService {
@@ -25,5 +24,5 @@ public interface KamerService {
 
     void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto, String email) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerIsNietGevonden, EindTijdIsBeforeStartTijd, KamerReserveringBestaat, EmailIsNietGevonden, KamerNaamLengteIsTeKlein;
 
-    List<Object> getAllKamerReservationsOnCertainDay(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
+    List<Object> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 }

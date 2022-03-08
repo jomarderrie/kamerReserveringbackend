@@ -11,7 +11,6 @@ import com.example.taskworklife.service.kamer.KamerService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,12 +19,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,6 +34,7 @@ import java.util.Locale;
 public class KamerController extends ExceptionHandlingKamer {
 
     private final KamerService kamerService;
+
 
 
     @Autowired
@@ -54,7 +54,7 @@ public class KamerController extends ExceptionHandlingKamer {
 
     @GetMapping("/{kamerNaam}")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Kamer> getKamerMetNaam(@PathVariable String kamerNaam) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein {
+    public ResponseEntity<Kamer> getKamerMetNaam(@PathVariable @NotBlank String kamerNaam) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein {
         return new ResponseEntity<>(kamerService.getKamerByNaam(kamerNaam), HttpStatus.OK);
     }
 
@@ -75,7 +75,7 @@ public class KamerController extends ExceptionHandlingKamer {
 
 
 
-        return new ResponseEntity<>(kamerService.getAllKamerReservationsOnCertainDay(kamerNaam, sqlDate), HttpStatus.OK);
+        return new ResponseEntity<>(kamerService.getAllKamerReservatiesOpEenBepaaldeDag(kamerNaam, sqlDate), HttpStatus.OK);
     }
 
 
