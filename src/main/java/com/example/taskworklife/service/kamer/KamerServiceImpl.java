@@ -77,7 +77,11 @@ public class KamerServiceImpl implements KamerService {
      */
     public List<Object> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein {
         getKamerByNaam(naam);
-        return kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, naam).get();
+        kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date,naam);
+//        List<ReservatieDto> reservatieDtos = byNaamAndGetAllRoomsOnASpecifiedDay.get();
+
+        return new ArrayList<>();
+//                kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, naam).get();
     }
 
 

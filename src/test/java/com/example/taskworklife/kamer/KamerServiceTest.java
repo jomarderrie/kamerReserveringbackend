@@ -196,8 +196,6 @@ public class KamerServiceTest {
                 "to throw error"
         );
 
-
-
         KamerDto kamer = new KamerDto();
         kamer.setNaam("standaard-kamer-naam");
         kamer.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
