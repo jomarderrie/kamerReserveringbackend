@@ -35,6 +35,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
@@ -128,10 +129,10 @@ public class KamerServiceTest {
         when(kamerRepo.findByNaam("testKamer")).thenReturn(kamerTestHelper.krijgKamers().get(0));
 
         when(kamerServiceImpl.getKamerByNaam("testKamer")).thenReturn(kamerTestHelper.krijgKamers().get(0));
-        when(kamerServiceImpl.getKamerByNaam("testKamer")).thenReturn(kamerTestHelper.krijgKamers().get(0));
 
-
-        when(kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date)).thenReturn(new ArrayList<>());
+//        var xs = Optional.of(List.of(Object));
+        var a = Optional.of(new ArrayList<Object>());
+        when(kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, "testKamer")).thenReturn(a);
 
         when(kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date)).thenReturn(new ArrayList<>());
 

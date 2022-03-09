@@ -47,7 +47,7 @@ public class KamerController extends ExceptionHandlingKamer {
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Page<Kamer>> getKamers(@RequestParam(defaultValue = "0") Integer pageNo,
                                                  @RequestParam(defaultValue = "10") Integer pageSize,
-                                                 @RequestParam(value = "sortables", defaultValue = "naam") String sortBy)
+                                                 @RequestParam(defaultValue = "naam") String sortBy)
     {
         return new ResponseEntity<>(kamerService.getKamers(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
