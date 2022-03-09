@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ public interface KamerRepo extends PagingAndSortingRepository<Kamer, Long> {
 //        Kamer findByNaamAndGetAllReserveringenOnSpeicifedDay(@Param("dateToFilter") String dateToFilter);
 
         @Query(value = "SELECT p.end as end , p.start as start FROM Kamer b,Reservering p WHERE (b.id = p.kamer.id) AND (b.naam = :naam AND(:date between cast(p.start as date)   AND cast(p.end as date)) )")
-        Optional<List<Object>> findByNaamAndGetAllRoomsOnASpecifiedDay(@Param("date") Date date, @Param("naam") String naam);
+        Optional<ArrayList<Object>> findByNaamAndGetAllRoomsOnASpecifiedDay(@Param("date") Date date, @Param("naam") String naam);
 
 
         @Query(value = "SELECT p.end as end , p.start as start FROM Kamer b,Reservering p WHERE (b.id = p.kamer.id) AND (b.naam = :naam AND ((:startTijd) < p.end) AND (:eindTijd  >p.start))")
