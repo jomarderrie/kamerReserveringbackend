@@ -4,6 +4,7 @@ import com.example.taskworklife.converter.KamerDtoToKamer;
 import com.example.taskworklife.converter.KamerToKamerDto;
 import com.example.taskworklife.converter.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
+import com.example.taskworklife.exception.kamer.KamerBestaatAl;
 import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
 import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
 import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
@@ -39,6 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
@@ -137,26 +139,69 @@ public class KamerServiceTest {
         List<Object> testKamer = kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date);
 
 
-
         assertEquals(testKamer.size(), 0);
 
 
     }
 
     @Test
-    void getKamerByNaam() {
+    void getKamerByNaam() throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException {
+        assertThrows(KamerNaamNotFoundException.class,
+                () ->
+                        kamerServiceImpl.getKamerByNaam(""),
+                "to throw error"
+        );
+        assertThrows(KamerNaamNotFoundException.class,
+                () ->
+                        kamerServiceImpl.getKamerByNaam(null),
+                "to throw error"
+        );
+
+        assertThrows(KamerNaamLengteIsTeKlein.class,
+                () ->
+                        kamerServiceImpl.getKamerByNaam("ak"),
+                "to throw error"
+        );
+
+        assertThrows(KamerIsNietGevonden.class,
+                () ->
+                        kamerServiceImpl.getKamerByNaam("bigroom"),
+                "to throw error"
+        );
+
+
+        when(kamerRepo.findByNaam("kamer2")).thenReturn(kamerTestHelper.krijgKamers().get(0));
+        Kamer kamer2 = kamerServiceImpl.getKamerByNaam("kamer2");
+        assertEquals(kamer2.getNaam(), "kamer2");
 
     }
 
     @Test
     void maakNieuweKamerAan() {
         // given
+
+        KamerDto kamerDto = new KamerDto();
+
+        kamerDto.setNaam("kamer2");
+        kamerDto.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
+        kamerDto.setSluit(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
+
+
+        when(kamerRepo.findByNaam("kamer2")).thenReturn(kamerTestHelper.krijgKamers().get(0));
+
+        assertThrows(KamerBestaatAl.class,
+                () ->
+                        kamerServiceImpl.maakNieuweKamerAan(kamerDto),
+                "to throw error"
+        );
+
+
+
         KamerDto kamer = new KamerDto();
         kamer.setNaam("standaard-kamer-naam");
         kamer.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
         kamer.setSluit(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
         // when
-
 
     }
 
