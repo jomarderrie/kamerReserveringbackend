@@ -2,7 +2,7 @@ package com.example.taskworklife.service.kamer;
 
 
 import com.example.taskworklife.dto.kamer.KamerDto;
-import com.example.taskworklife.dto.user.ReservatieDto;
+import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.models.Kamer;

@@ -4,12 +4,11 @@ import com.example.taskworklife.converter.KamerDtoToKamer;
 import com.example.taskworklife.converter.KamerToKamerDto;
 import com.example.taskworklife.converter.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
-import com.example.taskworklife.dto.user.ReservatieDto;
+import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.Kamer;
-import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.repo.FileAttachmentRepo;
 import com.example.taskworklife.repo.KamerRepo;
@@ -23,14 +22,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -157,16 +154,16 @@ public class KamerServiceImpl implements KamerService {
             throw new KamerNaamIsLeegException("Kamer naam is leeg");
         }
         //check voor overlap de reserveringlijst van de kamer.
-        Optional<List<Object>> byNaamAndGetAllReserveringenOnSpecifiedTimeInterval = kamerRepo.findByNaamAndGetAllReserveringenOnSpecifiedTimeInterval(kamerNaam, reservatieDto.getStartTijd(), reservatieDto.getEindTijd());
-        if (byNaamAndGetAllReserveringenOnSpecifiedTimeInterval.get().size()==0){
-            Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
-            if (convertedReservatie != null) {
-                convertedReservatie.setUser(user);
-                kamerByNaam.addReservering(convertedReservatie);
-            }
-        }else{
-            throw new KamerReserveringBestaat("Kamer reservering bestaat al voor interval " + reservatieDto.getStartTijd() + " " + reservatieDto.getEindTijd());
-        }
+//        Optional<List<Object>> byNaamAndGetAllReserveringenOnSpecifiedTimeInterval = kamerRepo.findByNaamAndGetAllReserveringenOnSpecifiedTimeInterval(kamerNaam, reservatieDto.getStartTijd(), reservatieDto.getEindTijd());
+//        if (byNaamAndGetAllReserveringenOnSpecifiedTimeInterval.get().size()==0){
+//            Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
+//            if (convertedReservatie != null) {
+//                convertedReservatie.setUser(user);
+//                kamerByNaam.addReservering(convertedReservatie);
+//            }
+//        }else{
+//            throw new KamerReserveringBestaat("Kamer reservering bestaat al voor interval " + reservatieDto.getStartTijd() + " " + reservatieDto.getEindTijd());
+//        }
 
 //        kamerByNaam.setReservering(reserveringList);
         LOGGER.info("reservatie toegevoegd aan kamer met naam: " + kamerNaam);

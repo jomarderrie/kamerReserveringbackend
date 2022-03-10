@@ -1,4 +1,4 @@
-package com.example.taskworklife.dto.user;
+package com.example.taskworklife.dto.reservation;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -12,8 +12,11 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class ReservatieDto {
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime startTijd;
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime eindTijd;
+
+    private LocalDateTime end;
+
+    private LocalDateTime start;
+
+    private String naam;
+    private String achterNaam;
 }
