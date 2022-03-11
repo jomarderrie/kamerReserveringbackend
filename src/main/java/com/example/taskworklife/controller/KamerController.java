@@ -67,7 +67,7 @@ public class KamerController extends ExceptionHandlingKamer {
 
     @GetMapping("/{kamerNaam}/reserveringen/{datum}")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<Object>> getAllKamersMetEenBepaaldeNaamOpEenBepaaldeDatum(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") String datum) throws KamerNaamNotFoundException, KamerIsNietGevonden, ParseException, KamerNaamLengteIsTeKlein {
+    public ResponseEntity<List<ReservatieDto>> getAllKamersMetEenBepaaldeNaamOpEenBepaaldeDatum(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") String datum) throws KamerNaamNotFoundException, KamerIsNietGevonden, ParseException, KamerNaamLengteIsTeKlein {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
 
@@ -75,7 +75,7 @@ public class KamerController extends ExceptionHandlingKamer {
 
 
 
-        return new ResponseEntity<>(kamerService.getAllKamerReservatiesOpEenBepaaldeDag(kamerNaam, sqlDate), HttpStatus.OK);
+        return new ResponseEntity<List<ReservatieDto>>(kamerService.getAllKamerReservatiesOpEenBepaaldeDag(kamerNaam, sqlDate), HttpStatus.OK);
     }
 
 

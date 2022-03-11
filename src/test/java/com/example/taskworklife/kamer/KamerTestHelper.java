@@ -1,5 +1,6 @@
 package com.example.taskworklife.kamer;
 
+import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
 
@@ -33,6 +34,19 @@ public class KamerTestHelper {
         kamer2.setReservering(reserveringListKamer2);
         kamers.add(kamer2);
         return kamers;
+    }
+
+
+    public List<ReservatieDto> krijgReservaties(){
+        ArrayList<ReservatieDto> reservatieDtos = new ArrayList<>();
+        ReservatieDto reservatieDto = new ReservatieDto();
+        reservatieDto.setStart(
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
+        reservatieDto.setEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
+        reservatieDto.setNaam("peter");
+        reservatieDto.setAchterNaam("jan");
+        reservatieDtos.add(reservatieDto);
+        return reservatieDtos;
     }
 
 

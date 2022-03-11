@@ -21,4 +21,5 @@ public class ReservatieDto {
 
     private String naam;
     private String achterNaam;
+
 }

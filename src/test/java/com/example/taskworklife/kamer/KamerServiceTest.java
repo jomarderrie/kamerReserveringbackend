@@ -4,6 +4,7 @@ import com.example.taskworklife.converter.KamerDtoToKamer;
 import com.example.taskworklife.converter.KamerToKamerDto;
 import com.example.taskworklife.converter.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
+import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.exception.kamer.KamerBestaatAl;
 import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
 import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
@@ -40,8 +41,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
@@ -83,6 +83,7 @@ public class KamerServiceTest {
     void setUp() throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException {
 
         kamerServiceImpl = new KamerServiceImpl(kamerRepo, kamerDtoToKamer, kamerToKamerDto, reserveringDtoToReservering, fileService, fileAttachmentRepository, userService);
+
 //        when(kamerServiceImpl.getKamerByNaam("testKamer")).thenReturn(kamerTestHelper.krijgKamers().get(0));
 //        when(kamerRepo.findByNaam("testKamer")).thenReturn(kamerTestHelper.krijgKamers().get(0));
     }
@@ -128,20 +129,29 @@ public class KamerServiceTest {
         Date date = new Date(formatter.parse("01-01-1990").getTime());
         when(kamerRepo.findByNaam("testKamer")).thenReturn(kamerTestHelper.krijgKamers().get(0));
 
-        when(kamerServiceImpl.getKamerByNaam("testKamer")).thenReturn(kamerTestHelper.krijgKamers().get(0));
+        when(kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, "testKamer")).thenReturn(Optional.of(new ArrayList<>()));
 
-//        var xs = Optional.of(List.of(Object));
-        var a = Optional.of(new ArrayList<Object>());
-        when(kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, "testKamer")).thenReturn(a);
-
-        when(kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date)).thenReturn(new ArrayList<>());
+        List<ReservatieDto> emptyTestKamer = kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date);
+//
+        assertEquals(0,emptyTestKamer.size());
 
 
-        List<Object> testKamer = kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date);
+//        when(kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date)).thenReturn(new ArrayList<>());
 
-
-        assertEquals(testKamer.size(), 0);
-
+//
+//
+//
+//        when(kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, "kekKamer").get()).thenReturn((kamerTestHelper.krijgReservaties()));
+//
+//
+//
+//        List<ReservatieDto> kekKamer = kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("kekKamer", date);
+//        assertNotNull(kekKamer);
+//
+//        assertEquals(kekKamer.get(0).getNaam(), "jan");
+//        assertEquals(kekKamer.get(0).getAchterNaam(), "peter");
+//        assertEquals(kekKamer.get(0).getStart(), LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
+//        assertEquals(kekKamer.get(0).getEnd(),LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
 
     }
 

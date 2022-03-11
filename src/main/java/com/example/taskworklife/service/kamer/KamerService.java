@@ -24,5 +24,5 @@ public interface KamerService {
 
     void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto, String email) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerIsNietGevonden, EindTijdIsBeforeStartTijd, KamerReserveringBestaat, EmailIsNietGevonden, KamerNaamLengteIsTeKlein;
 
-    List<Object> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
+    List<ReservatieDto> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 }
