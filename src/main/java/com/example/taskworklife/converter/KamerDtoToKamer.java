@@ -22,24 +22,23 @@ public class KamerDtoToKamer implements Converter<KamerDto, Kamer> {
     @Override
     @Synchronized
     @Nullable
-    public Kamer convert(KamerDto source) {
+    public Kamer  convert(KamerDto source) {
         Kamer kamer = new Kamer();
         if (!StringUtils.isNotBlank(source.getNaam())) {
             throw new KamerNaamNotFoundException("Geen kamer naam");
         }
-        kamer.setNaam(source.getNaam());
+
 
 
         if (source.getNaam().length()<3){
             throw new KamerNaamLengteIsTeKlein("De kamer is te klein");
         }
-        if (source.getSluit().isBefore(LocalDateTime.now())){
+        kamer.setNaam(source.getNaam());
+
+        if (source.getSluit().isBefore(LocalDateTime.now()) || source.getStart().isBefore(LocalDateTime.now())){
             throw new KamerEindDatumIsVoorHuidigeTijd("De kamer eind tijd is al geweest");
         }
-
-
-
-        if (!source.getStart().isBefore(source.getSluit())) {
+        if (source.getStart().isAfter(source.getSluit())) {
             throw new EindTijdIsBeforeStartTijd("De eindtijd is before start tijd");
         }
 

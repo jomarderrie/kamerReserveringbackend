@@ -106,7 +106,7 @@ public class KamerServiceImpl implements KamerService {
             Kamer kamer = kamerDtoToKamer.convert(kamerDto);
             if (kamer != null) {
                 LOGGER.info("Kamer toegevoegd met naam " + kamerDto.getNaam());
-                kamerRepo.save(kamer);
+                kamerRepo.save     (kamer);
             }else{
                 throw new AanmakenVanKamerGingFout("De kamer aanmaken ging fout");
             }
@@ -120,7 +120,7 @@ public class KamerServiceImpl implements KamerService {
         if (!StringUtils.isNotBlank(vorigNaam)) {
             throw new KamerNaamNotFoundException("Vorige naam niet gevonden");
         }
-        Kamer kamerByNaam = kamerRepo.findByNaam(vorigNaam);
+                Kamer kamerByNaam = kamerRepo.findByNaam(vorigNaam);
         if (kamerByNaam != null) {
             Kamer kamer = kamerDtoToKamer.convert(kamerDto);
             if (kamer != null) {
