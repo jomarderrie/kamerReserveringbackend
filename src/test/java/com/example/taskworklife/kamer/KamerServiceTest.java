@@ -6,9 +6,11 @@ import com.example.taskworklife.converter.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
+import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
+import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.repo.FileAttachmentRepo;
 import com.example.taskworklife.repo.KamerRepo;
 import com.example.taskworklife.service.kamer.KamerService;
@@ -61,6 +63,7 @@ public class KamerServiceTest {
     private KamerDtoToKamer kamerDtoToKamer;
     @Mock
     private ReserveringDtoToReservering reserveringDtoToReservering;
+
 
 
     @MockBean
@@ -332,7 +335,13 @@ public class KamerServiceTest {
     }
 
     @Test
-    void reserveerKamer() {
+    void reserveerKamer() throws EmailIsNietGevonden {
+        User user = new User();
+        when(userService.findUserByEmail("test@gmail.com")).thenReturn(user);
+        when(kamerRepo.findByNaam("standaard-kamer-naam")).thenReturn(kamerTestHelper.krijgKamers().get(0));
+
+
+
 
     }
 

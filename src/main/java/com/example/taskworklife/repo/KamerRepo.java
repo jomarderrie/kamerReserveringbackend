@@ -20,12 +20,12 @@ public interface KamerRepo extends PagingAndSortingRepository<Kamer, Long> {
 //        @Query(value="from Kamer t INNER JOIN Reservering ON Kamer.id = Reservering.kamer.id where :dateToFilter BETWEEN cast(Reservering.start as Date)as start AND cast(Reservering.END as Date)")
 //        Kamer findByNaamAndGetAllReserveringenOnSpeicifedDay(@Param("dateToFilter") String dateToFilter);
 
-        @Query(value = "SELECT new com.example.taskworklife.dto.reservation.ReservatieDto(p.end, p.start, u.naam, u.achternaam)  FROM Kamer b,Reservering p, User  u WHERE (b.id = p.kamer.id) AND (u.id = p.user.id) AND (b.naam = :naam AND(:date between cast(p.start as date)   AND cast(p.end as date)) )")
+        @Query(value = "SELECT new com.example.taskworklife.dto.reservation.ReservatieDto(p.end, p.start, u.naam, u.achternaam)  FROM Kamer b,Reservering p, User  u WHERE (b.id = p.kamer.id) AND (u.id = p.user.id) AND(b.naam = :naam AND(:date between cast(p.start as date)   AND cast(p.end as date)) )")
         Optional<List<ReservatieDto>> findByNaamAndGetAllRoomsOnASpecifiedDay(@Param("date") Date date, @Param("naam") String naam);
 
 
 
-        @Query(value = "SELECT p.end as end , p.start as start FROM Kamer b,Reservering p WHERE (b.id = p.kamer.id) AND (b.naam = :naam AND ((:startTijd) < p.end) AND (:eindTijd  >p.start))")
+        @Query(value = "SELECT p.end as end , p.start as start FROM Kamer b,Reservering p WHERE (b.id = p.kamer.id) AND (b.naam = :naam ( AND (:startTijd < p.end) AND (:eindTijd  > p.start)))")
         Optional<List<Object>> findByNaamAndGetAllReserveringenOnSpecifiedTimeInterval(@Param("naam") String naam, @Param("startTijd")LocalDateTime startLocalDateTime, @Param("eindTijd")LocalDateTime eindLocalDateTime);
 
 }
