@@ -4,6 +4,7 @@ import com.example.taskworklife.converter.KamerDtoToKamer;
 import com.example.taskworklife.converter.KamerToKamerDto;
 import com.example.taskworklife.converter.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
+import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
@@ -143,27 +144,24 @@ public class KamerServiceImpl implements KamerService {
     }
 
     @Override
-    public void reserveerKamer(String kamerNaam, ReservatieDto reservatieDto, String email) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerIsNietGevonden, EindTijdIsBeforeStartTijd, KamerReserveringBestaat, EmailIsNietGevonden, KamerNaamLengteIsTeKlein {
+    public void reserveerKamer(String kamerNaam, MaakReservatieDto reservatieDto, String email) throws KamerNaamNotFoundException, KamerNaamIsLeegException, KamerIsNietGevonden, EindTijdIsBeforeStartTijd, KamerReserveringBestaat, EmailIsNietGevonden, KamerNaamLengteIsTeKlein {
         //check of kamer bestaat
         User user = userService.findUserByEmail(email);
         Kamer kamerByNaam = getKamerByNaam(kamerNaam);
+        Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
         //check of het niet een lege string is of null
         //check voor overlap de reserveringlijst van de kamer.
-        Optional<List<Object>> byNaamAndGetAllReserveringenOnSpecifiedTimeInterval = kamerRepo.findByNaamAndGetAllReserveringenOnSpecifiedTimeInterval(kamerNaam, reservatieDto.getStart(), reservatieDto.getEnd());
-        // checkt binnen de
-        if (byNaamAndGetAllReserveringenOnSpecifiedTimeInterval.get().isEmpty()) {
-            Reservering convertedReservatie = reserveringDtoToReservering.convert(reservatieDto);
+        List<Object> byNaamAndGetAllReserveringenOnSpecifiedTimeInterval = kamerRepo.findByNaamAndGetAllReserveringenOnSpecifiedTimeInterval(kamerNaam, reservatieDto.getStart(), reservatieDto.getEnd());
+
+        if (byNaamAndGetAllReserveringenOnSpecifiedTimeInterval.isEmpty()) {
             if (convertedReservatie != null) {
                 convertedReservatie.setUser(user);
+                convertedReservatie.setKamer(kamerByNaam);
                 kamerByNaam.addReservering(convertedReservatie);
             }
             kamerRepo.save(kamerByNaam);
         } else {
             throw new KamerReserveringBestaat("Kamer reservering bestaat al voor interval " + reservatieDto.getStart() + " " + reservatieDto.getEnd());
         }
-
-
     }
-
-
 }

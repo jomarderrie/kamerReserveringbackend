@@ -16,7 +16,6 @@ import com.example.taskworklife.repo.KamerRepo;
 import com.example.taskworklife.service.kamer.KamerService;
 import com.example.taskworklife.service.kamer.KamerServiceImpl;
 import com.example.taskworklife.service.user.UserService;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,10 +40,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -203,7 +200,7 @@ public class KamerServiceTest {
 
         kamerDto.setSluit(LocalDateTime.of(LocalDate.of(2020, 1, 1), LocalTime.of(7, 0)));
 
-        assertThrows(KamerEindDatumIsVoorHuidigeTijd.class,
+        assertThrows(EindDatumIsVoorHuidigeTijd.class,
                 () ->
                         kamerDtoToKamer.convert(kamerDto),
                 "to throw error"

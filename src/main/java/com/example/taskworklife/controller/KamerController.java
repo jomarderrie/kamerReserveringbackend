@@ -1,6 +1,7 @@
 package com.example.taskworklife.controller;
 
 import com.example.taskworklife.dto.kamer.KamerDto;
+import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.exception.ExceptionHandlingKamer;
 import com.example.taskworklife.exception.kamer.*;
@@ -94,7 +95,7 @@ public class KamerController extends ExceptionHandlingKamer {
 
     @PostMapping("/{naam}/reserveer")
     @CrossOrigin(origins = "http://localhost:3000")
-    public void reserveerKamer(@PathVariable("naam") String kamerNaam, @Valid @RequestBody ReservatieDto reservatieDto, Principal principal) throws KamerReserveringBestaat, EindTijdIsBeforeStartTijd, KamerNaamIsLeegException, KamerNaamNotFoundException, KamerIsNietGevonden, EmailIsNietGevonden, KamerNaamLengteIsTeKlein {
+    public void reserveerKamer(@PathVariable("naam") String kamerNaam, @RequestBody MaakReservatieDto reservatieDto, Principal principal) throws KamerReserveringBestaat, EindTijdIsBeforeStartTijd, KamerNaamIsLeegException, KamerNaamNotFoundException, KamerIsNietGevonden, EmailIsNietGevonden, KamerNaamLengteIsTeKlein {
         kamerService.reserveerKamer(kamerNaam, reservatieDto, ((UserPrincipal) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser().getEmail());
 
     }

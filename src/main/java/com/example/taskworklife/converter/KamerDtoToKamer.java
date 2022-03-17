@@ -2,7 +2,7 @@ package com.example.taskworklife.converter;
 
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.exception.kamer.EindTijdIsBeforeStartTijd;
-import com.example.taskworklife.exception.kamer.KamerEindDatumIsVoorHuidigeTijd;
+import com.example.taskworklife.exception.kamer.EindDatumIsVoorHuidigeTijd;
 import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
 import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
 import com.example.taskworklife.models.Kamer;
@@ -36,7 +36,7 @@ public class KamerDtoToKamer implements Converter<KamerDto, Kamer> {
         kamer.setNaam(source.getNaam());
 
         if (source.getSluit().isBefore(LocalDateTime.now()) || source.getStart().isBefore(LocalDateTime.now())){
-            throw new KamerEindDatumIsVoorHuidigeTijd("De kamer eind tijd is al geweest");
+            throw new EindDatumIsVoorHuidigeTijd("De kamer eind tijd is al geweest");
         }
         if (source.getStart().isAfter(source.getSluit())) {
             throw new EindTijdIsBeforeStartTijd("De eindtijd is before start tijd");
