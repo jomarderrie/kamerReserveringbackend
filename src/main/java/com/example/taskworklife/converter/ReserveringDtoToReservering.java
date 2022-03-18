@@ -24,7 +24,7 @@ public class ReserveringDtoToReservering implements Converter<MaakReservatieDto,
         if (source.getEnd().isBefore(LocalDateTime.now()) || source.getStart().isBefore(LocalDateTime.now())) {
             throw new EindDatumIsVoorHuidigeTijd("De kamer eind tijd is al geweest");
         }
-        if (source.getStart().isAfter(source.getEnd())) {
+        if (source.getStart().isBefore(source.getEnd())) {
             throw new EindTijdIsBeforeStartTijd("De eindtijd is before start tijd");
         }
         reservering.setStart(source.getStart());
