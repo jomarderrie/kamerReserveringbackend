@@ -71,7 +71,7 @@ public class KamerController extends ExceptionHandlingKamer {
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<ReservatieDto>> getAllKamersMetEenBepaaldeNaamOpEenBepaaldeDatum(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") String datum) throws KamerNaamNotFoundException, KamerIsNietGevonden, ParseException, KamerNaamLengteIsTeKlein {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 //        LocalDate.parse()
         java.sql.Date sqlDate = new Date(formatter.parse(datum).getTime());
         System.out.println(sqlDate);

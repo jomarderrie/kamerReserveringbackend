@@ -159,10 +159,33 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         kamer.addFileAttachment(fileAttachment4Room2);
 
 
+        Kamer kamer3 = new Kamer();
+        kamer3.setNaam("kamer 3");
+        kamer3.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
+        kamer3.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
+
+        Kamer kamer4 = new Kamer();
+        kamer4.setNaam("kamer 4");
+        kamer4.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
+        kamer4.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
+
+        Kamer kamer5 = new Kamer();
+        kamer5.setNaam("kamer 5");
+        kamer5.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
+        kamer5.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
+
+        Kamer kamer6 = new Kamer();
+        kamer6.setNaam("kamer 6");
+        kamer6.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
+        kamer6.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
+
 
         kamers.add(kamer2);
         kamers.add(kamer);
-
+        kamers.add(kamer3);
+        kamers.add(kamer4);
+        kamers.add(kamer5);
+        kamers.add(kamer6);
 
         return kamers;
     }
