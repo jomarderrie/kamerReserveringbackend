@@ -28,8 +28,6 @@ public class KamerDtoToKamer implements Converter<KamerDto, Kamer> {
             throw new KamerNaamNotFoundException("Geen kamer naam");
         }
 
-
-
         if (source.getNaam().length()<3){
             throw new KamerNaamLengteIsTeKlein("De kamer is te klein");
         }
