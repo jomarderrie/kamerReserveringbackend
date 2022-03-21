@@ -35,11 +35,11 @@ public class KamerDtoToKamer implements Converter<KamerDto, Kamer> {
         }
         kamer.setNaam(source.getNaam());
 
-        if (source.getSluit().isBefore(LocalDateTime.now()) || source.getStart().isBefore(LocalDateTime.now())){
+        if (source.getSluit().isBefore(LocalDateTime.now()) || source.getStart().isBefore(LocalDateTime.now())) {
             throw new EindDatumIsVoorHuidigeTijd("De kamer eind tijd is al geweest");
         }
         if (source.getStart().isAfter(source.getSluit())) {
-            throw new EindTijdIsBeforeStartTijd("De eindtijd is before start tijd");
+            throw new EindTijdIsBeforeStartTijd("De start tijd is voor eind tijd");
         }
 
 
