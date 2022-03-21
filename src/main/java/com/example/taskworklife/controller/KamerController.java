@@ -26,6 +26,7 @@ import java.security.Principal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,12 +71,10 @@ public class KamerController extends ExceptionHandlingKamer {
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<ReservatieDto>> getAllKamersMetEenBepaaldeNaamOpEenBepaaldeDatum(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") String datum) throws KamerNaamNotFoundException, KamerIsNietGevonden, ParseException, KamerNaamLengteIsTeKlein {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+//        LocalDate.parse()
         java.sql.Date sqlDate = new Date(formatter.parse(datum).getTime());
-
-
-
+        System.out.println(sqlDate);
         return new ResponseEntity<List<ReservatieDto>>(kamerService.getAllKamerReservatiesOpEenBepaaldeDag(kamerNaam, sqlDate), HttpStatus.OK);
     }
 
