@@ -54,6 +54,17 @@ public class KamerController extends ExceptionHandlingKamer {
         return new ResponseEntity<>(kamerService.getKamers(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
+    @GetMapping("/{searched}")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<Page<Kamer>> getGezochteKamer(
+            @PathVariable @NotBlank String searched,
+            @RequestParam Boolean alGereserveerde,
+            @RequestParam Boolean eigenReservaties) throws KamerNaamNotFoundException {
+        return new ResponseEntity<Page<Kamer>>(kamerService.getKamerByNaamEnSortables(searched, alGereserveerde, eigenReservaties), HttpStatus.OK);
+    }
+
+
+
     @GetMapping("/{kamerNaam}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Kamer> getKamerMetNaam(@PathVariable @NotBlank String kamerNaam) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein {
@@ -98,6 +109,7 @@ public class KamerController extends ExceptionHandlingKamer {
         kamerService.reserveerKamer(kamerNaam, reservatieDto, ((UserPrincipal) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser().getEmail());
 
     }
+
 
 
     public String getLoggedInUser() {

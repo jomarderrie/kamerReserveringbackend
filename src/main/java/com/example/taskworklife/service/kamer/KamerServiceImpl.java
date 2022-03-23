@@ -80,6 +80,21 @@ public class KamerServiceImpl implements KamerService {
         return kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, naam).get();
     }
 
+    @Override
+    public Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties) throws KamerNaamNotFoundException {
+        if (StringUtils.isNotBlank(searchedString)) {
+            throw new KamerNaamNotFoundException("Naam is leeg");
+        }
+
+        if (alGereserveerde && eigenReservaties) {
+
+        } else if (alGereserveerde) {
+
+        } else {
+
+        }
+        return null;
+    }
 
     /**
      * @param naam de kamer naam waarop gezocht moet worden
