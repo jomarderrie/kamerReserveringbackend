@@ -91,7 +91,8 @@ public class KamerServiceImpl implements KamerService {
         } else if (alGereserveerde) {
 
         } else {
-
+            Page<Kamer> k = kamerRepo.findAllKamersBySearchedString("k", PageRequest.of(0, 0));
+            System.out.println(k);
         }
         return null;
     }
