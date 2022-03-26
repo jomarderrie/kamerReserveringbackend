@@ -82,7 +82,7 @@ public class KamerServiceImpl implements KamerService {
 
     @Override
     public Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties) throws KamerNaamNotFoundException {
-        if (StringUtils.isNotBlank(searchedString)) {
+        if (!StringUtils.isNotBlank(searchedString)) {
             throw new KamerNaamNotFoundException("Naam is leeg");
         }
 
