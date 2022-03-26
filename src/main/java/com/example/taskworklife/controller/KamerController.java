@@ -57,10 +57,13 @@ public class KamerController extends ExceptionHandlingKamer {
     @GetMapping("/searched")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Page<Kamer>> getGezochteKamer(
-            @RequestParam(required = true) @NotBlank String searched,
+            @RequestParam(required = false) @NotBlank String searched,
             @RequestParam(defaultValue = "false", required = false) Boolean alGereserveerde,
-            @RequestParam(defaultValue = "false", required = false) Boolean eigenReservaties) throws KamerNaamNotFoundException {
-        return new ResponseEntity<Page<Kamer>>(kamerService.getKamerByNaamEnSortables(searched, alGereserveerde, eigenReservaties), HttpStatus.OK);
+            @RequestParam(defaultValue = "false", required = false) Boolean eigenReservaties, Principal principal,
+            @RequestParam(defaultValue = "0", required = false) Integer pageNo,
+            @RequestParam(defaultValue = "10", required = false) Integer pageSize
+            ) throws KamerNaamNotFoundException {
+        return new ResponseEntity<Page<Kamer>>(kamerService.getKamerByNaamEnSortables(searched, alGereserveerde, eigenReservaties, (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()), HttpStatus.OK);
     }
 
 

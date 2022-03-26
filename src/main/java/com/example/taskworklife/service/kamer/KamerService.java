@@ -7,6 +7,7 @@ import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.models.Kamer;
+import com.example.taskworklife.models.user.UserPrincipal;
 import org.springframework.data.domain.Page;
 
 import java.sql.Date;
@@ -27,5 +28,5 @@ public interface KamerService {
 
     List<ReservatieDto> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 
-    Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties) throws KamerNaamNotFoundException;
+    Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties, UserPrincipal userPrincipal) throws KamerNaamNotFoundException;
 }
