@@ -45,13 +45,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/user/login", "/user/register", "/user/image/**").permitAll()
                 .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .and().authorizeRequests().antMatchers("/kamer/all").hasAnyAuthority("kamer:read")
                 .and()
-
-                .authorizeRequests().antMatchers("/user/all").hasAnyAuthority("userAdmin:read")
-                .and().authorizeRequests().antMatchers("/kamer/new").hasAnyAuthority("kameradmin:write").
-                and().authorizeRequests().antMatchers(HttpMethod.GET, "/images/**").hasAnyAuthority("images:read").
-                and().authorizeRequests().antMatchers("/reserveringen")
+                .authorizeRequests().antMatchers("/kamer/**").hasAnyAuthority("kamer:crud").and()
+                .authorizeRequests().antMatchers("/kamer/all/**").hasAnyAuthority("admin:manage").and()
+                .authorizeRequests().antMatchers("/user/**").hasAnyAuthority("user:crud").and()
+                .authorizeRequests().antMatchers("/user/**").hasAnyAuthority("user:manage").and()
+                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority("reservaties:crud").and()
+                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority("reservaties:manage").and()
+                .authorizeRequests().antMatchers("/images/**").hasAnyAuthority("images:crud").and()
+                .authorizeRequests().antMatchers(HttpMethod.GET, "/images/**").hasAnyAuthority("images:manage").
+                and().authorizeRequests().antMatchers("/reservaties/**").hasAuthority("/reservaties").
                 anyRequest().authenticated().and().httpBasic();
 
 
