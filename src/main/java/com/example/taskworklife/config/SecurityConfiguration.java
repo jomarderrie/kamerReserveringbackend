@@ -46,15 +46,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/user/login", "/user/register", "/user/image/**").permitAll()
                 .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/kamer/**").hasAnyAuthority("kamer:crud").and()
-                .authorizeRequests().antMatchers("/kamer/all/**").hasAnyAuthority("admin:manage").and()
-                .authorizeRequests().antMatchers("/user/**").hasAnyAuthority("user:crud").and()
-                .authorizeRequests().antMatchers("/user/**").hasAnyAuthority("user:manage").and()
-                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority("reservaties:crud").and()
-                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority("reservaties:manage").and()
-                .authorizeRequests().antMatchers("/images/**").hasAnyAuthority("images:crud").and()
-                .authorizeRequests().antMatchers(HttpMethod.GET, "/images/**").hasAnyAuthority("images:manage").
-                and().authorizeRequests().antMatchers("/reservaties/**").hasAuthority("/reservaties").
+                .authorizeRequests().antMatchers("/kamer/**").hasAnyAuthority("user:kamer", "userAdmin:kamerManage").and()
+                .authorizeRequests().antMatchers("/user/**").hasAnyAuthority("user:user", "userAdmin:manageUser").and()
+                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority("user:reserveringen", "UserAdmin:manageReserveringen").and()
+                .authorizeRequests().antMatchers("/images/**").hasAnyAuthority("user:images", "userAdmin:manageImages").
+                and().authorizeRequests().
                 anyRequest().authenticated().and().httpBasic();
 
 
