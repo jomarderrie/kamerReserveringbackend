@@ -12,6 +12,7 @@ import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.models.user.User;
+import com.example.taskworklife.models.user.UserPrincipal;
 import com.example.taskworklife.repo.FileAttachmentRepo;
 import com.example.taskworklife.repo.KamerRepo;
 
@@ -80,6 +81,25 @@ public class KamerServiceImpl implements KamerService {
         return kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, naam).get();
     }
 
+    @Override
+    public Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties, UserPrincipal userPrincipal) throws KamerNaamNotFoundException {
+        if (Boolean.TRUE.equals(!StringUtils.isNotBlank(searchedString) && !eigenReservaties) && Boolean.TRUE.equals(!alGereserveerde)) {
+            return kamerRepo.findAllKamersBySearchedString(searchedString, PageRequest.of(0, 5));
+        }
+
+        if (alGereserveerde && eigenReservaties) {
+
+        } else if (eigenReservaties){
+
+        }
+        else if (alGereserveerde) {
+
+
+        } else {
+           return kamerRepo.findAllKamersBySearchedString("k", PageRequest.of(0, 5));
+        }
+        return null;
+    }
 
     /**
      * @param naam de kamer naam waarop gezocht moet worden
