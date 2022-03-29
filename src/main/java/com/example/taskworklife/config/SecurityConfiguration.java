@@ -43,12 +43,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/user/login", "/user/register", "/user/image/**").permitAll()
+        http.authorizeRequests().antMatchers("/user/login", "/user/register", "/user/image/**", "/user/token").permitAll()
                 .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/kamer/**").hasAnyAuthority("user:kamer", "userAdmin:kamerManage").and()
                 .authorizeRequests().antMatchers("/user/**").hasAnyAuthority("user:user", "userAdmin:manageUser").and()
-                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority("user:reserveringen", "UserAdmin:manageReserveringen").and()
+                .authorizeRequests()
+                .and()
+                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority("user:reserveringen", "userAdmin:manageReserveringen").and()
                 .authorizeRequests().antMatchers("/images/**").hasAnyAuthority("user:images", "userAdmin:manageImages").
                 and().authorizeRequests().
                 anyRequest().authenticated().and().httpBasic();

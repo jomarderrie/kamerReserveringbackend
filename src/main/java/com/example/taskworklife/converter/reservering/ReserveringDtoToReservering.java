@@ -1,4 +1,4 @@
-package com.example.taskworklife.converter;
+package com.example.taskworklife.converter.reservering;
 
 
 import com.example.taskworklife.dto.reservation.MaakReservatieDto;

@@ -1,26 +1,30 @@
 package com.example.taskworklife.service.user;
 
-import com.example.taskworklife.converter.UserRegisterDtoToUser;
-import com.example.taskworklife.converter.UserToUserLoginDto;
+import com.example.taskworklife.converter.user.UserRegisterDtoToUser;
+import com.example.taskworklife.converter.user.UserToUserLoginDto;
 import com.example.taskworklife.dto.user.UserLoginResponseDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
-import com.example.taskworklife.exception.user.EmailBestaatAl;
-import com.example.taskworklife.exception.user.EmailIsNietGevonden;
-import com.example.taskworklife.exception.user.GebruikerNietGevondenExcepion;
-import com.example.taskworklife.exception.user.RegisterErrorException;
+import com.example.taskworklife.exception.user.*;
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.models.user.UserPrincipal;
 import com.example.taskworklife.repo.UserRepo;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRegisterDtoToUser userRegisterDtoToUserConverter;
     private UserToUserLoginDto userLoginResponseDtoConverter;
 
+    @Autowired
     public UserServiceImpl(UserRepo userRepository, UserRegisterDtoToUser userRegisterDtoToUserConverter, UserToUserLoginDto userLoginResponseDtoConverter) {
         this.userRepository = userRepository;
         this.userRegisterDtoToUserConverter = userRegisterDtoToUserConverter;

@@ -61,6 +61,25 @@ public class ExceptionHandlingUser extends CreateResponse  implements ErrorContr
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler(TokenParsingException.class)
+    public ResponseEntity<HttpResponse> tokenParsingException(TokenParsingException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+    @ExceptionHandler(TokenIsLeegException.class)
+    public ResponseEntity<HttpResponse> tokenIsLeegException(TokenIsLeegException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
+    @ExceptionHandler(LoginException.class)
+    public ResponseEntity<HttpResponse> tokenIsLeegException(LoginException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
 
+
+
+
+    @ExceptionHandler(GebruikerNietGevondenExcepion.class)
+    public ResponseEntity<HttpResponse> gebruikerNietGevonden(GebruikerNietGevondenExcepion exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
 
 }

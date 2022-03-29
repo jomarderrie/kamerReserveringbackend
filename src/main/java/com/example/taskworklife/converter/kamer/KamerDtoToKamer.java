@@ -1,4 +1,4 @@
-package com.example.taskworklife.converter;
+package com.example.taskworklife.converter.kamer;
 
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.exception.kamer.EindTijdIsBeforeStartTijd;

@@ -1,8 +1,8 @@
 package com.example.taskworklife.service.kamer;
 
-import com.example.taskworklife.converter.KamerDtoToKamer;
-import com.example.taskworklife.converter.KamerToKamerDto;
-import com.example.taskworklife.converter.ReserveringDtoToReservering;
+import com.example.taskworklife.converter.kamer.KamerDtoToKamer;
+import com.example.taskworklife.converter.kamer.KamerToKamerDto;
+import com.example.taskworklife.converter.reservering.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieDto;
@@ -29,9 +29,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

@@ -1,4 +1,4 @@
-package com.example.taskworklife.converter;
+package com.example.taskworklife.converter.user;
 
 import com.example.taskworklife.dto.user.UserLoginDto;
 import com.example.taskworklife.dto.user.UserLoginResponseDto;

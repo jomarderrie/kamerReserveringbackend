@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReservationRepo extends PagingAndSortingRepository<Reservering, Long > {
-    @Query(value = "SELECT * from reservering where user_id = ?1",
-            countQuery = "SELECT count(*) from kamer where user_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * from reservering r, User u where user_id = ?1 AND WHERE(r.user_id = u.id)",
+            countQuery = "SELECT count(*) from kamer where user_id = ?1 AND WHERE(r.user_id = u.id)", nativeQuery = true)
     Page<Reservering> findAllReservatiesForUser(String userId, Pageable pageable);
 }

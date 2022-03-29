@@ -1,4 +1,4 @@
-package com.example.taskworklife.converter;
+package com.example.taskworklife.converter.user;
 
 import com.example.taskworklife.dto.user.UserRegisterDto;
 import com.example.taskworklife.exception.user.EmailIsNietJuist;
