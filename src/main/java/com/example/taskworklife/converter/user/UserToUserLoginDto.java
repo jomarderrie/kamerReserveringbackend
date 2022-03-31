@@ -25,7 +25,14 @@ public class UserToUserLoginDto  implements Converter<User, UserLoginResponseDto
 
         userLoginDto.setProfileFileAttachment(source.getProfileFileAttachment());
         userLoginDto.setLaatstIngelodgeDatumDisplay(source.getLaatstIngelodgeDatumDisplay());
-        userLoginDto.setRole(source.getRole());
+        switch (source.getRole()){
+            case "ROLE_ADMIN":
+                userLoginDto.setRole("admin");
+                break;
+            case "ROLE_USER":
+                userLoginDto.setRole("user");
+                break;
+        }
         return userLoginDto;
     }
 }
