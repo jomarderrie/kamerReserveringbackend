@@ -48,16 +48,7 @@ public class UserBootstrap implements ApplicationListener<ContextRefreshedEvent>
         User normaleGebruiker = new User();
         List<Reservering> reserveringListKamer2 = new ArrayList<>();
 
-//        Reservering reservering2Kamer1 = new Reservering();
-//        reservering2Kamer1.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(8,0) ));
-//        reservering2Kamer1.setEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(9,0) ));
-//
-//        Reservering reservering2Kamer2 = new Reservering();
-//        reservering2Kamer2.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(9,0) ));
-//        reservering2Kamer2.setEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(13,0) ));
 
-//        reserveringListKamer2.add(reservering2Kamer1);
-//        reserveringListKamer2.add(reservering2Kamer2);
 
         normaleGebruiker.setReserveringArrayList(reserveringListKamer2);
         normaleGebruiker.setWachtwoord(passwordEncoder.encode("Pokemon!23"));

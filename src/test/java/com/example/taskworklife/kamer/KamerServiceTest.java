@@ -4,7 +4,7 @@ import com.example.taskworklife.converter.kamer.KamerDtoToKamer;
 import com.example.taskworklife.converter.kamer.KamerToKamerDto;
 import com.example.taskworklife.converter.reservering.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
-import com.example.taskworklife.dto.reservation.ReservatieDto;
+import com.example.taskworklife.dto.reservation.ReservatieKamerDto;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.fileservice.FileService;
@@ -130,13 +130,13 @@ public class KamerServiceTest {
 
         when(kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, "testKamer")).thenReturn(Optional.of(new ArrayList<>()));
 
-        List<ReservatieDto> emptyTestKamer = kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date);
+        List<ReservatieKamerDto> emptyTestKamer = kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date);
 
         assertEquals(0, emptyTestKamer.size());
 
         when(kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, "testKamer")).thenReturn(Optional.ofNullable((kamerTestHelper.krijgReservaties())));
 
-        List<ReservatieDto> kekKamer = kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date);
+        List<ReservatieKamerDto> kekKamer = kamerServiceImpl.getAllKamerReservatiesOpEenBepaaldeDag("testKamer", date);
 
         assertEquals(1, kekKamer.size());
         assertEquals(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)), kekKamer.get(0).getStart());

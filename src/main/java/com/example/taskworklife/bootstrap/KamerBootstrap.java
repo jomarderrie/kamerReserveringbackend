@@ -41,7 +41,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
     private List<Kamer> getKamers() {
         List<Kamer> kamers = new ArrayList<>();
-        User userByEmail = userRepo.findUserByEmail("admin@gmail.com");
+        User userByEmail = userRepo.findUserByEmail("pokemon@gmail.com");
         Kamer kamer = new Kamer();
         //kamer 1
         kamer.setNaam("Kamer1");

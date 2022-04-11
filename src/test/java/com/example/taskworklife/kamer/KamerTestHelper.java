@@ -1,6 +1,6 @@
 package com.example.taskworklife.kamer;
 
-import com.example.taskworklife.dto.reservation.ReservatieDto;
+import com.example.taskworklife.dto.reservation.ReservatieKamerDto;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.Reservering;
 
@@ -37,9 +37,9 @@ public class KamerTestHelper {
     }
 
 
-    public List<ReservatieDto> krijgReservaties(){
-        ArrayList<ReservatieDto> reservatieDtos = new ArrayList<>();
-        ReservatieDto reservatieDto = new ReservatieDto();
+    public List<ReservatieKamerDto> krijgReservaties(){
+        ArrayList<ReservatieKamerDto> reservatieDtos = new ArrayList<>();
+        ReservatieKamerDto reservatieDto = new ReservatieKamerDto();
         reservatieDto.setStart(
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
         reservatieDto.setEnd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));

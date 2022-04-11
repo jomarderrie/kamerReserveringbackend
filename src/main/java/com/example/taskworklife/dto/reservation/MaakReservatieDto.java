@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MaakReservatieDto {
-
     private LocalDateTime end;
 
     private LocalDateTime start;
 
+    private String naam;
 }

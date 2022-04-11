@@ -2,7 +2,6 @@ package com.example.taskworklife.converter.reservering;
 
 
 import com.example.taskworklife.dto.reservation.MaakReservatieDto;
-import com.example.taskworklife.dto.reservation.ReservatieDto;
 import com.example.taskworklife.exception.kamer.EindTijdIsBeforeStartTijd;
 import com.example.taskworklife.exception.kamer.EindDatumIsVoorHuidigeTijd;
 import com.example.taskworklife.models.Reservering;

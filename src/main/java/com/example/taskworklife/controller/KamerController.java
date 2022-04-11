@@ -2,7 +2,7 @@ package com.example.taskworklife.controller;
 
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.reservation.MaakReservatieDto;
-import com.example.taskworklife.dto.reservation.ReservatieDto;
+import com.example.taskworklife.dto.reservation.ReservatieKamerDto;
 import com.example.taskworklife.exception.ExceptionHandlingKamer;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
@@ -19,16 +19,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @RequestMapping(path = "/kamer")
@@ -83,13 +80,13 @@ public class KamerController extends ExceptionHandlingKamer {
 
     @GetMapping("/{kamerNaam}/reserveringen/{datum}")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<ReservatieDto>> getAllKamersMetEenBepaaldeNaamOpEenBepaaldeDatum(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") String datum) throws KamerNaamNotFoundException, KamerIsNietGevonden, ParseException, KamerNaamLengteIsTeKlein {
+    public ResponseEntity<List<ReservatieKamerDto>> getAllKamersMetEenBepaaldeNaamOpEenBepaaldeDatum(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") String datum) throws KamerNaamNotFoundException, KamerIsNietGevonden, ParseException, KamerNaamLengteIsTeKlein {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 //        LocalDate.parse()
         java.sql.Date sqlDate = new Date(formatter.parse(datum).getTime());
         System.out.println(sqlDate);
-        return new ResponseEntity<List<ReservatieDto>>(kamerService.getAllKamerReservatiesOpEenBepaaldeDag(kamerNaam, sqlDate), HttpStatus.OK);
+        return new ResponseEntity<List<ReservatieKamerDto>>(kamerService.getAllKamerReservatiesOpEenBepaaldeDag(kamerNaam, sqlDate), HttpStatus.OK);
     }
 
 

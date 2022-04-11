@@ -23,8 +23,16 @@ public class ReservatiesImpl implements ReservatiesService{
     public Page<Reservering> getAllReservatiesByUser(UserPrincipal userPrincipal, String email, Integer pageSize, Integer pageNo) {
         Long id = userPrincipal.getUser().getId();
         PageRequest of = PageRequest.of(pageNo, pageSize);
-        Page<Reservering> allReservatiesForUser = reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
-        System.out.println(allReservatiesForUser);
-        return reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
+//        Page<Reservering> allReservatiesForUser = reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
+//        System.out.println(allReservatiesForUser);
+//        reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
+        return null;
     }
+
+    @Override
+    public Page<Reservering> getAllReservaties(Integer pageSize, Integer pageNo, String sortBy) {
+        return null;
+    }
+
+
 }

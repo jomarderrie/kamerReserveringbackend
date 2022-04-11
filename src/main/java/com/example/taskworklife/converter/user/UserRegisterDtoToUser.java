@@ -46,7 +46,7 @@ public class UserRegisterDtoToUser implements Converter<UserRegisterDto, User> {
         user.setWachtwoord(passwordEncoder.encode(source.getWachtwoord()));
 
         //check of naam niet leeg is of kleiner dan 3 in size is
-        if (StringUtils.isNotBlank(source.getNaam())){
+        if (!StringUtils.isNotBlank(source.getNaam())){
             throw new NaamBestaatNiet("Naam bestaat niet");
         }
         if(source.getNaam().length()<3){

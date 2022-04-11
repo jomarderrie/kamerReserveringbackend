@@ -20,7 +20,6 @@ public class WebConfiguration implements WebMvcConfigurer {
     ReserveringConfiguration appConfiguration;
 
     @Override
-
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:" + appConfiguration.getUploadPath() + "/")

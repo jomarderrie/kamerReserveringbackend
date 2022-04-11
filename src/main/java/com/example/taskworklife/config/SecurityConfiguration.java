@@ -48,11 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/kamer/**").hasAnyAuthority("user:kamer", "userAdmin:kamerManage").and()
                 .authorizeRequests().antMatchers("/user/**").hasAnyAuthority("user:user", "userAdmin:manageUser").and()
-                .authorizeRequests()
-                .and()
-                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority("user:reserveringen", "userAdmin:manageReserveringen").and()
-                .authorizeRequests().antMatchers("/images/**").hasAnyAuthority("user:images", "userAdmin:manageImages").
-                and().authorizeRequests().
+                .authorizeRequests().antMatchers("/reservaties/**").hasAnyAuthority( "user:reserveringen", "userAdmin:manageReserveringen").and()
+                .authorizeRequests().antMatchers("/images/**").hasAnyAuthority("user:images", "userAdmin:manageImages").and().authorizeRequests().
                 anyRequest().authenticated().and().httpBasic();
 
 

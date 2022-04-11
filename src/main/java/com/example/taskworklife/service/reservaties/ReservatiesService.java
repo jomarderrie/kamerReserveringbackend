@@ -9,4 +9,6 @@ import org.springframework.data.domain.Page;
 
 public interface ReservatiesService {
     Page<Reservering> getAllReservatiesByUser(UserPrincipal naam, String email, Integer pageSize, Integer pageNo) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
+
+    Page<Reservering> getAllReservaties(Integer pageSize, Integer pageNo, String sortBy);
 }

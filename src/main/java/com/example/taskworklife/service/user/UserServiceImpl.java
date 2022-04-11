@@ -72,9 +72,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userByEmail = userRegisterDtoToUserConverter.convert(userRegisterDto);
             LOGGER.info("Nieuwe gebruiker met email: " + userRegisterDto.getEmail());
             assert userByEmail != null;
-            userRepository.save(userByEmail);
-            UserLoginResponseDto convertedRegisterdUser = userLoginResponseDtoConverter.convert(userByEmail);
 
+            UserLoginResponseDto convertedRegisterdUser = userLoginResponseDtoConverter.convert(userByEmail);
+            userRepository.save(userByEmail);
             if (convertedRegisterdUser != null) {
                 return convertedRegisterdUser;
             } else {

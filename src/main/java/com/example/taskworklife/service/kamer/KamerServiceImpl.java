@@ -5,7 +5,7 @@ import com.example.taskworklife.converter.kamer.KamerToKamerDto;
 import com.example.taskworklife.converter.reservering.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.reservation.MaakReservatieDto;
-import com.example.taskworklife.dto.reservation.ReservatieDto;
+import com.example.taskworklife.dto.reservation.ReservatieKamerDto;
 import com.example.taskworklife.exception.kamer.*;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.fileservice.FileService;
@@ -74,7 +74,7 @@ public class KamerServiceImpl implements KamerService {
      * @throws KamerIsNietGevonden        wordt gegooit wanneer er geen kamer gevonden wordt
      * @throws KamerNaamNotFoundException wordt
      */
-    public List<ReservatieDto> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein {
+    public List<ReservatieKamerDto> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein {
         getKamerByNaam(naam);
         return kamerRepo.findByNaamAndGetAllRoomsOnASpecifiedDay(date, naam).get();
     }

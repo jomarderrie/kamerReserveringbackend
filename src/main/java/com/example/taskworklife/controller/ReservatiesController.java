@@ -31,18 +31,18 @@ public class ReservatiesController {
 
     @GetMapping("/alles")
     @CrossOrigin(origins = "http://localhost:3000")
-    public void krijgAlleReservaties() {
-
+    public void krijgAlleReservaties() throws GeenAdminException {
+        UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        authCheck(principal);
+//        return new ResponseEntity<>()
     }
 
     @GetMapping("/{email}/alles")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Page<Reservering>> krijgAlleReservatiesVanEenGebruiker(@PathVariable String email, @RequestParam(defaultValue = "0", required = false) Integer pageNo,
-                                                                                 @RequestParam(defaultValue = "10", required = false) Integer pageSize) throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException, GeenAdminException {
+    public ResponseEntity<Page<Reservering>> krijgAlleReservatiesVanEenGebruiker(@PathVariable String email, @RequestParam(defaultValue = "0", required = false) Integer pageNo, @RequestParam(defaultValue = "10", required = false) Integer pageSize) throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException, GeenAdminException {
         UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-       authCheck(principal);
-        return new ResponseEntity<Page<Reservering>>(reservatiesService.getAllReservatiesByUser((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), email, pageSize, pageNo), HttpStatus.OK)
-                ;
+
+        return new ResponseEntity<Page<Reservering>>(reservatiesService.getAllReservatiesByUser((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), email, pageSize, pageNo), HttpStatus.OK);
     }
 
     private void authCheck(UserPrincipal principal) throws GeenAdminException {
