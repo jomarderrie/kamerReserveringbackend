@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Setter
-
 public class Reservering {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

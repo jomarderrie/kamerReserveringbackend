@@ -19,4 +19,5 @@ public class MaakReservatieDto {
     private LocalDateTime start;
 
     private String naam;
+
 }

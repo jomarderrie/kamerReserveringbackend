@@ -1,5 +1,7 @@
 package com.example.taskworklife.service.reservaties;
 
+import com.example.taskworklife.dto.reservation.MaakReservatieDto;
+import com.example.taskworklife.dto.reservation.TestDTO;
 import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.models.user.UserPrincipal;
 import com.example.taskworklife.repo.ReservationRepo;
@@ -23,9 +25,9 @@ public class ReservatiesImpl implements ReservatiesService{
     public Page<Reservering> getAllReservatiesByUser(UserPrincipal userPrincipal, String email, Integer pageSize, Integer pageNo) {
         Long id = userPrincipal.getUser().getId();
         PageRequest of = PageRequest.of(pageNo, pageSize);
-//        Page<Reservering> allReservatiesForUser = reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
-//        System.out.println(allReservatiesForUser);
-//        reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
+        Page<TestDTO> allReservatiesForUser = reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
+        System.out.println(allReservatiesForUser);
+        reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
         return null;
     }
 
@@ -36,3 +38,9 @@ public class ReservatiesImpl implements ReservatiesService{
 
 
 }
+//    val arrItems : Mutable<String> = listOf()
+//        for (findAllUserPermission in userRolePermissionRepository.findAllUserPermissions()) {
+//        if(!arrItems.contains(findAllUserPermission.roleUserId)){
+//        arrItems.
+//        }
+//        }
