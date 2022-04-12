@@ -1,5 +1,6 @@
 package com.example.taskworklife.controller;
 
+import com.example.taskworklife.dto.reservation.ReservatieUserDto;
 import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
 import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
 import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
@@ -39,10 +40,10 @@ public class ReservatiesController {
 
     @GetMapping("/{email}/alles")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Page<Reservering>> krijgAlleReservatiesVanEenGebruiker(@PathVariable String email, @RequestParam(defaultValue = "0", required = false) Integer pageNo, @RequestParam(defaultValue = "10", required = false) Integer pageSize) throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException, GeenAdminException {
+    public ResponseEntity<Page<ReservatieUserDto>> krijgAlleReservatiesVanEenGebruiker(@PathVariable String email, @RequestParam(defaultValue = "0", required = false) Integer pageNo, @RequestParam(defaultValue = "10", required = false) Integer pageSize) throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException, GeenAdminException {
         UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return new ResponseEntity<Page<Reservering>>(reservatiesService.getAllReservatiesByUser((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), email, pageSize, pageNo), HttpStatus.OK);
+        return new ResponseEntity<Page<ReservatieUserDto>>(reservatiesService.getAllReservatiesByUser((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), email, pageSize, pageNo), HttpStatus.OK);
     }
 
     private void authCheck(UserPrincipal principal) throws GeenAdminException {

@@ -1,7 +1,6 @@
 package com.example.taskworklife.service.reservaties;
 
-import com.example.taskworklife.dto.reservation.MaakReservatieDto;
-import com.example.taskworklife.dto.reservation.TestDTO;
+import com.example.taskworklife.dto.reservation.ReservatieUserDto;
 import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.models.user.UserPrincipal;
 import com.example.taskworklife.repo.ReservationRepo;
@@ -22,13 +21,10 @@ public class ReservatiesImpl implements ReservatiesService{
     }
 
     @Override
-    public Page<Reservering> getAllReservatiesByUser(UserPrincipal userPrincipal, String email, Integer pageSize, Integer pageNo) {
+    public Page<ReservatieUserDto> getAllReservatiesByUser(UserPrincipal userPrincipal, String email, Integer pageSize, Integer pageNo) {
         Long id = userPrincipal.getUser().getId();
         PageRequest of = PageRequest.of(pageNo, pageSize);
-        Page<TestDTO> allReservatiesForUser = reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
-        System.out.println(allReservatiesForUser);
-        reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
-        return null;
+        return reservationRepo.findAllReservatiesForUser(String.valueOf(id), of);
     }
 
     @Override
