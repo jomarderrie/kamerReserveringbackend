@@ -1,5 +1,6 @@
 package com.example.taskworklife.service.reservaties;
 
+import com.example.taskworklife.dto.reservation.AdminReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieUserDto;
 import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
 import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
@@ -11,5 +12,5 @@ import org.springframework.data.domain.Page;
 public interface ReservatiesService {
     Page<ReservatieUserDto> getAllReservatiesByUser(UserPrincipal naam, String email, Integer pageSize, Integer pageNo) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 
-    Page<Reservering> getAllReservaties(Integer pageSize, Integer pageNo, String sortBy);
+    Page<AdminReservatieDto> getAllReservaties(Integer pageSize, Integer pageNo);
 }

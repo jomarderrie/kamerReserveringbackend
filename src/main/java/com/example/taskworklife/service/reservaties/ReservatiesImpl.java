@@ -1,5 +1,6 @@
 package com.example.taskworklife.service.reservaties;
 
+import com.example.taskworklife.dto.reservation.AdminReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieUserDto;
 import com.example.taskworklife.models.Reservering;
 import com.example.taskworklife.models.user.UserPrincipal;
@@ -28,8 +29,9 @@ public class ReservatiesImpl implements ReservatiesService{
     }
 
     @Override
-    public Page<Reservering> getAllReservaties(Integer pageSize, Integer pageNo, String sortBy) {
-        return null;
+    public Page<AdminReservatieDto> getAllReservaties(Integer pageSize, Integer pageNo) {
+        PageRequest of = PageRequest.of(pageNo, pageSize);
+        return reservationRepo.findAllReservaties(of);
     }
 
 
