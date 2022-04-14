@@ -5,6 +5,7 @@ import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieKamerDto;
 import com.example.taskworklife.exception.ExceptionHandlingKamer;
 import com.example.taskworklife.exception.kamer.*;
+import com.example.taskworklife.exception.reservatie.ReservatieNietGevondenException;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.user.UserPrincipal;
@@ -109,6 +110,11 @@ public class KamerController extends ExceptionHandlingKamer {
         kamerService.reserveerKamer(kamerNaam, reservatieDto, ((UserPrincipal) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser().getEmail());
 
     }
+    @DeleteMapping("/{kamerNaam}/delete/reservatie/{id}")
+    private void verwijderReservatieByIdByKamerNaam(@PathVariable String kamerNaam, @PathVariable Long id) throws ReservatieNietGevondenException, KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException {
+
+        kamerService.deleteReservatieByKamerNaam(kamerNaam,id);
+    }
 
 
 
@@ -116,6 +122,8 @@ public class KamerController extends ExceptionHandlingKamer {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getPrincipal().toString();
     }
+
+
 
 
     @GetMapping("/hello")

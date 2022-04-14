@@ -5,6 +5,7 @@ import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieKamerDto;
 import com.example.taskworklife.exception.kamer.*;
+import com.example.taskworklife.exception.reservatie.ReservatieNietGevondenException;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.models.Kamer;
 import com.example.taskworklife.models.user.UserPrincipal;
@@ -29,4 +30,6 @@ public interface KamerService {
     List<ReservatieKamerDto> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 
     Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties, UserPrincipal userPrincipal) throws KamerNaamNotFoundException;
+
+    void deleteReservatieByKamerNaam(String kamerNaam,Long id) throws ReservatieNietGevondenException, KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException;
 }

@@ -7,6 +7,7 @@ import com.example.taskworklife.dto.kamer.KamerDto;
 import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieKamerDto;
 import com.example.taskworklife.exception.kamer.*;
+import com.example.taskworklife.exception.reservatie.ReservatieNietGevondenException;
 import com.example.taskworklife.exception.user.EmailIsNietGevonden;
 import com.example.taskworklife.fileservice.FileService;
 import com.example.taskworklife.models.Kamer;
@@ -30,6 +31,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -97,6 +100,19 @@ public class KamerServiceImpl implements KamerService {
            return kamerRepo.findAllKamersBySearchedString("k", PageRequest.of(0, 5));
         }
         return null;
+    }
+
+    @Override
+    public void deleteReservatieByKamerNaam(String kamerNaam, Long id) throws ReservatieNietGevondenException, KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException {
+        Kamer kamerByNaam = getKamerByNaam(kamerNaam);
+
+        List<Reservering> collect = kamerByNaam.getReservering().stream().filter(p -> Objects.equals(p.getId(), id)).collect(Collectors.toList());
+        if (kamerByNaam.getReservering().size() == collect.size()){
+            throw new ReservatieNietGevondenException("De reservatie was niet gevonden");
+        }else{
+            kamerByNaam.setReservering(collect);
+            kamerRepo.save(kamerByNaam);
+        }
     }
 
     /**

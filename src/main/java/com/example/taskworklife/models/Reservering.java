@@ -24,10 +24,10 @@ public class Reservering {
     private LocalDateTime start;
     private LocalDateTime end;
     @JsonManagedReference
-    @ManyToOne
+    @OneToOne
     private Kamer kamer;
     @JsonManagedReference
-    @ManyToOne
+    @OneToOne
     private User user;
 
  }

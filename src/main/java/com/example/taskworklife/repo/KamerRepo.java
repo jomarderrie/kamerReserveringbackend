@@ -1,6 +1,7 @@
 package com.example.taskworklife.repo;
 
 
+import com.example.taskworklife.dto.reservation.AdminReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieKamerDto;
 import com.example.taskworklife.models.Kamer;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,9 @@ public interface KamerRepo extends PagingAndSortingRepository<Kamer, Long> {
 
     @Query(value = "SELECT p.end as end , p.start as start FROM Kamer b, Reservering p WHERE (b.id = p.kamer.id) AND (b.naam = :naam  AND (:startTijd < p.end) AND (:eindTijd  > p.start))")
     List<Object> findByNaamAndGetAllReserveringenOnSpecifiedTimeInterval(@Param("naam") String naam, @Param("startTijd") LocalDateTime startLocalDateTime, @Param("eindTijd") LocalDateTime eindLocalDateTime);
+
+//    @Query(value = "SELECT b FROM Kamer b, Reservering p WHERE (b.id = p.kamer.id) AND (b.naam = :naam )")
+//  List<AdminReservatieDto>  findByNaamAndGetAllReserveringenById();
 
     @Query(value = "SELECT * from Kamer where naam like %?1%",
             countQuery = "SELECT count(*) from kamer where naam like %?1%", nativeQuery = true)

@@ -6,6 +6,7 @@ import com.example.taskworklife.exception.global.IoException;
 import com.example.taskworklife.exception.images.FotoTypeIsNietToegestaan;
 import com.example.taskworklife.exception.images.ImagesExceededLimit;
 import com.example.taskworklife.exception.images.ImagesNotFoundException;
+import com.example.taskworklife.exception.reservatie.ReservatieNietGevondenException;
 import com.example.taskworklife.models.HttpResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,5 +46,9 @@ public class GlobalExceptionHandler extends CreateResponse {
     }
 
 
+    @ExceptionHandler(ReservatieNietGevondenException.class)
+    public ResponseEntity<HttpResponse> reservatieNietGevonden(ReservatieNietGevondenException exception) {
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
+    }
 
 }

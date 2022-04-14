@@ -1,11 +1,10 @@
 package com.example.taskworklife.dto.reservation;
 
-import org.apache.tomcat.jni.Local;
 
 import java.time.LocalDateTime;
 
 public interface AdminReservatieDto {
-
+     String getId();
 
      LocalDateTime getEnd();
 

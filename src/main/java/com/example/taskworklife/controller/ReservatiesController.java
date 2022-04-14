@@ -5,6 +5,7 @@ import com.example.taskworklife.dto.reservation.ReservatieUserDto;
 import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
 import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
 import com.example.taskworklife.exception.kamer.KamerNaamNotFoundException;
+import com.example.taskworklife.exception.reservatie.ReservatieNietGevondenException;
 import com.example.taskworklife.exception.user.EmailIsNietJuist;
 import com.example.taskworklife.exception.user.GeenAdminException;
 import com.example.taskworklife.models.user.UserPrincipal;
@@ -53,6 +54,14 @@ public class ReservatiesController {
             throw new GeenAdminException("Geen admin role gevonden");
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    private void verwijderReservatieById(@PathVariable Long id) throws ReservatieNietGevondenException {
+            reservatiesService.deleteReservatie(id);
+    }
+
+//    @PostMapping(/edit/{id})
+//    @PostMapping()
 
      private Boolean checkOfEmailHetzelfdeIs(UserPrincipal userPrincipal, String email) throws EmailIsNietJuist {
         if (Objects.equals(userPrincipal.getUser().getEmail(), email)){
