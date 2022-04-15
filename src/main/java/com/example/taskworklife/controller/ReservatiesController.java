@@ -35,7 +35,7 @@ public class ReservatiesController {
     // TODO: 13/04/2022 implement sortby 
     @GetMapping("/{email}/alles")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Page<ReservatieUserDto>> krijgAlleReservatiesVanEenGebruiker(@PathVariable String email, @RequestParam(defaultValue = "0", required = false) Integer pageNo, @RequestParam(defaultValue = "10", required = false) Integer pageSize) throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException, GeenAdminException, EmailIsNietJuist {
+    public ResponseEntity<Page<ReservatieUserDto>> krijgAlleReservatiesVanEenGebruiker(@PathVariable String email, @RequestParam(defaultValue = "0", required = false) Integer pageNo, @RequestParam(defaultValue = "5", required = false) Integer pageSize) throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException, GeenAdminException, EmailIsNietJuist {
         UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         checkOfEmailHetzelfdeIs(principal, email);
         return new ResponseEntity<Page<ReservatieUserDto>>(reservatiesService.getAllReservatiesByUser((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), email, pageSize, pageNo), HttpStatus.OK);
@@ -43,7 +43,7 @@ public class ReservatiesController {
     // TODO: 13/04/2022 implement sortby
     @GetMapping("/admin/alles")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Page<AdminReservatieDto>> krijgAlleReservaties(@RequestParam(defaultValue = "0", required = false) Integer pageNo, @RequestParam(defaultValue = "10", required = false) Integer pageSize) throws GeenAdminException {
+    public ResponseEntity<Page<AdminReservatieDto>> krijgAlleReservaties(@RequestParam(defaultValue = "0", required = false) Integer pageNo, @RequestParam(defaultValue = "5", required = false) Integer pageSize) throws GeenAdminException {
         UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         authCheck(principal);
        return new ResponseEntity<>(reservatiesService.getAllReservaties(pageSize, pageNo), HttpStatus.OK);

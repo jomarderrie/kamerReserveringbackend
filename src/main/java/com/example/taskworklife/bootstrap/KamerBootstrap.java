@@ -57,18 +57,14 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         kamer.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)));
         kamer.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(20, 0)));
-        reservering1Kamer1.setKamer(kamer);
-        reservering1Kamer2.setKamer(kamer);
-        reserveringListKamer1.add(reservering1Kamer1);
-        reserveringListKamer1.add(reservering1Kamer2);
-        kamer.setReservering(reserveringListKamer1);
+
+        List<Reservering> reserveringListKamer2 = new ArrayList<>();
 
         Kamer kamer2 = new Kamer();
         kamer2.setNaam("kamer2");
         kamer2.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
         kamer2.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
         //kamer 1 reservering
-        List<Reservering> reserveringListKamer2 = new ArrayList<>();
 
         Reservering reservering2Kamer1 = new Reservering();
         reservering2Kamer1.setStart(LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
@@ -86,17 +82,29 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
 //        reservering2Kamer2.setUser(userByEmail);
 
-
-        reservering2Kamer1.setKamer(kamer2);
-        reservering2Kamer2.setKamer(kamer2);
-        reservering2Kamer3.setKamer(kamer2);
         reservering2Kamer1.setUser(userByEmail);
         reservering2Kamer2.setUser(userByEmail);
         reservering2Kamer3.setUser(userByEmail);
 
+
+
+        reservering2Kamer1.setKamer(kamer2);
+        reservering2Kamer2.setKamer(kamer2);
+        reservering2Kamer3.setKamer(kamer2);
+        reservering1Kamer1.setKamer(kamer2);
+        reservering1Kamer2.setKamer(kamer2);
+
+
+
         reserveringListKamer2.add(reservering2Kamer1);
         reserveringListKamer2.add(reservering2Kamer2);
         reserveringListKamer2.add(reservering2Kamer3);
+
+        reservering1Kamer1.setUser(userByEmail);
+        reserveringListKamer2.add(reservering1Kamer1);
+
+        reservering1Kamer2.setUser(userByEmail);
+        reserveringListKamer2.add(reservering1Kamer2);
 
         kamer2.setReservering(reserveringListKamer2);
 
@@ -163,22 +171,23 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         kamer3.setNaam("kamer 3");
         kamer3.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
         kamer3.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
+        kamer3.setReservering(new ArrayList<>());
 
         Kamer kamer4 = new Kamer();
         kamer4.setNaam("kamer 4");
         kamer4.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
         kamer4.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
-
+        kamer4.setReservering(new ArrayList<>());
         Kamer kamer5 = new Kamer();
         kamer5.setNaam("kamer 5");
         kamer5.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
         kamer5.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
-
+        kamer5.setReservering(new ArrayList<>());
         Kamer kamer6 = new Kamer();
         kamer6.setNaam("kamer 6");
         kamer6.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
         kamer6.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
-
+        kamer6.setReservering(new ArrayList<>());
 
         kamers.add(kamer2);
         kamers.add(kamer);

@@ -4,7 +4,7 @@ package com.example.taskworklife.dto.reservation;
 import java.time.LocalDateTime;
 
 public interface AdminReservatieDto {
-     String getId();
+     Long getId();
 
      LocalDateTime getEnd();
 
