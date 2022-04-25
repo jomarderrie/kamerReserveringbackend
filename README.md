@@ -7,7 +7,7 @@ The goal of this project is to implement an application called `kamerreservering
 
   `Spring Boot` Web Java backend application that exposes a Rest API to create, retrieve and delete rooms with reservation. If a user has `ADMIN` role he/she can also retrieve information of other users or delete them. The application secured endpoints can just be accessed if a valid basic auth token is provided.
 
-  In order to get the basic auth access token, the user can login using the credentials (`username` and `password`) created when he/she signed up directly to the application.
+  In order to get the basic auth access token, the user can login using the credentials (`username` and `password`) created when he/she signed up directly to the application. it uses becrypt to encrypt the password
 
   `kamerreserveringbackend` stores its data in h2 database.
 
@@ -25,12 +25,30 @@ The goal of this project is to implement an application called `kamerreservering
   | `GET /kamer/{kamerNaam}`                                     | Yes     | `ADMIN`, `USER` |
   | `POST /kamer/{kamerNaam}/delete/reservatie/{id}`                  | Yes     | `ADMIN` , `USER`        |
   | `GET /kamer/{kamerNaam}/reserveringen/{datum}`                                   | Yes     | `USER`,`ADMIN`         |
-| `POST /kamer/{naam}/reserveer`                                   | Yes     | `USER`         |
-| `POST /kamer/{naam}/reserveer/edit/{reservatieId}`                                   | Yes     | `USER`,`ADMIN`         |
-| `GET /reservaties/{email}/alles`                                   | Yes     |  `USER`,`ADMIN`         |
-| `POST /user/login`                                   | Yes     | `USER`,`ADMIN`         |
-| `POST /user/token`                                   | Yes     | `ADMIN`  , `USER`       |
-| `DELETE /user/{voornaam}/{achterNaam}/delete`                                   | Yes     | `ADMIN`        |
+  | `POST /kamer/{naam}/reserveer`                                   | Yes     | `USER`         |
+  | `POST /kamer/{naam}/reserveer/edit/{reservatieId}`                                   | Yes     | `USER`,`ADMIN`         |
+  | `GET /reservaties/{email}/alles`                                   | Yes     |  `USER`,`ADMIN`         |
+  | `POST /user/login`                                   | Yes     | `USER`,`ADMIN`         |
+  | `POST /user/token`                                   | Yes     | `ADMIN`  , `USER`       |
+  | `DELETE /user/{voornaam}/{achterNaam}/delete`                                   | Yes     | `ADMIN`        |
+
+- ### kamerreserveringfrontend
+
+  `ReactJS` frontend application where a user with role `USER` can retrieve the information about rooms and their reservation. On the other hand, a user with role `ADMIN` has access to all secured endpoints, including endpoints to create and delete rooms and reservations.
+  
+  In order to access the application, a `user` or `admin` can login using the credentials. the login for an normal user is pokemon@gmail.com and password Pokemon!23 and for the admin user admin@gmail.com and password AdminUser!1. These credentials should be seeded on application startup. 
+  
+  
+  `kamerreserveringfrontend` uses [`React styled components`](https://styled-components.com/) as CSS-styled framework.
+  
+  ## Prerequisites
+
+- [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
+- [`Docker`](https://www.docker.com/)
+- [`Docker-Compose`](https://docs.docker.com/compose/install/)
+- [`jq`](https://stedolan.github.io/jq)
+
 
 - techstack and libraries
 - 
