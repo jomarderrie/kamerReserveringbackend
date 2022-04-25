@@ -1,6 +1,8 @@
 package com.example.taskworklife.service.reservaties;
 
+import com.example.taskworklife.converter.reservering.ReserveringDtoToReservering;
 import com.example.taskworklife.dto.reservation.AdminReservatieDto;
+import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieUserDto;
 import com.example.taskworklife.exception.reservatie.ReservatieNietGevondenException;
 import com.example.taskworklife.models.Kamer;
@@ -23,10 +25,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class ReservatiesImpl implements ReservatiesService{
+public class ReservatiesImpl implements ReservatiesService {
     ReservationRepo reservationRepo;
     private final KamerRepo kamerRepo;
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
+    ReserveringDtoToReservering reserveringDtoToReservering;
 
     @Autowired
     public ReservatiesImpl(ReservationRepo reservationRepo, KamerRepo kamerRepo) {
@@ -50,19 +53,28 @@ public class ReservatiesImpl implements ReservatiesService{
     @Override
     public void deleteReservatie(Long id) throws ReservatieNietGevondenException {
         Optional<Reservering> reservering = reservationRepo.findById(id);
-        if (reservering.isPresent()){
+        if (reservering.isPresent()) {
             LOGGER.info("Reservatie verwijderd met naam " + id);
             Kamer kamer = reservering.get().getKamer();
             List<Reservering> reserveringStream = reservering.get().getKamer().getReservering().stream().filter(item -> !Objects.equals(item.getId(), id)).collect(Collectors.toList());
             kamer.setReservering(reserveringStream);
             kamerRepo.save(kamer);
             reservationRepo.deleteById(id);
-        }else{
+        } else {
             throw new ReservatieNietGevondenException("De reservatie is niet gevonden");
         }
     }
 
-
+    @Override
+    public void editReservatie(Long id, MaakReservatieDto maakReservatieDto) throws ReservatieNietGevondenException {
+        Reservering de_reservatie_is_niet_gevonden = reservationRepo.findById(id).orElseThrow(() ->
+                new ReservatieNietGevondenException("De reservatie is niet gevonden"));
+        Reservering convert = reserveringDtoToReservering.convert(maakReservatieDto);
+        convert.setId(id);
+        convert.setKamer(de_reservatie_is_niet_gevonden.getKamer());
+        convert.setUser(de_reservatie_is_niet_gevonden.getUser());
+        reservationRepo.save(convert);
+    }
 }
 //    val arrItems : Mutable<String> = listOf()
 //        for (findAllUserPermission in userRolePermissionRepository.findAllUserPermissions()) {

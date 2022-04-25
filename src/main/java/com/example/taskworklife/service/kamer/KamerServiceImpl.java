@@ -65,7 +65,6 @@ public class KamerServiceImpl implements KamerService {
      * @return Lijst of kamers, als er geen gevonden is, geef een lege lijst terug
      */
     public Page<Kamer> getKamers(int paginaNummer, int paginaGroote, String sortBy) {
-
         return kamerRepo.findAll(PageRequest.of(paginaNummer, paginaGroote, Sort.by(sortBy)));
     }
 
@@ -83,21 +82,21 @@ public class KamerServiceImpl implements KamerService {
     }
 
     @Override
-    public Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties, UserPrincipal userPrincipal) throws KamerNaamNotFoundException {
-        if (Boolean.TRUE.equals(!StringUtils.isNotBlank(searchedString) && !eigenReservaties) && Boolean.TRUE.equals(!alGereserveerde)) {
-            return kamerRepo.findAllKamersBySearchedString(searchedString, PageRequest.of(0, 5));
+    public Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties, UserPrincipal userPrincipal, Integer pageNo, Integer pageSize) throws KamerNaamNotFoundException {
+        if (Boolean.TRUE.equals(StringUtils.isNotBlank(searchedString) && !eigenReservaties) && Boolean.TRUE.equals(!alGereserveerde)) {
+            return kamerRepo.findAllKamersBySearchedString(searchedString, PageRequest.of(pageNo, pageSize));
         }
 
         if (alGereserveerde && eigenReservaties) {
 
-        } else if (eigenReservaties){
-
+        } else if (Boolean.TRUE.equals(eigenReservaties)){
+        return    kamerRepo.findAllKamersBySearchedStringAndReservationForUser(searchedString, userPrincipal.getUser().getId(),PageRequest.of(pageNo, pageSize));
         }
-        else if (alGereserveerde) {
+        else if (Boolean.TRUE.equals(alGereserveerde)) {
 
 
         } else {
-           return kamerRepo.findAllKamersBySearchedString("k", PageRequest.of(0, 5));
+//           return getKamers(pageNo, )
         }
         return null;
     }

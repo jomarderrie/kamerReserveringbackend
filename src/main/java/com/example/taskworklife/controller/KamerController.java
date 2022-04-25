@@ -61,7 +61,7 @@ public class KamerController extends ExceptionHandlingKamer {
             @RequestParam(defaultValue = "0", required = false) Integer pageNo,
             @RequestParam(defaultValue = "10", required = false) Integer pageSize
             ) throws KamerNaamNotFoundException {
-        return new ResponseEntity<Page<Kamer>>(kamerService.getKamerByNaamEnSortables(searched, alGereserveerde, eigenReservaties, (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()), HttpStatus.OK);
+        return new ResponseEntity<Page<Kamer>>(kamerService.getKamerByNaamEnSortables(searched, alGereserveerde, eigenReservaties, (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), pageNo, pageSize), HttpStatus.OK);
     }
 
 
@@ -81,10 +81,8 @@ public class KamerController extends ExceptionHandlingKamer {
 
     @GetMapping("/{kamerNaam}/reserveringen/{datum}")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<ReservatieKamerDto>> getAllKamersMetEenBepaaldeNaamOpEenBepaaldeDatum(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") String datum) throws KamerNaamNotFoundException, KamerIsNietGevonden, ParseException, KamerNaamLengteIsTeKlein {
-
+    public ResponseEntity<List<ReservatieKamerDto>> getKamerMetEenBepaaldeNaamOpEenBepaaldeDatum(@PathVariable("kamerNaam") String kamerNaam, @PathVariable("datum") String datum) throws KamerNaamNotFoundException, KamerIsNietGevonden, ParseException, KamerNaamLengteIsTeKlein {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-//        LocalDate.parse()
         java.sql.Date sqlDate = new Date(formatter.parse(datum).getTime());
         System.out.println(sqlDate);
         return new ResponseEntity<List<ReservatieKamerDto>>(kamerService.getAllKamerReservatiesOpEenBepaaldeDag(kamerNaam, sqlDate), HttpStatus.OK);
@@ -108,11 +106,14 @@ public class KamerController extends ExceptionHandlingKamer {
     @CrossOrigin(origins = "http://localhost:3000")
     public void reserveerKamer(@PathVariable("naam") String kamerNaam, @RequestBody MaakReservatieDto reservatieDto, Principal principal) throws KamerReserveringBestaat, EindTijdIsBeforeStartTijd, KamerNaamIsLeegException, KamerNaamNotFoundException, KamerIsNietGevonden, EmailIsNietGevonden, KamerNaamLengteIsTeKlein {
         kamerService.reserveerKamer(kamerNaam, reservatieDto, ((UserPrincipal) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser().getEmail());
+    }
+    @PostMapping("/{naam}/reserveer/edit/{reservatieId}")
+    private void editReservatie(){
 
     }
+
     @DeleteMapping("/{kamerNaam}/delete/reservatie/{id}")
     private void verwijderReservatieByIdByKamerNaam(@PathVariable String kamerNaam, @PathVariable Long id) throws ReservatieNietGevondenException, KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException {
-
         kamerService.deleteReservatieByKamerNaam(kamerNaam,id);
     }
 

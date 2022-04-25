@@ -32,9 +32,12 @@ public interface KamerRepo extends PagingAndSortingRepository<Kamer, Long> {
 //    @Query(value = "SELECT b FROM Kamer b, Reservering p WHERE (b.id = p.kamer.id) AND (b.naam = :naam )")
 //  List<AdminReservatieDto>  findByNaamAndGetAllReserveringenById();
 
-    @Query(value = "SELECT * from Kamer where naam like %?1%",
-            countQuery = "SELECT count(*) from kamer where naam like %?1%", nativeQuery = true)
+    @Query(value = "SELECT * from Kamer k, where naam like %?1%",
+            countQuery = "SELECT count(*) from kamer where k.naam like %?1%", nativeQuery = true)
     Page<Kamer> findAllKamersBySearchedString(String naam, Pageable pageable);
+
+    @Query(value = "SELECT k.* from Kamer k, reservering r where naam like %?1% AND r.user_id = ?2 AND k.id = r.kamer_id",  countQuery = "SELECT count(k.*) from KAMER k, RESERVERING r where k.naam like %?1% AND r.user_id = ?2 AND k.id = r.kamer_id", nativeQuery = true)
+    Page<Kamer> findAllKamersBySearchedStringAndReservationForUser(String naam, Long userId, Pageable pageable);
 //        @Query(value = "SELECT * FROM USERS WHERE LASTNAME = ?1",
 //                countQuery = "SELECT count(*) FROM USERS WHERE LASTNAME = ?1",
 //                nativeQuery = true)

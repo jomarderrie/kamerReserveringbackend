@@ -59,5 +59,9 @@ public class ExceptionHandlingKamer extends CreateResponse implements ErrorContr
         return createHttpResponse(BAD_REQUEST, aanmakenVanKamerGingFout.getMessage());
     }
 
+    @ExceptionHandler(ReserveringNietOpZelfdeDagException.class)
+    public ResponseEntity<HttpResponse> reserveringNietOpZelfdeDag(ReserveringNietOpZelfdeDagException reserveringNietOpZelfdeDagException){
+        return createHttpResponse(BAD_REQUEST, reserveringNietOpZelfdeDagException.getMessage());
+    }
 
 }

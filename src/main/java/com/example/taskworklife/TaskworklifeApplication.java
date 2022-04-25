@@ -27,8 +27,6 @@ public class TaskworklifeApplication {
         return new BCryptPasswordEncoder(10);
     }
 
-
-
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();

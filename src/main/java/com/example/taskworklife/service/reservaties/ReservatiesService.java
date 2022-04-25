@@ -1,6 +1,7 @@
 package com.example.taskworklife.service.reservaties;
 
 import com.example.taskworklife.dto.reservation.AdminReservatieDto;
+import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieUserDto;
 import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
 import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
@@ -16,4 +17,6 @@ public interface ReservatiesService {
     Page<AdminReservatieDto> getAllReservaties(Integer pageSize, Integer pageNo);
 
     void deleteReservatie(Long id) throws ReservatieNietGevondenException;
+
+    void editReservatie(Long id, MaakReservatieDto maakReservatieDto) throws ReservatieNietGevondenException;
 }

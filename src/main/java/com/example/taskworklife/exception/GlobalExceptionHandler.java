@@ -6,6 +6,7 @@ import com.example.taskworklife.exception.global.IoException;
 import com.example.taskworklife.exception.images.FotoTypeIsNietToegestaan;
 import com.example.taskworklife.exception.images.ImagesExceededLimit;
 import com.example.taskworklife.exception.images.ImagesNotFoundException;
+import com.example.taskworklife.exception.kamer.EindDatumIsVoorHuidigeTijd;
 import com.example.taskworklife.exception.reservatie.ReservatieNietGevondenException;
 import com.example.taskworklife.models.HttpResponse;
 import org.springframework.http.ResponseEntity;
@@ -51,4 +52,8 @@ public class GlobalExceptionHandler extends CreateResponse {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler(EindDatumIsVoorHuidigeTijd.class)
+    public ResponseEntity<HttpResponse> eindDatumIsVoorHuidigeTijd(EindDatumIsVoorHuidigeTijd eindDatumIsVoorHuidigeTijd){
+        return createHttpResponse(BAD_REQUEST, eindDatumIsVoorHuidigeTijd.getMessage());
+    }
 }

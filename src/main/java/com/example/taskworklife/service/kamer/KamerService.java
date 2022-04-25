@@ -29,7 +29,7 @@ public interface KamerService {
 
     List<ReservatieKamerDto> getAllKamerReservatiesOpEenBepaaldeDag(String naam, Date date) throws KamerIsNietGevonden, KamerNaamNotFoundException, KamerNaamLengteIsTeKlein;
 
-    Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties, UserPrincipal userPrincipal) throws KamerNaamNotFoundException;
+    Page<Kamer> getKamerByNaamEnSortables(String searchedString, Boolean alGereserveerde, Boolean eigenReservaties, UserPrincipal userPrincipal, Integer pageNo, Integer pageSize) throws KamerNaamNotFoundException;
 
     void deleteReservatieByKamerNaam(String kamerNaam,Long id) throws ReservatieNietGevondenException, KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException;
 }

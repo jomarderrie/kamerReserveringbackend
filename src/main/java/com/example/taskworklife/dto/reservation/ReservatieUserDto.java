@@ -11,4 +11,8 @@ public interface ReservatieUserDto {
     public LocalDateTime getStart();
 
     public String getNaam();
+
+    LocalDateTime getSluitTijd() ;
+
+    LocalDateTime getStartTijd() ;
 }

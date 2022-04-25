@@ -1,6 +1,7 @@
 package com.example.taskworklife.controller;
 
 import com.example.taskworklife.dto.reservation.AdminReservatieDto;
+import com.example.taskworklife.dto.reservation.MaakReservatieDto;
 import com.example.taskworklife.dto.reservation.ReservatieUserDto;
 import com.example.taskworklife.exception.kamer.KamerIsNietGevonden;
 import com.example.taskworklife.exception.kamer.KamerNaamLengteIsTeKlein;
@@ -49,19 +50,23 @@ public class ReservatiesController {
        return new ResponseEntity<>(reservatiesService.getAllReservaties(pageSize, pageNo), HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{id}")
+    private void verwijderReservatieById(@PathVariable Long id) throws ReservatieNietGevondenException {
+        reservatiesService.deleteReservatie(id);
+    }
+
+    @PostMapping("/edit/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
+    private void veranderReservatieById(@PathVariable long id, @RequestBody MaakReservatieDto maakReservatieDto) throws ReservatieNietGevondenException {
+        reservatiesService.editReservatie(id, maakReservatieDto);
+    }
+//    @PostMapping()
     private void authCheck(UserPrincipal principal) throws GeenAdminException {
         if (!principal.getUser().getRole().equals("ROLE_ADMIN")){
             throw new GeenAdminException("Geen admin role gevonden");
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    private void verwijderReservatieById(@PathVariable Long id) throws ReservatieNietGevondenException {
-            reservatiesService.deleteReservatie(id);
-    }
-
-//    @PostMapping(/edit/{id})
-//    @PostMapping()
 
      private Boolean checkOfEmailHetzelfdeIs(UserPrincipal userPrincipal, String email) throws EmailIsNietJuist {
         if (Objects.equals(userPrincipal.getUser().getEmail(), email)){

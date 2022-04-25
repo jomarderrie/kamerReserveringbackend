@@ -62,8 +62,8 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         Kamer kamer2 = new Kamer();
         kamer2.setNaam("kamer2");
-        kamer2.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
-        kamer2.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
+        kamer2.setStartTijd(LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(0, 0)));
+        kamer2.setSluitTijd(LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(23, 0)));
         //kamer 1 reservering
 
         Reservering reservering2Kamer1 = new Reservering();

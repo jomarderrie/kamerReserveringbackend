@@ -14,10 +14,7 @@ public interface AdminReservatieDto {
 
      String getNaam() ;
 
-
      LocalDateTime getSluitTijd() ;
 
-
      LocalDateTime getStartTijd() ;
-
 }
