@@ -14,17 +14,23 @@ The goal of this project is to implement an application called `kamerreservering
   `kamerreserveringbackend` has the following endpoints
   | Endpoint                                                      | Secured | Roles           |
   | ------------------------------------------------------------- | ------- | --------------- |
-  | `POST /auth/authenticate -d {"username","password"}`          | No      |                 |
-  | `POST /auth/signup -d {"username","password","name","email"}` | No      |                 |
-  | `GET /public/numberOfUsers`                                   | No      |                 |
-  | `GET /public/numberOfMovies`                                  | No      |                 |
-  | `GET /api/users/me`                                           | Yes     | `ADMIN`, `USER` |
-  | `GET /api/users`                                              | Yes     | `ADMIN`         |
-  | `GET /api/users/{username}`                                   | Yes     | `ADMIN`         |
-  | `DELETE /api/users/{username}`                                | Yes     | `ADMIN`         |
-  | `GET /api/movies [?text]`                                     | Yes     | `ADMIN`, `USER` |
-  | `POST /api/movies -d {"imdb","description"}`                  | Yes     | `ADMIN`         |
-  | `DELETE /api/movies/{imdb}`                                   | Yes     | `ADMIN`         |
+  | `POST /images/kamer/{naam}/upload/images`                     |Yes      | `ADMIN`|
+  | `POST /images/user/{email}/image/delete`                      | Yes     | `ADMIN` |
+  | `POST /images/user/{email}/upload`                 |            Yes      |   `ADMIN`  |
+  | `GET /kamer/all`                            | Yes      |                | `ADMIN`, `USER` |
+  | `DELETE /kamer/delete/{naam}`                                           | Yes     | `ADMIN` |
+  | `PUT /kamer/edit/{vorigeNaam}`                                              | Yes     | `ADMIN`         |
+  | `POST /kamer/new`                                   | Yes     | `ADMIN`         |
+  | `GET /kamer/searched`                                | Yes     | `ADMIN`, `USER`         |
+  | `GET /kamer/{kamerNaam}`                                     | Yes     | `ADMIN`, `USER` |
+  | `POST /kamer/{kamerNaam}/delete/reservatie/{id}`                  | Yes     | `ADMIN` , `USER`        |
+  | `GET /kamer/{kamerNaam}/reserveringen/{datum}`                                   | Yes     | `USER`,`ADMIN`         |
+| `POST /kamer/{naam}/reserveer`                                   | Yes     | `USER`         |
+| `POST /kamer/{naam}/reserveer/edit/{reservatieId}`                                   | Yes     | `USER`,`ADMIN`         |
+| `GET /reservaties/{email}/alles`                                   | Yes     |  `USER`,`ADMIN`         |
+| `POST /user/login`                                   | Yes     | `USER`,`ADMIN`         |
+| `POST /user/token`                                   | Yes     | `ADMIN`  , `USER`       |
+| `DELETE /user/{voornaam}/{achterNaam}/delete`                                   | Yes     | `ADMIN`        |
 
 - techstack and libraries
 - 
