@@ -38,6 +38,15 @@ public interface KamerRepo extends PagingAndSortingRepository<Kamer, Long> {
 
     @Query(value = "SELECT k.* from Kamer k, reservering r where naam like %?1% AND r.user_id = ?2 AND k.id = r.kamer_id",  countQuery = "SELECT count(k.*) from KAMER k, RESERVERING r where k.naam like %?1% AND r.user_id = ?2 AND k.id = r.kamer_id", nativeQuery = true)
     Page<Kamer> findAllKamersBySearchedStringAndReservationForUser(String naam, Long userId, Pageable pageable);
+
+    // TODO: 25/04/2022 needs to be implemented 
+    @Query(value = "SELECT k.* from Kamer k, reservering r where naam like %?1% AND r.user_id = ?2 AND k.id = r.kamer_id",  countQuery = "SELECT count(k.*) from KAMER k, RESERVERING r where k.naam like %?1% AND r.user_id = ?2 AND k.id = r.kamer_id", nativeQuery = true)
+    Page<Kamer> findAllKamersBySearchedStringAndReservedBetweenTwoDates(String naam, Long userId, Pageable pageable);
+    
+    // TODO: 25/04/2022 sql needs to be implemented 
+    @Query(value = "SELECT k.* from Kamer k, reservering r where naam like %?1% AND r.user_id = ?2 AND k.id = r.kamer_id",  countQuery = "SELECT count(k.*) from KAMER k, RESERVERING r where k.naam like %?1% AND r.user_id = ?2 AND k.id = r.kamer_id", nativeQuery = true)
+    Page<Kamer> findAllKamersBySearchedStringAndReservedBetweenTwoDatesForUser(String naam, Long userId, Pageable pageable);
+    
 //        @Query(value = "SELECT * FROM USERS WHERE LASTNAME = ?1",
 //                countQuery = "SELECT count(*) FROM USERS WHERE LASTNAME = ?1",
 //                nativeQuery = true)
