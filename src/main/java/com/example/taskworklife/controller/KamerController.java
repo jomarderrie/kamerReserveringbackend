@@ -59,7 +59,9 @@ public class KamerController extends ExceptionHandlingKamer {
             @RequestParam(defaultValue = "false", required = false) Boolean alGereserveerde,
             @RequestParam(defaultValue = "false", required = false) Boolean eigenReservaties, Principal principal,
             @RequestParam(defaultValue = "0", required = false) Integer pageNo,
-            @RequestParam(defaultValue = "10", required = false) Integer pageSize
+            @RequestParam(defaultValue = "10", required = false) Integer pageSize,
+            @RequestParam( required = false) String startDatum,
+            @RequestParam(required = false) String endDatum
             ) throws KamerNaamNotFoundException {
         return new ResponseEntity<Page<Kamer>>(kamerService.getKamerByNaamEnSortables(searched, alGereserveerde, eigenReservaties, (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal(), pageNo, pageSize), HttpStatus.OK);
     }
@@ -117,18 +119,9 @@ public class KamerController extends ExceptionHandlingKamer {
         kamerService.deleteReservatieByKamerNaam(kamerNaam,id);
     }
 
-
-
     public String getLoggedInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getPrincipal().toString();
     }
 
-
-
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello!";
-    }
 }

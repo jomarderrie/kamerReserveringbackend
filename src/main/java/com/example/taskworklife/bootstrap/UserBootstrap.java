@@ -48,8 +48,6 @@ public class UserBootstrap implements ApplicationListener<ContextRefreshedEvent>
         User normaleGebruiker = new User();
         List<Reservering> reserveringListKamer2 = new ArrayList<>();
 
-
-
         normaleGebruiker.setReserveringArrayList(reserveringListKamer2);
         normaleGebruiker.setWachtwoord(passwordEncoder.encode("Pokemon!23"));
         normaleGebruiker.setNaam("jan");

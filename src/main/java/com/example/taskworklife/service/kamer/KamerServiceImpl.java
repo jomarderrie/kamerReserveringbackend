@@ -88,14 +88,16 @@ public class KamerServiceImpl implements KamerService {
         }
 
         if (alGereserveerde && eigenReservaties) {
+            // TODO: 25/04/2022
 //            return kamerRepo.findAllKamersBySearchedStringAndReservedBetweenTwoDatesForUser()
         } else if (Boolean.TRUE.equals(eigenReservaties)){
         return    kamerRepo.findAllKamersBySearchedStringAndReservationForUser(searchedString, userPrincipal.getUser().getId(),PageRequest.of(pageNo, pageSize));
         }
         else if (Boolean.TRUE.equals(alGereserveerde)) {
-
+            // TODO: 25/04/2022
+           /* kamerRepo.findAllKamersBySearchedStringAndReservedBetweenTwoDates(searchedString, userPrincipal.getUser().getId(),PageRequest.of(pageNo, pageSize));*/
         } else {
-//           return getKamers(pageNo, )
+//           return getKamers(pageNo, )Ò
         }
         return null;
     }

@@ -15,7 +15,7 @@ public interface ReservationRepo extends PagingAndSortingRepository<Reservering,
             countQuery = "SELECT count(*) from reservering r where r.user_id = ?1", nativeQuery = true)
     Page<ReservatieUserDto> findAllReservatiesForUser(String userId, Pageable pageable);
 
-    @Query(value = "SELECT r.id,r.end, r.start,w u.email, k.naam, k.SLUITTIJD, k.STARTTIJD from Reservering r, USER u, Kamer k where r.KAMER_ID = k.ID AND r.USER_ID = u.ID",
+    @Query(value = "SELECT r.id,r.end, r.start, u.email, k.naam, k.SLUITTIJD, k.STARTTIJD from Reservering r, USER u, Kamer k where r.KAMER_ID = k.ID AND r.USER_ID = u.ID",
             countQuery = "SELECT count(*) from RESERVERING r",
             nativeQuery = true)
     Page<AdminReservatieDto> findAllReservaties(Pageable pageable);
