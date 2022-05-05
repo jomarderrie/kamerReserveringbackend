@@ -112,7 +112,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         KamerFileAttachment fileAttachment = new KamerFileAttachment();
 
-        fileAttachment.setName("Monkey_chathead.png");
+        fileAttachment.setName("room.png");
 
         fileAttachment.setFileType("image/png");
 
@@ -129,30 +129,10 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         fileAttachment1Room1.setDate(new Date());
 
-        kamer.addFileAttachment(fileAttachment1Room1);
+        kamer2.addFileAttachment(fileAttachment1Room1);
 
-        // kamer 2 file attachment
+        // kamer2 2 file attachment
 
-        KamerFileAttachment fileAttachment2Room2 = new KamerFileAttachment();
-
-        fileAttachment2Room2.setName("coachkamer.jpeg");
-
-        fileAttachment2Room2.setFileType("image/jpeg");
-
-        fileAttachment2Room2.setDate(new Date());
-
-        kamer.addFileAttachment(fileAttachment2Room2);
-
-
-        KamerFileAttachment fileAttachment3Room2 = new KamerFileAttachment();
-
-        fileAttachment3Room2.setName("kameroman.jpeg");
-
-        fileAttachment3Room2.setFileType("image/jpeg");
-
-        fileAttachment3Room2.setDate(new Date());
-
-        kamer.addFileAttachment(fileAttachment3Room2);
 
 
 
@@ -164,7 +144,7 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
 
         fileAttachment4Room2.setDate(new Date());
 
-        kamer.addFileAttachment(fileAttachment4Room2);
+
 
 
         Kamer kamer3 = new Kamer();
@@ -172,6 +152,8 @@ public class KamerBootstrap implements ApplicationListener<ContextRefreshedEvent
         kamer3.setStartTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 0)));
         kamer3.setSluitTijd(LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 0)));
         kamer3.setReservering(new ArrayList<>());
+
+        kamer3.addFileAttachment(fileAttachment4Room2);
 
         Kamer kamer4 = new Kamer();
         kamer4.setNaam("kamer 4");

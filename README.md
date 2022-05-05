@@ -45,10 +45,22 @@ The goal of this project is to implement an application called `kamerreservering
 
 - [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
-- [`Docker`](https://www.docker.com/)
-- [`Docker-Compose`](https://docs.docker.com/compose/install/)
-- [`jq`](https://stedolan.github.io/jq)
 
 
-- techstack and libraries
-- 
+## Techstack and libraries
+
+- frontend 
+  - react 17.0 with styled components and react context for state management
+  - react hook form for forms
+  - toastify for toasting messages to user
+  - axios for network calls
+  - react datepicker, moment and date-utils for datepickers and working with dates
+  - react table for tables
+- backend
+  - java 11
+  - gradle for package management
+  - h2 for database
+  - spring security and basic password encoding for 
+
+## features and screenshots
+https://www.microsoft.com/en-us/software-download/windows10ISO?msclkid=b174bbecc0bf11ec90ee6643ff3925be
