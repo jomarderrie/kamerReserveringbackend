@@ -78,7 +78,6 @@ public class UserController extends ExceptionHandlingUser {
     @PostMapping("/register")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<UserLoginResponseDto> register(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailBestaatAl, RegisterErrorException {
-
         return new ResponseEntity<>(userService.register(userRegisterDto), OK);
     }
 
