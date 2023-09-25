@@ -31,9 +31,7 @@ public class ReservatiesController {
         this.reservatiesService = reservatiesService;
     }
 
-
-
-    // TODO: 13/04/2022 implement sortby 
+    // TODO: 13/04/2022 implement sortby
     @GetMapping("/{email}/alles")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Page<ReservatieUserDto>> krijgAlleReservatiesVanEenGebruiker(@PathVariable String email, @RequestParam(defaultValue = "0", required = false) Integer pageNo, @RequestParam(defaultValue = "5", required = false) Integer pageSize) throws KamerIsNietGevonden, KamerNaamLengteIsTeKlein, KamerNaamNotFoundException, GeenAdminException, EmailIsNietJuist {

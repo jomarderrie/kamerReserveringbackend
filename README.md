@@ -9,7 +9,7 @@ The goal of this project is to implement an application called `kamerreservering
 
   In order to get the basic auth access token, the user can login using the credentials (`username` and `password`) created when he/she signed up directly to the application. it uses becrypt to encrypt the password
 
-  `kamerreserveringbackend` stores its data in h2 database.
+  `kamerreserveringbackend` stores its data in postgres database.
 
   `kamerreserveringbackend` has the following endpoints
   | Endpoint                                                      | Secured | Roles           |

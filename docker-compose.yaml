@@ -1,30 +1,48 @@
-version: "3.8"
-services:
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    command: mongod --port 27017
-    ports:
-      - 27017:27017
-    volumes:
-      - data:/data
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=rootuser
-      - MONGO_INITDB_ROOT_PASSWORD=rootpass
-      - MONO
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-volumes:
-  data: { }
+version: '3.8'
 
-networks:
-  default:
-    name: mongodb_network
+services:
+#   Spring Boot Application
+#  spring-app:
+#    build:
+#      context: .
+#      dockerfile: DockerFile
+#    ports:
+#      - "8080:8080" # Map host port 8080 to container port 8080
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/yourdb
+#      SPRING_DATASOURCE_USERNAME: yourdbusername
+#      SPRING_DATASOURCE_PASSWORD: yourdbpassword
+#    depends_on:
+#      - db
+
+  # PostgreSQL Database
+  db:
+    image: arm64v8/postgres:latest
+
+    container_name: postgres-container
+    environment:
+      POSTGRES_DB: yourdb
+      POSTGRES_USER: yourdbusername
+      POSTGRES_PASSWORD: yourdbpassword
+    ports:
+      - "5432:5432" # Map host port 5432 to container port 5432
+
+  prod:
+    image: arm64v8/postgres:latest
+
+    container_name: postgres-prod-container
+    environment:
+      POSTGRES_DB: prod
+      POSTGRES_USER: yourdbusername
+      POSTGRES_PASSWORD: yourdbpassword
+    ports:
+      - "5431:5432" # Map host port 5432 to container port 5432
+  dev:
+    image: arm64v8/postgres:latest
+    container_name: postgres-dev-container
+    environment:
+      POSTGRES_DB: dev
+      POSTGRES_USER: yourdbusername
+      POSTGRES_PASSWORD: yourdbpassword
+    ports:
+      - "5433:5432" # Map host port 5432 to container port 5432

@@ -23,7 +23,7 @@ public class UserToUserLoginDto  implements Converter<User, UserLoginResponseDto
         userLoginDto.setAchternaam(source.getAchternaam());
         userLoginDto.setEmail(source.getEmail());
 
-        userLoginDto.setProfileFileAttachment(source.getProfileFileAttachment());
+//        userLoginDto.setProfileFileAttachment(source.getProfileFileAttachment());
         userLoginDto.setLaatstIngelodgeDatumDisplay(source.getLaatstIngelodgeDatumDisplay());
         switch (source.getRole()){
             case "ROLE_ADMIN":
