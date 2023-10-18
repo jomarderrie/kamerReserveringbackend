@@ -1,4 +1,4 @@
-package com.example.taskworklife.dto.user;
+package com.example.taskworklife.dto.user.validators;
 
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.repo.UserRepo;

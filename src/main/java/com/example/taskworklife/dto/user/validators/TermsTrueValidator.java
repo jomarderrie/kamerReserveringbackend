@@ -1,4 +1,4 @@
-package com.example.taskworklife.dto.user;
+package com.example.taskworklife.dto.user.validators;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

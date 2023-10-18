@@ -21,6 +21,6 @@ public class UserLoginDto {
     @NotNull
     @Size(min = 8, max=255)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message="{reservering.constraints.password.Pattern.message}")
-    private String wachtwoord;
+    private String password;
 
 }

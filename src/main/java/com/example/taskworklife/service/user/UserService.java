@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     UserLoginResponseDto register(UserRegisterDto userRegisterDto) throws EmailBestaatAl, RegisterErrorException;
 
-    public List<UserLoginResponseDto> getUsers();
+    List<UserLoginResponseDto> getUsers();
 
     UserLoginResponseDto loginUser(User User);
     User findUserByEmail(String email) throws EmailIsNietGevonden;

@@ -120,11 +120,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void deleteSingleUser(String voorNaam, String achterNaam) throws GebruikerNietGevondenExcepion {
-        User userByAchternaamAndAndNaam = userRepository.findUserByAchternaamAndAndNaam(achterNaam, voorNaam);
-        if (userByAchternaamAndAndNaam != null) {
-            if (userByAchternaamAndAndNaam.getId() != null) {
+        User userByAchternaamAndNaam = userRepository.findUserByAchternaamAndAndNaam(achterNaam, voorNaam);
+        if (userByAchternaamAndNaam != null) {
+            if (userByAchternaamAndNaam.getId() != null) {
                 LOGGER.info("deleted gebruiker met voor en achter naam " + voorNaam + " " + achterNaam);
-                userRepository.deleteById(userByAchternaamAndAndNaam.getId());
+                userRepository.deleteById(userByAchternaamAndNaam.getId());
             }
         } else {
             throw new GebruikerNietGevondenExcepion("Gebruiker is niet gevonden");

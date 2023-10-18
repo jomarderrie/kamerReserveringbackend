@@ -2,6 +2,7 @@ package com.example.taskworklife.controller;
 
 import com.example.taskworklife.dto.user.UserLoginDto;
 import com.example.taskworklife.dto.user.UserLoginResponseDto;
+import com.example.taskworklife.dto.user.UserProfileUpdateDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
 import com.example.taskworklife.exception.ExceptionHandlingUser;
 import com.example.taskworklife.exception.user.*;
@@ -9,10 +10,11 @@ import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.models.user.UserPrincipal;
 import com.example.taskworklife.service.user.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -58,6 +60,14 @@ public class UserController extends ExceptionHandlingUser {
         return new ResponseEntity<>(userService.loginUser(loginUser), OK);
     }
 
+//    @PutMapping("/{voornaam}/{achterNaam}/update")
+//    public ResponseEntity<UserLoginResponseDto> updateProfile(@Valid @RequestBody UserProfileUpdateDto userProfileUpdateDto, @RequestHeader HttpHeaders headers) throws EmailIsNietGevonden, TokenParsingException {
+//        // check if admin user or if the same user
+//        User userModel = checkIfSameUser(((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser(), headers.getFirst(HttpHeaders.AUTHORIZATION).split(" ")[1]);
+//
+//        return new ResponseEntity<>(userService.updateProfile(userProfileUpdateDto, (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()), OK);
+//    }
+//
 
     @PostMapping("/login")
     @CrossOrigin(origins = "http://localhost:3000")
@@ -67,7 +77,7 @@ public class UserController extends ExceptionHandlingUser {
             throw new EmailIsNietGevonden("De login email is niet gevonden");
         }
         try {
-            authenticate(userLoginDto.getEmail(), userLoginDto.getWachtwoord());
+            authenticate(userLoginDto.getEmail(), userLoginDto.getPassword());
         } catch (Exception e) {
             throw new LoginException("Er is iets misgegaan met het inloggen");
         }
@@ -84,7 +94,6 @@ public class UserController extends ExceptionHandlingUser {
     @GetMapping("/all")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<UserLoginResponseDto>> getAllUsers() {
-
         return new ResponseEntity<>(userService.getUsers(), OK);
     }
 
@@ -100,8 +109,34 @@ public class UserController extends ExceptionHandlingUser {
         userService.deleteSingleUser(voornaam, achterNaam);
     }
 
+    //utils
     private void authenticate(String username, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    }
+
+
+    private User checkIfSameUser(User userPrincipal, String token) throws TokenParsingException {
+        User userModel = getUserModel(token);
+        if (userModel.getEmail().equals(userPrincipal.getEmail())) {
+            return userModel;
+        } else {
+            throw new TokenParsingException("Invalid token");
+        }
+    }
+
+    private User getUserModel(String token) throws TokenParsingException {
+        User loginUser;
+        try {
+            String[] split = new String(Base64.getDecoder().decode(token)).split(":");
+            if (split.length != 2) {
+                throw new TokenParsingException("the token is invalid");
+            }
+            loginUser = userService.findUserByEmail(split[0]);
+            authenticate(split[0], split[1]);
+        } catch (Exception e) {
+            throw new TokenParsingException("The token is invalid");
+        }
+        return loginUser;
     }
 
 }

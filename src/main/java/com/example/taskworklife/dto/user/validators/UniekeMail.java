@@ -1,4 +1,4 @@
-package com.example.taskworklife.dto.user;
+package com.example.taskworklife.dto.user.validators;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -7,13 +7,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = TermsTrueValidator.class)
+@Constraint(validatedBy = UniqueEmailValidator.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TermsTrue {
-    String message() default "Terms moeten geaccepteerd worden";
+public @interface UniekeMail {
+    String message() default "{reservering.constraints.email.UniqueEmail.message}";
 
     Class<?>[] groups() default { };
 
     Class<? extends Payload>[] payload() default { };
+
 }

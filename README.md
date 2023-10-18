@@ -1,7 +1,7 @@
 # springboot-react-room-reservation
 
 The goal of this project is to implement an application called `kamerreservering` to manage, create and reserve rooms. For it, we will implement a back-end application called `kamerreserveringbackend` using [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) and a font-end application called `kamerreserveringfrontend`[github link](https://github.com/NathanGanesh/kamerreserveringfrontend) using [ReactJS](https://reactjs.org/). Besides, i will use spring security and a sql database for securing the application. 
-## Applications
+### instructions
 
 - ### kamerreserveringbackend
 
@@ -59,8 +59,6 @@ The goal of this project is to implement an application called `kamerreservering
 - backend
   - java 11
   - gradle for package management
-  - h2 for database
-  - spring security and basic password encoding for 
+  - h2 persistent for database
+  - spring security and basic 64 bit password encoding
 
-## features and screenshots
-https://www.microsoft.com/en-us/software-download/windows10ISO?msclkid=b174bbecc0bf11ec90ee6643ff3925be

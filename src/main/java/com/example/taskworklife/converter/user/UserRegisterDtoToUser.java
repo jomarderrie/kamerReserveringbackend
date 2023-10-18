@@ -43,24 +43,24 @@ public class UserRegisterDtoToUser implements Converter<UserRegisterDto, User> {
             throw new TermenNietGeaccepteerd("Terms arent accepted");
         }
         //check wachtwoord with regex
-        user.setWachtwoord(passwordEncoder.encode(source.getWachtwoord()));
+        user.setWachtwoord(passwordEncoder.encode(source.getPassword()));
 
         //check of naam niet leeg is of kleiner dan 3 in size is
-        if (!StringUtils.isNotBlank(source.getNaam())){
+        if (!StringUtils.isNotBlank(source.getFirstName())){
             throw new NaamBestaatNiet("Naam bestaat niet");
         }
-        if(source.getNaam().length()<3){
+        if(source.getFirstName().length()<3){
             throw new NaamTeKleinException("Naam is te klein");
         }
-        user.setNaam(source.getNaam());
+        user.setNaam(source.getFirstName());
         //check of achternaam niet leeg is of kleiner dan 3 in size is
-        if (!StringUtils.isNotBlank(source.getAchterNaam())){
+        if (!StringUtils.isNotBlank(source.getLastName())){
             throw new NaamBestaatNiet("Achternaam bestaat niet");
         }
-        if(source.getAchterNaam().length()<3){
+        if(source.getLastName().length()<3){
             throw new NaamTeKleinException("Achternaam is te klein");
         }
-        user.setAchternaam(source.getAchterNaam());
+        user.setAchternaam(source.getLastName());
 
         if (!isValid(source.getEmail())) {
             throw new EmailIsNietJuist("Email is niet juist");

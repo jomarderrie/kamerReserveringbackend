@@ -1,5 +1,7 @@
 package com.example.taskworklife.dto.user;
 
+import com.example.taskworklife.dto.user.validators.TermsTrue;
+import com.example.taskworklife.dto.user.validators.UniekeMail;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,9 +13,9 @@ import javax.validation.constraints.Size;
 @Setter
 public class UserRegisterDto {
     @NotNull(message = "{reservering.constraints.username.NotNull.message}")
-    private String naam;
+    private String firstName;
     @NotNull
-    private String achterNaam;
+    private String lastName;
 
     @NotNull
     @UniekeMail
@@ -23,7 +25,7 @@ public class UserRegisterDto {
     @NotNull
     @Size(min = 8, max=255)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message="{reservering.constraints.password.Pattern.message}")
-    private String wachtwoord;
+    private String password;
 
     @NotNull(message = "Terms moeten geaccepteerd worden")
     @TermsTrue
