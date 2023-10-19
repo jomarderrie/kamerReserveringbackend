@@ -132,8 +132,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void updateProfile(User user, UserProfileUpdateDto userProfileUpdateDto) throws FieldIsEmptyException, EmailBestaatAl {
-        if (!StringUtils.isNotBlank(userProfileUpdateDto.getFirstName())||StringUtils.isNotBlank(userProfileUpdateDto.getPassword()) ||StringUtils.isNotBlank(userProfileUpdateDto.getEmail())
-         || StringUtils.isNotBlank(userProfileUpdateDto.getPassword())) {
+        if (!(StringUtils.isNotBlank(userProfileUpdateDto.getFirstName())||StringUtils.isNotBlank(userProfileUpdateDto.getPassword()) ||StringUtils.isNotBlank(userProfileUpdateDto.getEmail())
+         || StringUtils.isNotBlank(userProfileUpdateDto.getPassword()))) {
             throw new FieldIsEmptyException("Field not found");
         }
         User userByEmail = userRepository.findUserByEmail(userProfileUpdateDto.getEmail());
@@ -146,6 +146,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userUpdateDto.setNotLocked(user.isNotLocked());
             userUpdateDto.setRole(ROLE_USER.name());
             userUpdateDto.setAuthorities(ROLE_USER.getAuthorities());
+            userRepository.save(userUpdateDto);
         } else {
             LOGGER.error("User already found with email: " + userProfileUpdateDto.getEmail());
             throw new EmailBestaatAl("User already found with email: " + userProfileUpdateDto.getEmail());
