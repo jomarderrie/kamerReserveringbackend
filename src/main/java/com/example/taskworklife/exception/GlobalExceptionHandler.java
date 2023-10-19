@@ -1,6 +1,7 @@
 package com.example.taskworklife.exception;
 
 import com.example.taskworklife.exception.global.ChangeOnlyOwnUserException;
+import com.example.taskworklife.exception.global.FieldIsEmptyException;
 import com.example.taskworklife.exception.global.ImageException;
 import com.example.taskworklife.exception.global.IoException;
 import com.example.taskworklife.exception.images.FotoTypeIsNietToegestaan;
@@ -41,6 +42,12 @@ public class GlobalExceptionHandler extends CreateResponse {
     public ResponseEntity<HttpResponse> ioException(IoException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
+
+    @ExceptionHandler(FieldIsEmptyException.class)
+    public ResponseEntity<HttpResponse> fieldIsEmptyException(FieldIsEmptyException fieldIsEmptyException){
+        return createHttpResponse(BAD_REQUEST, fieldIsEmptyException.getMessage());
+    }
+
     @ExceptionHandler(ChangeOnlyOwnUserException.class)
     public ResponseEntity<HttpResponse> changeOnlyOwnUserException(ChangeOnlyOwnUserException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());

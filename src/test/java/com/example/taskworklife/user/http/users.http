@@ -55,7 +55,3 @@ Authorization:Basic cG9rZW1vbkBnbWFpbC5jb206UG9rZW1vbiEyMw==
   "email": "pokemon1@gmail.com"
 }
 
-### delete user
-DELETE http://localhost:8080/user/profile/delete
-Content-Type: application/json
-Authorization:Basic cG9rZW1vbkBnbWFpbC5jb206UG9rZW1vbiEyMw==

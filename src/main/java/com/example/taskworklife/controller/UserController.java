@@ -5,6 +5,7 @@ import com.example.taskworklife.dto.user.UserLoginResponseDto;
 import com.example.taskworklife.dto.user.UserProfileUpdateDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
 import com.example.taskworklife.exception.ExceptionHandlingUser;
+import com.example.taskworklife.exception.global.FieldIsEmptyException;
 import com.example.taskworklife.exception.user.*;
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.models.user.UserPrincipal;
@@ -60,14 +61,6 @@ public class UserController extends ExceptionHandlingUser {
         return new ResponseEntity<>(userService.loginUser(loginUser), OK);
     }
 
-//    @PutMapping("/{voornaam}/{achterNaam}/update")
-//    public ResponseEntity<UserLoginResponseDto> updateProfile(@Valid @RequestBody UserProfileUpdateDto userProfileUpdateDto, @RequestHeader HttpHeaders headers) throws EmailIsNietGevonden, TokenParsingException {
-//        // check if admin user or if the same user
-//        User userModel = checkIfSameUser(((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser(), headers.getFirst(HttpHeaders.AUTHORIZATION).split(" ")[1]);
-//
-//        return new ResponseEntity<>(userService.updateProfile(userProfileUpdateDto, (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()), OK);
-//    }
-//
 
     @PostMapping("/login")
     @CrossOrigin(origins = "http://localhost:3000")
@@ -108,6 +101,15 @@ public class UserController extends ExceptionHandlingUser {
     public void deleteSingleUser(@PathVariable String voornaam, @PathVariable String achterNaam) throws GebruikerNietGevondenExcepion {
         userService.deleteSingleUser(voornaam, achterNaam);
     }
+
+    @PutMapping("/{voornaam}/{achterNaam}/update")
+    public void updateProfile(@Valid @RequestBody UserProfileUpdateDto userProfileUpdateDto, @RequestHeader HttpHeaders headers) throws TokenParsingException, FieldIsEmptyException, EmailBestaatAl {
+        // check if admin user or if the same user
+        User user = checkIfSameUser(((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser(), headers.getFirst(HttpHeaders.AUTHORIZATION).split(" ")[1]);
+
+        userService.updateProfile(user, userProfileUpdateDto);
+    }
+
 
     //utils
     private void authenticate(String username, String password) {

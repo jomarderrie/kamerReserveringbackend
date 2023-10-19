@@ -2,8 +2,11 @@ package com.example.taskworklife.service.user;
 
 import com.example.taskworklife.converter.user.UserRegisterDtoToUser;
 import com.example.taskworklife.converter.user.UserToUserLoginDto;
+import com.example.taskworklife.converter.user.UserUpdateDtoToUserDto;
 import com.example.taskworklife.dto.user.UserLoginResponseDto;
+import com.example.taskworklife.dto.user.UserProfileUpdateDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
+import com.example.taskworklife.exception.global.FieldIsEmptyException;
 import com.example.taskworklife.exception.user.*;
 import com.example.taskworklife.models.user.User;
 import com.example.taskworklife.models.user.UserPrincipal;
@@ -13,20 +16,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.taskworklife.enumeration.Role.ROLE_USER;
 
 @Service
 @Transactional
@@ -36,12 +36,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepo userRepository;
     private final UserRegisterDtoToUser userRegisterDtoToUserConverter;
     private UserToUserLoginDto userLoginResponseDtoConverter;
+    private UserUpdateDtoToUserDto userUpdateDtoToUserDto;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepository, UserRegisterDtoToUser userRegisterDtoToUserConverter, UserToUserLoginDto userLoginResponseDtoConverter) {
+    public UserServiceImpl(UserRepo userRepository, UserRegisterDtoToUser userRegisterDtoToUserConverter, UserToUserLoginDto userLoginResponseDtoConverter, UserUpdateDtoToUserDto userUpdateDtoToUserDto) {
         this.userRepository = userRepository;
         this.userRegisterDtoToUserConverter = userRegisterDtoToUserConverter;
         this.userLoginResponseDtoConverter = userLoginResponseDtoConverter;
+        this.userUpdateDtoToUserDto = userUpdateDtoToUserDto;
     }
 
     @Override
@@ -60,7 +62,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
-
     @Override
     public UserLoginResponseDto register(UserRegisterDto userRegisterDto) throws EmailBestaatAl, RegisterErrorException {
         User userByEmail = null;
@@ -72,7 +73,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userByEmail = userRegisterDtoToUserConverter.convert(userRegisterDto);
             LOGGER.info("Nieuwe gebruiker met email: " + userRegisterDto.getEmail());
             assert userByEmail != null;
-
             UserLoginResponseDto convertedRegisterdUser = userLoginResponseDtoConverter.convert(userByEmail);
             userRepository.save(userByEmail);
             if (convertedRegisterdUser != null) {
@@ -96,7 +96,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserLoginResponseDto loginUser(User user) {
         return userLoginResponseDtoConverter.convert(user);
     }
-
 
     @Override
     public User findUserByEmail(String email) throws EmailIsNietGevonden {
@@ -131,5 +130,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
-
+    @Override
+    public void updateProfile(User user, UserProfileUpdateDto userProfileUpdateDto) throws FieldIsEmptyException, EmailBestaatAl {
+        if (!StringUtils.isNotBlank(userProfileUpdateDto.getFirstName())||StringUtils.isNotBlank(userProfileUpdateDto.getPassword()) ||StringUtils.isNotBlank(userProfileUpdateDto.getEmail())
+         || StringUtils.isNotBlank(userProfileUpdateDto.getPassword())) {
+            throw new FieldIsEmptyException("Field not found");
+        }
+        User userByEmail = userRepository.findUserByEmail(userProfileUpdateDto.getEmail());
+        if (userByEmail == null){
+            User userUpdateDto = userUpdateDtoToUserDto.convert(userProfileUpdateDto);
+            if (userUpdateDto != null) {
+                userUpdateDto.setJoinDate(user.getJoinDate());
+            }
+            userUpdateDto.setActive(user.isActive());
+            userUpdateDto.setNotLocked(user.isNotLocked());
+            userUpdateDto.setRole(ROLE_USER.name());
+            userUpdateDto.setAuthorities(ROLE_USER.getAuthorities());
+        } else {
+            LOGGER.error("User already found with email: " + userProfileUpdateDto.getEmail());
+            throw new EmailBestaatAl("User already found with email: " + userProfileUpdateDto.getEmail());
+        }
+    }
 }

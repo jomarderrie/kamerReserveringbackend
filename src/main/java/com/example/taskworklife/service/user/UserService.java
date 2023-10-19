@@ -1,7 +1,9 @@
 package com.example.taskworklife.service.user;
 
 import com.example.taskworklife.dto.user.UserLoginResponseDto;
+import com.example.taskworklife.dto.user.UserProfileUpdateDto;
 import com.example.taskworklife.dto.user.UserRegisterDto;
+import com.example.taskworklife.exception.global.FieldIsEmptyException;
 import com.example.taskworklife.exception.user.*;
 import com.example.taskworklife.models.user.User;
 
@@ -19,4 +21,5 @@ public interface UserService {
 
     void deleteSingleUser(String voorNaam, String achterNaam) throws GebruikerNietGevondenExcepion;
 
+    void updateProfile(User user, UserProfileUpdateDto userProfileUpdateDto) throws FieldIsEmptyException, EmailBestaatAl;
 }

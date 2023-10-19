@@ -31,8 +31,6 @@ public class ReservatiesController {
         this.reservatiesService = reservatiesService;
     }
 
-
-
     // TODO: 13/04/2022 implement sortby 
     @GetMapping("/{email}/alles")
     @CrossOrigin(origins = "http://localhost:3000")
@@ -60,13 +58,12 @@ public class ReservatiesController {
     private void veranderReservatieById(@PathVariable long id, @RequestBody MaakReservatieDto maakReservatieDto) throws ReservatieNietGevondenException {
         reservatiesService.editReservatie(id, maakReservatieDto);
     }
-//    @PostMapping()
+
     private void authCheck(UserPrincipal principal) throws GeenAdminException {
         if (!principal.getUser().getRole().equals("ROLE_ADMIN")){
             throw new GeenAdminException("Geen admin role gevonden");
         }
     }
-
 
      private Boolean checkOfEmailHetzelfdeIs(UserPrincipal userPrincipal, String email) throws EmailIsNietJuist {
         if (Objects.equals(userPrincipal.getUser().getEmail(), email)){

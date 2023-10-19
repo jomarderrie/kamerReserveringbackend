@@ -22,7 +22,7 @@ public class KamerDtoToKamer implements Converter<KamerDto, Kamer> {
     @Override
     @Synchronized
     @Nullable
-    public Kamer  convert(KamerDto source) {
+    public Kamer convert(KamerDto source) {
         Kamer kamer = new Kamer();
         if (!StringUtils.isNotBlank(source.getNaam())) {
             throw new KamerNaamNotFoundException("Geen kamer naam");
